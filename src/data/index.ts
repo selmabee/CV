@@ -1,0 +1,133 @@
+import { CVTemplate } from '../types';
+
+export const templates: CVTemplate[] = [
+  // Templates SANS photo
+  { id: 'modern', name: 'Moderne', description: 'Design épuré avec une mise en page asymétrique et des accents de couleur', thumbnail: 'modern', hasPhoto: false },
+  { id: 'classic', name: 'Classique', description: 'Style professionnel et intemporel, idéal pour tous les secteurs', thumbnail: 'classic', hasPhoto: false },
+  { id: 'creative', name: 'Créatif', description: 'Mise en page dynamique pour les profils créatifs et innovants', thumbnail: 'creative', hasPhoto: false },
+  { id: 'minimal', name: 'Minimal', description: 'Simplicité maximale, l\'essentiel sans superflu', thumbnail: 'minimal', hasPhoto: false },
+  { id: 'gradient', name: 'Gradient', description: 'Header en dégradé coloré avec un design contemporain et vibrant', thumbnail: 'gradient', hasPhoto: false },
+  { id: 'card', name: 'Card', description: 'Sections en cards avec ombres douces et bordures arrondies', thumbnail: 'card', hasPhoto: false },
+  { id: 'timeline', name: 'Timeline', description: 'Timeline verticale élégante pour l\'expérience et la formation', thumbnail: 'timeline', hasPhoto: false },
+  { id: 'split', name: 'Split', description: 'Split design moderne avec sidebar colorée et contenu aéré', thumbnail: 'split', hasPhoto: false },
+  { id: 'corporate', name: 'Corporate', description: 'Design professionnel sobre avec header large et sections nettes', thumbnail: 'corporate', hasPhoto: false },
+  { id: 'bold', name: 'Bold', description: 'Typographies audacieuses, couleurs vives et design impactant', thumbnail: 'bold', hasPhoto: false },
+  { id: 'elegant', name: 'Élégant', description: 'Design raffiné avec touches dorées et mise en page aérée', thumbnail: 'elegant', hasPhoto: false },
+  { id: 'dark', name: 'Dark', description: 'Mode sombre moderne avec accents colorés sur fond noir', thumbnail: 'dark', hasPhoto: false },
+  { id: 'modern-sidebar', name: 'Modern Sidebar', description: 'Sidebar colorée moderne avec contenu aéré et épuré', thumbnail: 'modern-sidebar', hasPhoto: false },
+  { id: 'centered', name: 'Centré', description: 'Tout centré, profil épuré avec photo en focus', thumbnail: 'centered', hasPhoto: false },
+  { id: 'two-column', name: 'Two Column', description: 'Deux colonnes avec sidebar grise et contenu principal', thumbnail: 'two-column', hasPhoto: false },
+  { id: 'compact', name: 'Compact', description: 'Information dense sur une seule page, pas de gaspillage', thumbnail: 'compact', hasPhoto: false },
+  { id: 'sidebar-2', name: 'Sidebar 2', description: 'Sidebar étroite avec icônes et liens, contenu moderne', thumbnail: 'sidebar-2', hasPhoto: false },
+  { id: 'modern-2', name: 'Moderne 2', description: 'Moderne élégant avec mise en page horizontale', thumbnail: 'modern-2', hasPhoto: false },
+  { id: 'classic-2', name: 'Classique 2', description: 'Classique avec header étroit et contenu bien organisé', thumbnail: 'classic-2', hasPhoto: false },
+  { id: 'minimal-2', name: 'Minimal 2', description: 'Minimaliste avec contenu très aéré', thumbnail: 'minimal-2', hasPhoto: false },
+  { id: 'modern-3', name: 'Moderne 3', description: 'Moderne avec expérience en colonnes, section skills colorée', thumbnail: 'modern-3', hasPhoto: false },
+  { id: 'modern-4', name: 'Moderne 4', description: 'Moderne avec compétences en bas, barres de progression', thumbnail: 'modern-4', hasPhoto: false },
+  { id: 'modern-5', name: 'Moderne 5', description: 'Moderne avec profil étendu et sections en 2 colonnes', thumbnail: 'modern-5', hasPhoto: false },
+  { id: 'timeline-2', name: 'Timeline 2', description: 'Timeline verticale élégante', thumbnail: 'timeline-2', hasPhoto: false },
+  { id: 'two-column-2', name: 'Two Column 2', description: 'Two column avec sidebar droite, tags colorés', thumbnail: 'two-column-2', hasPhoto: false },
+  { id: 'classic-3', name: 'Classique 3', description: 'Classique avec expérience en liste, sidebar en bas', thumbnail: 'classic-3', hasPhoto: false },
+  { id: 'modern-6', name: 'Moderne 6', description: 'Moderne avec expérience en 2 colonnes', thumbnail: 'modern-6', hasPhoto: false },
+  { id: 'modern-7', name: 'Moderne 7', description: 'Moderne avec colonnes inversées, sidebar à droite', thumbnail: 'modern-7', hasPhoto: false },
+  { id: 'modern-8', name: 'Moderne 8', description: 'Moderne avec expérience en colonne unique, sections nettes', thumbnail: 'modern-8', hasPhoto: false },
+  { id: 'classic-6', name: 'Classique 6', description: 'Classique avec header en haut, sidebar étroite à gauche', thumbnail: 'classic-6', hasPhoto: false },
+  { id: 'modern-15', name: 'Moderne 15', description: 'Moderne avec contenu aéré, sections en blocs colorés', thumbnail: 'modern-15', hasPhoto: false },
+  // Templates AVEC photo
+  { id: 'creative-2', name: 'Créatif 2', description: 'Créatif avec bordures colorées et photo circulaire', thumbnail: 'creative-2', hasPhoto: true },
+  { id: 'photo-focus', name: 'Photo Focus', description: 'Photo en haut, nom centré, contenu en bas', thumbnail: 'photo-focus', hasPhoto: true },
+  { id: 'classic-4', name: 'Classique 4', description: 'Classique avec photo en haut, sections bien organisées', thumbnail: 'classic-4', hasPhoto: true },
+  { id: 'modern-9', name: 'Moderne 9', description: 'Moderne avec photo sur le côté, contenu en haut', thumbnail: 'modern-9', hasPhoto: true },
+  { id: 'classic-5', name: 'Classique 5', description: 'Classique avec photo ronde, contenu bien structuré', thumbnail: 'classic-5', hasPhoto: true },
+  { id: 'modern-10', name: 'Moderne 10', description: 'Moderne avec contenu en haut, sidebar en bas avec photo', thumbnail: 'modern-10', hasPhoto: true },
+  { id: 'modern-11', name: 'Moderne 11', description: 'Moderne avec photo en bas, contenu principal en haut', thumbnail: 'modern-11', hasPhoto: true },
+  { id: 'classic-7', name: 'Classique 7', description: 'Classique avec photo carrée, sections en grille', thumbnail: 'classic-7', hasPhoto: true },
+  { id: 'modern-12', name: 'Moderne 12', description: 'Moderne avec photo en haut à gauche, nom en haut à droite', thumbnail: 'modern-12', hasPhoto: true },
+  { id: 'modern-13', name: 'Moderne 13', description: 'Moderne avec photo circulaire, contenu en 2 colonnes', thumbnail: 'modern-13', hasPhoto: true },
+  { id: 'modern-14', name: 'Moderne 14', description: 'Moderne avec photo ronde, nom centré, expérience en colonnes', thumbnail: 'modern-14', hasPhoto: true },
+];
+
+export const defaultCVData: CVData = {
+  fullName: '',
+  email: '',
+  phone: '',
+  location: '',
+  summary: '',
+  photo: null,
+  experience: [],
+  education: [],
+  skills: [],
+  languages: [],
+};
+
+export const faqData = [
+  { question: 'Est-ce que AE2I CV Builder est vraiment gratuit ?', answer: 'Oui, AE2I CV Builder est 100% gratuit. Toutes les fonctionnalités sont accessibles sans aucun paiement, sans abonnement et sans carte de crédit.' },
+  { question: 'Mes données sont-elles stockées sur vos serveurs ?', answer: 'Non, absolument pas. Tout le traitement se fait localement dans votre navigateur. Vos données ne quittent jamais votre appareil.' },
+  { question: 'Quels formats de fichier sont acceptés pour l\'upload ?', answer: 'Nous acceptons les fichiers PDF, DOCX, TXT et les images (JPG, PNG). Notre outil analysera le contenu de votre document pour extraire automatiquement vos informations.' },
+  { question: 'Comment fonctionne l\'extraction automatique ?', answer: 'Notre système d\'extraction utilise des algorithmes avancés pour identifier et parser les informations structurées de votre CV. Le traitement est instantané et entièrement local.' },
+  { question: 'Quels formats d\'export sont disponibles ?', answer: 'Vous pouvez exporter votre CV en PDF (recommandé), PNG ou DOCX. Le format PDF est optimisé pour une mise en page professionnelle.' },
+  { question: 'Mon CV est-il compatible avec les ATS ?', answer: 'Oui, tous nos modèles sont conçus pour être parfaitement lisibles par les ATS. Les recruteurs pourront analyser votre CV sans problème.' },
+];
+
+export const companyLogos = [
+  'Google', 'Microsoft', 'Amazon', 'Apple', 'Meta', 'Netflix', 'Airbnb', 'Spotify',
+  'Uber', 'LinkedIn', 'Salesforce', 'Adobe', 'IBM', 'Oracle', 'SAP', 'Tesla',
+];
+
+export const fontOptions = [
+  // Sans-serif
+  { value: 'Inter', label: 'Inter', category: 'Sans-serif' },
+  { value: 'DM Sans', label: 'DM Sans', category: 'Sans-serif' },
+  { value: 'Roboto', label: 'Roboto', category: 'Sans-serif' },
+  { value: 'Open Sans', label: 'Open Sans', category: 'Sans-serif' },
+  { value: 'Lato', label: 'Lato', category: 'Sans-serif' },
+  { value: 'Poppins', label: 'Poppins', category: 'Sans-serif' },
+  { value: 'Outfit', label: 'Outfit', category: 'Sans-serif' },
+  { value: 'Montserrat', label: 'Montserrat', category: 'Sans-serif' },
+  { value: 'Nunito', label: 'Nunito', category: 'Sans-serif' },
+  { value: 'Raleway', label: 'Raleway', category: 'Sans-serif' },
+  { value: 'Source Sans 3', label: 'Source Sans 3', category: 'Sans-serif' },
+  { value: 'Work Sans', label: 'Work Sans', category: 'Sans-serif' },
+  { value: 'Rubik', label: 'Rubik', category: 'Sans-serif' },
+  { value: 'Nunito Sans', label: 'Nunito Sans', category: 'Sans-serif' },
+  { value: 'Manrope', label: 'Manrope', category: 'Sans-serif' },
+  { value: 'Plus Jakarta Sans', label: 'Plus Jakarta Sans', category: 'Sans-serif' },
+  { value: 'Cabin', label: 'Cabin', category: 'Sans-serif' },
+  { value: 'Mulish', label: 'Mulish', category: 'Sans-serif' },
+  { value: 'Barlow', label: 'Barlow', category: 'Sans-serif' },
+  { value: 'Karla', label: 'Karla', category: 'Sans-serif' },
+  { value: 'Josefin Sans', label: 'Josefin Sans', category: 'Sans-serif' },
+  // Serif
+  { value: 'Georgia', label: 'Georgia', category: 'Serif' },
+  { value: 'Playfair Display', label: 'Playfair Display', category: 'Serif' },
+  { value: 'Lora', label: 'Lora', category: 'Serif' },
+  { value: 'Merriweather', label: 'Merriweather', category: 'Serif' },
+  { value: 'PT Serif', label: 'PT Serif', category: 'Serif' },
+  { value: 'Libre Baskerville', label: 'Libre Baskerville', category: 'Serif' },
+  { value: 'Crimson Text', label: 'Crimson Text', category: 'Serif' },
+  { value: 'EB Garamond', label: 'EB Garamond', category: 'Serif' },
+  { value: 'Cormorant Garamond', label: 'Cormorant Garamond', category: 'Serif' },
+  { value: 'Bitter', label: 'Bitter', category: 'Serif' },
+  { value: 'Noto Serif', label: 'Noto Serif', category: 'Serif' },
+  { value: 'DM Serif Display', label: 'DM Serif Display', category: 'Serif' },
+  // Display
+  { value: 'Abril Fatface', label: 'Abril Fatface', category: 'Display' },
+  { value: 'Bebas Neue', label: 'Bebas Neue', category: 'Display' },
+  { value: 'Oswald', label: 'Oswald', category: 'Display' },
+  // Monospace
+  { value: 'Space Mono', label: 'Space Mono', category: 'Monospace' },
+  { value: 'JetBrains Mono', label: 'JetBrains Mono', category: 'Monospace' },
+  { value: 'Fira Code', label: 'Fira Code', category: 'Monospace' },
+  { value: 'IBM Plex Mono', label: 'IBM Plex Mono', category: 'Monospace' },
+];
+
+export const defaultCVStyle = {
+  primaryColor: '#1e40af',
+  secondaryColor: '#1e293b',
+  accentColor: '#3b82f6',
+  textColor: '#1e293b',
+  backgroundColor: '#ffffff',
+  dividerColor: '#cbd5e1',
+  fontFamily: 'Inter',
+  backgroundImage: null,
+};
