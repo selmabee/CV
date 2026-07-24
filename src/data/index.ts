@@ -33,6 +33,11 @@ export const templates: CVTemplate[] = [
   { id: 'modern-8', name: 'Moderne 8', description: 'Moderne avec expérience en colonne unique, sections nettes', thumbnail: 'modern-8', hasPhoto: false },
   { id: 'classic-6', name: 'Classique 6', description: 'Classique avec header en haut, sidebar étroite à gauche', thumbnail: 'classic-6', hasPhoto: false },
   { id: 'modern-15', name: 'Moderne 15', description: 'Moderne avec contenu aéré, sections en blocs colorés', thumbnail: 'modern-15', hasPhoto: false },
+  { id: 'executive', name: 'Executive', description: 'Design premium pour cadres dirigeants avec en-tête large et sections structurées', thumbnail: 'executive', hasPhoto: false },
+  { id: 'tech', name: 'Tech', description: 'Style tech moderne avec accents colorés et layout asymétrique', thumbnail: 'tech', hasPhoto: false },
+  { id: 'geometric', name: 'Géométrique', description: 'Formes géométriques et angles vifs pour un look moderne', thumbnail: 'geometric', hasPhoto: false },
+  { id: 'premium', name: 'Premium', description: 'Design haut de gamme avec sidebar sombre et typographie élégante', thumbnail: 'premium', hasPhoto: false },
+  { id: 'fresh', name: 'Fresh', description: 'Design épuré et coloré parfait pour les jeunes diplômés', thumbnail: 'fresh', hasPhoto: false },
   // Templates AVEC photo
   { id: 'creative-2', name: 'Créatif 2', description: 'Créatif avec bordures colorées et photo circulaire', thumbnail: 'creative-2', hasPhoto: true },
   { id: 'photo-focus', name: 'Photo Focus', description: 'Photo en haut, nom centré, contenu en bas', thumbnail: 'photo-focus', hasPhoto: true },

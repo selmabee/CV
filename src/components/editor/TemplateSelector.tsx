@@ -631,6 +631,108 @@ export default function TemplateSelector() {
         </div>
       </div>
     ),
+    executive: (
+      <div className="w-full h-full bg-white flex flex-col">
+        <div className="w-full h-[35%] bg-blue-700 p-2 flex flex-col justify-center">
+          <div className="w-3/4 h-2 bg-white/80 rounded" />
+          <div className="w-1/2 h-1.5 bg-white/60 rounded mt-1" />
+        </div>
+        <div className="flex-1 p-2">
+          <div className="w-full h-1.5 bg-slate-200 rounded mb-1" />
+          <div className="flex gap-2 mt-1">
+            <div className="w-[60%] space-y-1">
+              <div className="w-full h-1 bg-slate-200 rounded" />
+              <div className="w-3/4 h-1 bg-slate-200 rounded" />
+            </div>
+            <div className="w-[40%] space-y-1">
+              <div className="w-full h-1 bg-slate-200 rounded" />
+              <div className="w-3/4 h-1 bg-slate-200 rounded" />
+            </div>
+          </div>
+        </div>
+      </div>
+    ),
+    tech: (
+      <div className="w-full h-full bg-white flex flex-col">
+        <div className="flex items-center gap-2 p-2 border-l-4 border-blue-600">
+          <div className="w-5 h-5 bg-blue-600 rounded" />
+          <div className="flex-1">
+            <div className="w-3/4 h-1.5 bg-slate-800 rounded" />
+            <div className="w-1/2 h-1 bg-slate-300 rounded mt-0.5" />
+          </div>
+        </div>
+        <div className="flex gap-2 p-2">
+          <div className="w-[60%] space-y-1">
+            <div className="w-full h-1 bg-slate-200 rounded" />
+            <div className="w-3/4 h-1 bg-slate-200 rounded" />
+            <div className="w-full h-1 bg-slate-200 rounded" />
+          </div>
+          <div className="w-[40%] bg-blue-50 rounded p-1 space-y-1">
+            <div className="w-full h-1 bg-blue-200 rounded" />
+            <div className="w-3/4 h-1 bg-blue-200 rounded" />
+          </div>
+        </div>
+      </div>
+    ),
+    geometric: (
+      <div className="w-full h-full bg-white flex flex-col p-2 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-8 h-8 bg-blue-600 opacity-20" style={{ clipPath: 'polygon(100% 0, 0 0, 100% 100%)' }} />
+        <div className="w-3/4 h-2 bg-slate-800 rounded" />
+        <div className="flex items-center gap-1 mt-1">
+          <div className="w-4 h-0.5 bg-blue-600" />
+          <div className="w-1/2 h-1 bg-slate-300 rounded" />
+        </div>
+        <div className="border-t-2 border-blue-600 mt-2 pt-2 flex gap-2">
+          <div className="w-1/2 space-y-1">
+            <div className="w-full h-1 bg-slate-200 rounded" />
+            <div className="w-3/4 h-1 bg-slate-200 rounded" />
+          </div>
+          <div className="w-1/2 space-y-1">
+            <div className="w-full h-1 bg-slate-200 rounded" />
+            <div className="w-3/4 h-1 bg-slate-200 rounded" />
+          </div>
+        </div>
+      </div>
+    ),
+    premium: (
+      <div className="w-full h-full flex">
+        <div className="w-[35%] h-full bg-slate-900 p-2 space-y-1.5">
+          <div className="w-3/4 h-1.5 bg-white/70 rounded" />
+          <div className="w-1/2 h-1 bg-white/40 rounded" />
+          <div className="w-full h-px bg-white/20 my-1" />
+          <div className="w-full h-1 bg-white/20 rounded" />
+          <div className="w-3/4 h-1 bg-white/20 rounded" />
+        </div>
+        <div className="w-[65%] h-full bg-white p-2 space-y-1.5">
+          <div className="w-full h-3 bg-blue-50 rounded p-1">
+            <div className="w-full h-1 bg-slate-200 rounded" />
+          </div>
+          <div className="w-full h-1.5 bg-slate-200 rounded" />
+          <div className="w-3/4 h-1.5 bg-slate-200 rounded" />
+        </div>
+      </div>
+    ),
+    fresh: (
+      <div className="w-full h-full bg-white flex flex-col">
+        <div className="w-full h-[40%] bg-gradient-to-br from-blue-500 to-cyan-400 p-2 flex flex-col justify-end rounded-b-2xl">
+          <div className="w-3/4 h-2 bg-white/80 rounded" />
+          <div className="w-1/2 h-1.5 bg-white/60 rounded mt-1" />
+        </div>
+        <div className="flex-1 p-2 space-y-1.5">
+          <div className="w-full h-1.5 bg-slate-200 rounded" />
+          <div className="flex gap-2">
+            <div className="w-1/2 space-y-1">
+              <div className="w-full h-1 bg-slate-200 rounded" />
+              <div className="w-3/4 h-1 bg-slate-200 rounded" />
+            </div>
+            <div className="w-1/2 space-y-1">
+              <div className="w-full h-1 bg-slate-200 rounded" />
+              <div className="w-3/4 h-1 bg-slate-200 rounded" />
+            </div>
+          </div>
+        </div>
+      </div>
+    ),
   };
 
   const hasPhoto = !!cvData.photo;

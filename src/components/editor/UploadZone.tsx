@@ -5,6 +5,7 @@ import { Upload, X, PenLine, Loader2, CheckCircle, AlertCircle, FileText, Image 
 import * as pdfjsLib from 'pdfjs-dist';
 import Tesseract from 'tesseract.js';
 import { generateRecommendations, extractCVWithAI } from '../../services/ai';
+import { extractCVWithRegex } from '../../services/regexExtraction';
 
 // @ts-ignore
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@6.1.200/build/pdf.worker.min.mjs';
@@ -92,8 +93,18 @@ export default function UploadZone() {
       let extracted: Partial<CVData> = {};
       if (rawText && rawText.trim().length > 20) {
         setStatus('Analyse du CV par IA...');
-        extracted = await extractCVWithAI(rawText);
-        console.log('AI extracted:', extracted);
+        try {
+          extracted = await extractCVWithAI(rawText);
+          console.log('AI extracted:', extracted);
+        } catch (aiErr) {
+          console.warn('AI extraction failed, falling back to regex:', aiErr);
+        }
+        // If AI returned nothing useful, fall back to regex
+        if (!extracted.fullName && !extracted.email && !extracted.experience?.length) {
+          setStatus('Extraction locale des informations...');
+          extracted = extractCVWithRegex(rawText);
+          console.log('Regex extracted:', extracted);
+        }
       } else {
         throw new Error('Aucun texte détecté dans le fichier. Pour les images, essayez une meilleure qualité.');
       }

@@ -9,8 +9,16 @@ export interface AIConfig {
 const DEFAULT_CONFIG: AIConfig = {
   apiKey: import.meta.env.VITE_OPENROUTER_API_KEY || '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',
   model: import.meta.env.VITE_AI_MODEL || 'google/gemini-2.5-flash-lite',
-  baseUrl: 'https://openrouter.ai/api/v1',
 };
+
+const FALLBACK_MODELS = [
+  'google/gemini-2.5-flash-lite',
+  'google/gemini-flash-1.5',
+  'google/gemini-2.0-flash-001',
+  'meta-llama/llama-3.3-70b-instruct',
+  'openai/gpt-4o-mini',
+  'mistralai/mistral-large',
+];
 
 let currentConfig: AIConfig = { ...DEFAULT_CONFIG };
 
@@ -245,26 +253,39 @@ ${rawText.slice(0, 8000)}`;
 async function callAIForExtraction(system: string, user: string): Promise<string> {
   if (!currentConfig.apiKey) throw new Error('No API key');
 
-  const res = await fetch(`${currentConfig.baseUrl}/chat/completions`, {
-    method: 'POST',
-    headers: headers(),
-    body: JSON.stringify({
-      model: currentConfig.model,
-      messages: [
-        { role: 'system', content: system },
-        { role: 'user', content: user },
-      ],
-      temperature: 0.2,
-      max_tokens: 4096,
-    }),
-  });
+  let lastError: Error | null = null;
+  for (const model of FALLBACK_MODELS) {
+    try {
+      const res = await fetch(`${currentConfig.baseUrl}/chat/completions`, {
+        method: 'POST',
+        headers: headers(),
+        body: JSON.stringify({
+          model,
+          messages: [
+            { role: 'system', content: system },
+            { role: 'user', content: user },
+          ],
+          temperature: 0.2,
+          max_tokens: 4096,
+        }),
+      });
 
-  if (!res.ok) {
-    const errText = await res.text().catch(() => '');
-    throw new Error(`OpenRouter API error ${res.status}: ${errText.slice(0, 200)}`);
+      if (!res.ok) {
+        const errText = await res.text().catch(() => '');
+        lastError = new Error(`OpenRouter API error ${res.status}: ${errText.slice(0, 200)}`);
+        console.warn(`Model ${model} failed (${res.status}), trying next...`);
+        continue;
+      }
+      const data = await res.json();
+      const content = data.choices?.[0]?.message?.content || '';
+      if (content) return content;
+      lastError = new Error(`Empty response from ${model}`);
+    } catch (err: any) {
+      lastError = err;
+      console.warn(`Model ${model} error:`, err.message);
+    }
   }
-  const data = await res.json();
-  return data.choices?.[0]?.message?.content || '';
+  throw lastError || new Error('All models failed');
 }
 
 export async function generateRecommendations(cvData: CVData): Promise<AIRecommendation[]> {

@@ -1,5 +1,5 @@
 import { useCV } from '../../context/CVContext';
-import { Palette, Type, Check } from 'lucide-react';
+import { Palette, Type, Check, Sparkles } from 'lucide-react';
 
 const presetColors = [
   { name: 'Bleu', value: '#1e40af' },
@@ -22,6 +22,39 @@ const presetColors = [
   { name: 'Marron', value: '#78350f' },
   { name: 'Or', value: '#b45309' },
   { name: 'Zinc', value: '#3f3f46' },
+  { name: 'Corail', value: '#f43f5e' },
+  { name: 'Olive', value: '#4d7c0f' },
+  { name: 'Bronze', value: '#a16207' },
+  { name: 'Marine', value: '#1e3a8a' },
+  { name: 'Saphir', value: '#2563eb' },
+  { name: 'Flotsam', value: '#0284c7' },
+  { name: 'Nénuphar', value: '#5eead4' },
+  { name: 'Menthe', value: '#10b981' },
+  { name: 'Citron', value: '#84cc16' },
+  { name: 'Tournesol', value: '#facc15' },
+];
+
+const themePresets = [
+  { name: 'Océan', primary: '#1e40af', accent: '#0ea5e9', bg: '#ffffff', text: '#1e293b' },
+  { name: 'Forêt', primary: '#059669', accent: '#84cc16', bg: '#ffffff', text: '#1e293b' },
+  { name: 'Coucher de soleil', primary: '#ea580c', accent: '#f43f5e', bg: '#fffef5', text: '#1c1917' },
+  { name: 'Monochrome', primary: '#111827', accent: '#475569', bg: '#ffffff', text: '#1e293b' },
+  { name: 'Corail', primary: '#e11d48', accent: '#fb7185', bg: '#fff5f6', text: '#1e293b' },
+  { name: 'Arctique', primary: '#0d9488', accent: '#5eead4', bg: '#f0fdfa', text: '#134e4a' },
+  { name: 'Lavande', primary: '#7c3aed', accent: '#c4b5fd', bg: '#faf8ff', text: '#3b0764' },
+  { name: 'Or Antique', primary: '#b45309', accent: '#f59e0b', bg: '#fffef0', text: '#422006' },
+  { name: 'Nuit', primary: '#1e1b4b', accent: '#6366f1', bg: '#ffffff', text: '#1e1b4b' },
+  { name: 'Rose Poudré', primary: '#be185d', accent: '#f9a8d4', bg: '#fff1f7', text: '#500724' },
+  { name: 'Émeraude Pro', primary: '#047857', accent: '#34d399', bg: '#ecfdf5', text: '#064e3b' },
+  { name: 'Acier', primary: '#334155', accent: '#94a3b8', bg: '#f8fafc', text: '#0f172a' },
+  { name: 'Bordeaux', primary: '#881337', accent: '#f43f5e', bg: '#fff1f2', text: '#4c0519' },
+  { name: 'Carbone', primary: '#27272a', accent: '#a1a1aa', bg: '#fafafa', text: '#18181b' },
+  { name: 'Soleil', primary: '#ca8a04', accent: '#fde047', bg: '#fffef0', text: '#422006' },
+  { name: 'Sarcelle', primary: '#0f766e', accent: '#2dd4bf', bg: '#f0fdfa', text: '#134e4a' },
+  { name: 'Mahoni', primary: '#7c2d12', accent: '#fb923c', bg: '#fff7ed', text: '#431407' },
+  { name: 'Pétrole', primary: '#134e4a', accent: '#14b8a6', bg: '#f0fdfa', text: '#042f2e' },
+  { name: 'Cuivre', primary: '#9a3412', accent: '#fb923c', bg: '#fff7ed', text: '#7c2d12' },
+  { name: 'Minimaliste', primary: '#0a0a0a', accent: '#737373', bg: '#ffffff', text: '#0a0a0a' },
 ];
 
 export default function StyleEditor() {
@@ -34,6 +67,33 @@ export default function StyleEditor() {
   return (
     <div className="space-y-6">
       <div>
+        <div className="flex items-center gap-2 mb-3">
+          <Sparkles className="w-4 h-4 text-amber-500" />
+          <label className="text-sm font-medium text-slate-700">Thèmes prédéfinis</label>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          {themePresets.map((theme) => (
+            <button
+              key={theme.name}
+              onClick={() => {
+                updateColor('primaryColor', theme.primary);
+                updateColor('accentColor', theme.accent);
+                updateColor('backgroundColor', theme.bg);
+                updateColor('textColor', theme.text);
+              }}
+              className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-slate-200 hover:border-slate-400 hover:shadow-sm transition-all text-left"
+            >
+              <div className="flex shrink-0">
+                <div className="w-5 h-5 rounded-full border border-white" style={{ backgroundColor: theme.primary }} />
+                <div className="w-5 h-5 rounded-full border border-white -ml-2" style={{ backgroundColor: theme.accent }} />
+              </div>
+              <span className="text-xs font-medium text-slate-700 truncate">{theme.name}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="border-t pt-4">
         <div className="flex items-center gap-2 mb-3">
           <Palette className="w-4 h-4 text-slate-600" />
           <label className="text-sm font-medium text-slate-700">Couleur principale</label>

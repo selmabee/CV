@@ -1340,6 +1340,163 @@ export default function CVPreview() {
     </div>
   );
 
+  const renderExecutive = () => (
+    <div className="p-0">
+      <div className="px-8 py-6 text-white" style={{ background: `linear-gradient(135deg, ${cvStyle.primaryColor}, ${cvStyle.primaryColor}cc)` }}>
+        <Name className="text-4xl font-light tracking-tight text-white" />
+        <JobTitle className="text-white/80 mt-1" />
+        <Contact className="mt-4 text-white/70" />
+      </div>
+      <div className="px-8 py-6">
+        {cvData.summary && (
+          <div className="mb-6">
+            <h3 className="font-semibold text-sm uppercase tracking-widest mb-3" style={{ color: cvStyle.primaryColor }}>Profil</h3>
+            <p className="text-sm leading-relaxed text-slate-700">{cvData.summary}</p>
+          </div>
+        )}
+        <div className="grid grid-cols-3 gap-6">
+          <div className="col-span-2">
+            <Experience />
+            <Education />
+          </div>
+          <div>
+            <Skills />
+            <Languages />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderTech = () => (
+    <div className="p-0">
+      <div className="flex items-center gap-4 px-6 py-5 border-l-4" style={{ borderColor: cvStyle.primaryColor }}>
+        <div className="w-14 h-14 rounded-lg flex items-center justify-center text-white font-bold text-xl" style={{ backgroundColor: cvStyle.primaryColor }}>
+          {cvData.fullName ? cvData.fullName.charAt(0).toUpperCase() : '?'}
+        </div>
+        <div className="flex-1">
+          <Name className="text-2xl" />
+          <JobTitle />
+          <Contact className="mt-1 text-xs" />
+        </div>
+      </div>
+      <div className="px-6 py-4">
+        <div className="grid grid-cols-3 gap-4">
+          <div className="col-span-2 space-y-4">
+            <Summary />
+            <Experience />
+            <Education />
+          </div>
+          <div className="space-y-4">
+            <div className="p-3 rounded-lg" style={{ backgroundColor: cvStyle.primaryColor + '0a' }}>
+              <Skills variant="outlined" />
+            </div>
+            <div className="p-3 rounded-lg bg-slate-50">
+              <Languages tags />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderGeometric = () => (
+    <div className="p-0 relative">
+      <div className="absolute top-0 right-0 w-32 h-32 opacity-10" style={{ backgroundColor: cvStyle.primaryColor, clipPath: 'polygon(100% 0, 0 0, 100% 100%)' }} />
+      <div className="px-6 py-5 relative">
+        <Name className="text-3xl font-black" />
+        <div className="flex items-center gap-2 mt-1">
+          <div className="h-1 w-8" style={{ backgroundColor: cvStyle.primaryColor }} />
+          <JobTitle />
+        </div>
+        <Contact className="mt-3" />
+      </div>
+      <div className="px-6 pb-6">
+        <div className="border-t-2 pt-4" style={{ borderColor: cvStyle.primaryColor }}>
+          <Summary />
+          <div className="grid grid-cols-2 gap-6">
+            <Experience />
+            <div>
+              <Education />
+              <Skills variant="block" />
+              <Languages tags />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderPremium = () => (
+    <div className="flex relative">
+      <div className="w-[35%] p-5 text-white bg-slate-900">
+        <div className="mb-6">
+          <h2 className="text-2xl font-light tracking-wide text-white">{cvData.fullName || 'Votre Nom'}</h2>
+          <p className="text-sm mt-1" style={{ color: cvStyle.primaryColor }}>{cvData.jobTitle || 'Votre Poste'}</p>
+        </div>
+        <div className="space-y-3 text-xs text-white/60 mb-6">
+          {cvData.email && <p className="flex items-center gap-1"><Mail className="w-3 h-3" /> {cvData.email}</p>}
+          {cvData.phone && <p className="flex items-center gap-1"><Phone className="w-3 h-3" /> {cvData.phone}</p>}
+          {cvData.location && <p className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {cvData.location}</p>}
+        </div>
+        <div className="mb-6">
+          <h3 className="font-semibold text-xs uppercase tracking-widest mb-3 text-white/40">Compétences</h3>
+          <div className="space-y-2">
+            {cvData.skills.map((s, i) => (
+              <div key={i}>
+                <div className="flex justify-between text-xs text-white/70 mb-1">
+                  <span>{s}</span>
+                </div>
+                <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-full rounded-full" style={{ width: '80%', backgroundColor: cvStyle.primaryColor }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <h3 className="font-semibold text-xs uppercase tracking-widest mb-3 text-white/40">Langues</h3>
+          {cvData.languages.map(l => (
+            <div key={l.id} className="flex items-center justify-between text-xs text-white/60 mb-1">
+              <span>{l.name}</span>
+              <span style={{ color: cvStyle.primaryColor }}>{l.level}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="w-[65%] p-6">
+        {cvData.summary && (
+          <div className="mb-5 p-4 rounded-lg" style={{ backgroundColor: cvStyle.primaryColor + '08' }}>
+            <p className="text-sm leading-relaxed text-slate-700">{cvData.summary}</p>
+          </div>
+        )}
+        <Experience />
+        <Education />
+      </div>
+    </div>
+  );
+
+  const renderFresh = () => (
+    <div className="p-0">
+      <div className="px-6 py-6 rounded-b-[2rem]" style={{ background: `linear-gradient(135deg, ${cvStyle.primaryColor}, ${cvStyle.accentColor || cvStyle.primaryColor})` }}>
+        <Name className="text-3xl text-white font-bold" />
+        <JobTitle className="text-white/90" />
+        <Contact className="mt-3 text-white/80" />
+      </div>
+      <div className="px-6 py-5">
+        <Summary />
+        <div className="grid grid-cols-2 gap-5">
+          <Experience />
+          <Education />
+        </div>
+        <div className="mt-4 p-4 rounded-2xl" style={{ backgroundColor: cvStyle.primaryColor + '0a' }}>
+          <Skills />
+          <Languages tags />
+        </div>
+      </div>
+    </div>
+  );
+
   const templates: Record<string, () => React.ReactNode> = {
     modern: renderModern,
     classic: renderClassic,
@@ -1383,6 +1540,11 @@ export default function CVPreview() {
     'modern-13': renderModern13,
     'modern-14': renderModern14,
     'modern-15': renderModern15,
+    executive: renderExecutive,
+    tech: renderTech,
+    geometric: renderGeometric,
+    premium: renderPremium,
+    fresh: renderFresh,
   };
 
   const renderTemplate = templates[selectedTemplate.id] || templates.modern;
