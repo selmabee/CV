@@ -6,6 +6,7 @@ import * as pdfjsLib from 'pdfjs-dist';
 import Tesseract from 'tesseract.js';
 import { generateRecommendations, extractCVWithAI } from '../../services/ai';
 import { extractCVWithRegex } from '../../services/regexExtraction';
+import type { CVData } from '../../types';
 
 // @ts-ignore
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@6.1.200/build/pdf.worker.min.mjs';
@@ -93,16 +94,28 @@ export default function UploadZone() {
       let extracted: Partial<CVData> = {};
       if (rawText && rawText.trim().length > 20) {
         setStatus('Analyse du CV par IA...');
+        const regexResult = extractCVWithRegex(rawText);
         try {
-          extracted = await extractCVWithAI(rawText);
-          console.log('AI extracted:', extracted);
+          const aiResult = await extractCVWithAI(rawText);
+          // Merge: AI takes priority, fill gaps with regex
+          extracted = {
+            fullName: aiResult.fullName || regexResult.fullName || '',
+            jobTitle: aiResult.jobTitle || regexResult.jobTitle || '',
+            email: aiResult.email || regexResult.email || '',
+            phone: aiResult.phone || regexResult.phone || '',
+            location: aiResult.location || regexResult.location || '',
+            summary: aiResult.summary || regexResult.summary || '',
+            skills: (aiResult.skills?.length ? aiResult.skills : regexResult.skills) || [],
+            languages: (aiResult.languages?.length ? aiResult.languages : regexResult.languages) || [],
+            experience: (aiResult.experience?.length ? aiResult.experience : regexResult.experience) || [],
+            education: (aiResult.education?.length ? aiResult.education : regexResult.education) || [],
+            photo: null,
+          };
+          console.log('AI extracted:', aiResult, 'Merged:', extracted);
         } catch (aiErr) {
-          console.warn('AI extraction failed, falling back to regex:', aiErr);
-        }
-        // If AI returned nothing useful, fall back to regex
-        if (!extracted.fullName && !extracted.email && !extracted.experience?.length) {
+          console.warn('AI extraction failed, using regex:', aiErr);
           setStatus('Extraction locale des informations...');
-          extracted = extractCVWithRegex(rawText);
+          extracted = regexResult;
           console.log('Regex extracted:', extracted);
         }
       } else {

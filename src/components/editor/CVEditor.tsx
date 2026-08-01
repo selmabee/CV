@@ -9,6 +9,7 @@ import ExportPanel from './ExportPanel';
 import AIRecommendations from './AIRecommendations';
 import { extractCVWithAI } from '../../services/ai';
 import { extractCVWithRegex } from '../../services/regexExtraction';
+import type { CVData } from '../../types';
 
 type EditorTab = 'content' | 'template' | 'style' | 'ai';
 
@@ -56,15 +57,30 @@ function AIResumeGenerator() {
     setLoading(true);
     setError('');
     try {
-      let extracted: Partial<CVData> = {};
+      const regexResult = extractCVWithRegex(text);
+      let extracted: Partial<CVData> = regexResult;
+
       try {
-        extracted = await extractCVWithAI(text);
+        const aiResult = await extractCVWithAI(text);
+        // Merge: AI takes priority, but fill gaps with regex
+        extracted = {
+          fullName: aiResult.fullName || regexResult.fullName || '',
+          jobTitle: aiResult.jobTitle || regexResult.jobTitle || '',
+          email: aiResult.email || regexResult.email || '',
+          phone: aiResult.phone || regexResult.phone || '',
+          location: aiResult.location || regexResult.location || '',
+          summary: aiResult.summary || regexResult.summary || '',
+          skills: (aiResult.skills?.length ? aiResult.skills : regexResult.skills) || [],
+          languages: (aiResult.languages?.length ? aiResult.languages : regexResult.languages) || [],
+          experience: (aiResult.experience?.length ? aiResult.experience : regexResult.experience) || [],
+          education: (aiResult.education?.length ? aiResult.education : regexResult.education) || [],
+          photo: null,
+        };
       } catch {
-        extracted = extractCVWithRegex(text);
+        // AI failed — use regex result only
+        extracted = regexResult;
       }
-      if (!extracted.fullName && !extracted.email && !extracted.experience?.length) {
-        extracted = extractCVWithRegex(text);
-      }
+
       setCVData({
         jobTitle: extracted.jobTitle || '',
         fullName: extracted.fullName || '',

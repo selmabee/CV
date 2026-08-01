@@ -9,6 +9,7 @@ export interface AIConfig {
 const DEFAULT_CONFIG: AIConfig = {
   apiKey: import.meta.env.VITE_OPENROUTER_API_KEY || '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',
   model: import.meta.env.VITE_AI_MODEL || 'google/gemini-2.5-flash-lite',
+  baseUrl: import.meta.env.VITE_OPENROUTER_BASE_URL || 'https://openrouter.ai/api/v1',
 };
 
 const FALLBACK_MODELS = [
@@ -167,7 +168,9 @@ export async function extractCVWithAI(rawText: string): Promise<Partial<CVData>>
     return {};
   }
 
-  const extractionSystem = `Tu es un extracteur de CV automatique. Tu reçois le texte brut d'un CV et tu dois renvoyer UNIQUEMENT un objet JSON valide contenant les informations structurées. Ne renvoie aucun texte, aucune explication, aucun markdown. Seulement le JSON.`;
+  const extractionSystem = `Tu es un extracteur de CV automatique expert. Tu reçois le texte brut d'un CV (qui peut être structuré ou non, en français ou anglais) et tu dois renvoyer UNIQUEMENT un objet JSON valide contenant les informations structurées. Ne renvoie aucun texte, aucune explication, aucun markdown. Seulement le JSON.
+
+CRITIQUE: Tu dois absolument séparer les expériences professionnelles des formations/diplômes. Ne regroupe jamais tout dans un seul champ. Chaque expérience doit avoir son entreprise, son poste, ses dates et sa description. Chaque formation doit avoir son école, son diplôme, son domaine et ses dates.`;
 
   const userPrompt = `Extrais les informations du CV ci-dessous et réponds avec un objet JSON valide (sans backticks, sans markdown) respectant exactement cette structure:
 {
@@ -177,17 +180,25 @@ export async function extractCVWithAI(rawText: string): Promise<Partial<CVData>>
   "phone": "numéro",
   "location": "Ville, Pays",
   "summary": "Résumé professionnel",
-  "skills": ["compétence1"],
+  "skills": ["compétence1", "compétence2"],
   "languages": [{"name": "Français", "level": "Courant"}],
-  "experience": [{"company": "Entreprise", "position": "Poste", "startDate": "2020", "endDate": "2022", "description": "description"}],
-  "education": [{"school": "École", "degree": "Diplôme", "field": "Domaine", "startDate": "2018", "endDate": "2020"}]
+  "experience": [
+    {"company": "Nom de l'entreprise", "position": "Intitulé du poste", "startDate": "2020", "endDate": "2022", "description": "Description des missions et réalisations"}
+  ],
+  "education": [
+    {"school": "Nom de l'école ou université", "degree": "Type de diplôme (Master, Licence, BTS, etc.)", "field": "Domaine ou spécialité", "startDate": "2018", "endDate": "2020"}
+  ]
 }
 
-Règles:
+Règles OBLIGATOIRES:
+- SEPARE les expériences professionnelles (jobs, stages, alternances) des formations (diplômes, écoles, universités).
+- Chaque expérience dans "experience": entreprise différente = entrée différente.
+- Chaque formation dans "education": diplôme différent = entrée différente.
 - Si une information est absente, utilise "" ou [].
 - Dates: année seule ("2020") ou "Présent".
 - Niveau de langue: "Langue maternelle", "Courant", "Avancé", "Intermédiaire", "Débutant".
 - Max 5 expériences, 5 formations.
+- Le résumé ("summary") doit être un paragraphe court, PAS la liste des expériences.
 
 Texte du CV:
 ${rawText.slice(0, 8000)}`;
