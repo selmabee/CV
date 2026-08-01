@@ -36,12 +36,16 @@ export interface Language {
   level: string;
 }
 
+export type TemplateCategory = 'pastel' | 'solid' | 'gradient' | 'professional' | 'creative' | 'minimal' | 'classic';
+
 export interface CVTemplate {
   id: string;
   name: string;
   description: string;
   thumbnail: string;
   hasPhoto: boolean;
+  category: TemplateCategory;
+  layout: 'single column' | 'two column' | 'banner header';
 }
 
 export interface CVStyle {
@@ -53,6 +57,7 @@ export interface CVStyle {
   dividerColor: string;
   fontFamily: string;
   backgroundImage: string | null;
+  sectionDividers: boolean;
 }
 
 export type AppStep = 'landing' | 'upload' | 'editor' | 'preview';

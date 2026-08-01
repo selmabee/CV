@@ -1,5 +1,6 @@
 import { useCV } from '../../context/CVContext';
-import { Palette, Type, Check, Sparkles } from 'lucide-react';
+import { Palette, Type, Check, Sparkles, Image as ImageIcon, X, Minus } from 'lucide-react';
+import { useRef } from 'react';
 
 const presetColors = [
   { name: 'Bleu', value: '#1e40af' },
@@ -59,10 +60,22 @@ const themePresets = [
 
 export default function StyleEditor() {
   const { cvStyle, setCVStyle } = useCV();
+  const bgInputRef = useRef<HTMLInputElement>(null);
 
   const updateColor = (field: keyof typeof cvStyle, value: string) => {
     setCVStyle({ ...cvStyle, [field]: value });
   };
+
+  const handleBgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => setCVStyle({ ...cvStyle, backgroundImage: reader.result as string });
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeBgImage = () => setCVStyle({ ...cvStyle, backgroundImage: null });
 
   return (
     <div className="space-y-6">
@@ -223,6 +236,40 @@ export default function StyleEditor() {
             className="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-sm font-mono"
           />
         </div>
+      </div>
+
+      <div className="border-t pt-4">
+        <div className="flex items-center gap-2 mb-3">
+          <Minus className="w-4 h-4 text-slate-600" />
+          <label className="text-sm font-medium text-slate-700">Section Dividers</label>
+        </div>
+        <button
+          onClick={() => setCVStyle({ ...cvStyle, sectionDividers: !cvStyle.sectionDividers })}
+          className={`relative w-12 h-6 rounded-full transition-colors ${cvStyle.sectionDividers ? 'bg-blue-600' : 'bg-slate-300'}`}
+        >
+          <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform ${cvStyle.sectionDividers ? 'translate-x-6' : ''}`} />
+        </button>
+        <p className="text-xs text-slate-500 mt-2">Affiche des lignes de séparation entre les sections du CV.</p>
+      </div>
+
+      <div className="border-t pt-4">
+        <div className="flex items-center gap-2 mb-3">
+          <ImageIcon className="w-4 h-4 text-slate-600" />
+          <label className="text-sm font-medium text-slate-700">Background Image</label>
+        </div>
+        {cvStyle.backgroundImage ? (
+          <div className="relative">
+            <img src={cvStyle.backgroundImage} alt="Background" className="w-full h-24 object-cover rounded-lg border border-slate-200" />
+            <button onClick={removeBgImage} className="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600"><X className="w-4 h-4" /></button>
+          </div>
+        ) : (
+          <>
+            <input ref={bgInputRef} type="file" accept="image/*" onChange={handleBgUpload} className="hidden" />
+            <button onClick={() => bgInputRef.current?.click()} className="w-full py-3 border-2 border-dashed border-slate-300 rounded-lg text-sm text-slate-500 hover:border-blue-400 hover:text-blue-600 transition-colors flex items-center justify-center gap-2">
+              <ImageIcon className="w-4 h-4" /> Upload Background Image
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

@@ -169,7 +169,7 @@ export default function CVPreview() {
     );
   };
 
-  const Divider = () => <div className="w-full h-px my-4 bg-slate-200" />;
+  const Divider = () => cvStyle.sectionDividers ? <div className="w-full h-px my-4" style={{ backgroundColor: cvStyle.dividerColor }} /> : <div className="w-full h-2" />;
 
   const Photo = ({ size = 'md', rounded = false, className }: { size?: 'sm' | 'md' | 'lg'; rounded?: boolean; className?: string }) => {
     const sizeClasses = {
@@ -1553,7 +1553,10 @@ export default function CVPreview() {
     <div className="h-full flex flex-col">
       <div className="flex-1 overflow-auto p-4 bg-slate-100">
         <div className="max-w-[210mm] mx-auto">
-          <div className="bg-white shadow-lg aspect-[210/297] overflow-hidden">
+          <div
+            className="bg-white shadow-lg aspect-[210/297] overflow-hidden"
+            style={cvStyle.backgroundImage ? { backgroundImage: `url(${cvStyle.backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
+          >
             <Wrapper>{renderTemplate()}</Wrapper>
           </div>
         </div>
