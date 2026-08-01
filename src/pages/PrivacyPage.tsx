@@ -1,16 +1,13 @@
 import { motion } from 'framer-motion';
 
 const sections = [
-  { title: 'Notre engagement de confidentialité', text: 'Chez AE2I CV Builder, la confidentialité est au cœur de notre mission. Vos données vous appartiennent et nous les traitons avec le plus grand respect.' },
-  { title: 'Aucun stockage de données', text: 'Par défaut, toutes les données de votre CV sont traitées localement dans votre navigateur. Elles ne sont jamais stockées sur nos serveurs sans votre consentement explicite.' },
-  { title: 'Traitement par l\'IA', text: 'Lorsque vous utilisez les fonctionnalités IA, certaines données sont envoyées à OpenRouter pour traitement. Ces données ne sont pas stockées par le fournisseur et sont utilisées uniquement pour générer la réponse.' },
-  { title: 'Comptes utilisateurs', text: 'Si vous créez un compte, votre email et vos CV sauvegardés sont stockés de manière sécurisée via Firebase. Vous pouvez supprimer votre compte et toutes vos données à tout moment.' },
-  { title: 'Cookies et suivi', text: 'Nous utilisons uniquement les cookies nécessaires au fonctionnement du service. Nous ne vendons pas vos données à des tiers.' },
-  { title: 'Services tiers', text: 'Nous utilisons Firebase (authentification et base de données) et OpenRouter (IA). Ces services ont leurs propres politiques de confidentialité.' },
-  { title: 'Sécurité des données', text: 'Toutes les communications sont chiffrées via HTTPS. Les données stockées sur Firebase sont protégées par les règles de sécurité Firestore et Storage.' },
-  { title: 'Confidentialité des enfants', text: 'Le service n\'est pas destiné aux personnes de moins de 13 ans. Nous ne collectons pas sciemment de données d\'enfants.' },
-  { title: 'Modifications', text: 'Nous nous réservons le droit de modifier cette politique de confidentialité. Les modifications prennent effet dès leur publication.' },
-  { title: 'Contact', text: 'Pour toute question concernant la confidentialité, contactez-nous via la page Contact.' },
+  { title: 'Aucune responsabilité sur la confidentialité', text: 'AE2I CV Builder ne prend pas en charge la responsabilité de la confidentialité des documents que vous traitez via le service. Vous utilisez le service à vos propres risques. Vous êtes libre d\'utiliser ou non l\'outil selon votre appréciation des risques liés à vos données.' },
+  { title: 'Traitement local et envoi de données', text: 'Les données de votre CV sont traitées localement dans votre navigateur. Cependant, lorsque vous utilisez les fonctionnalités IA, certaines données sont envoyées à des services tiers (OpenRouter) pour traitement. AE2I CV Builder n\'est pas responsable de la manière dont ces tiers traitent ou stockent vos données.' },
+  { title: 'Votre responsabilité', text: 'Il vous appartient de juger si le contenu que vous soumettez est sensible ou confidentiel. Si vos documents contiennent des informations que vous ne souhaitez pas transmettre à un tiers, ne les utilisez pas avec ce service.' },
+  { title: 'Stockage navigateur', text: 'Vos données sont sauvegardées dans votre navigateur via le stockage local. Elles ne sont pas stockées sur nos serveurs. Effacer les données de votre navigateur supprime également vos données de CV.' },
+  { title: 'Services tiers', text: 'Le service utilise OpenRouter pour l\'IA. Ces services ont leurs propres politiques de confidentialité dont nous ne saurions être tenus responsables.' },
+  { title: 'Modifications', text: 'Nous nous réservons le droit de modifier cette politique. Les modifications prennent effet dès leur publication.' },
+  { title: 'Contact', text: 'Pour toute question, contactez-nous via la page Contact.' },
 ];
 
 export default function PrivacyPage() {

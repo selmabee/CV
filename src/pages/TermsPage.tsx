@@ -6,10 +6,6 @@ const sections = [
   { title: 'Avertissement "TEL QUEL"', text: 'Le service est fourni "tel quel" sans garantie d\'aucune sorte. Nous ne garantissons pas que le service sera ininterrompu ou sans erreur.' },
   { title: 'Limitation de responsabilité', text: 'AE2I CV Builder ne saurait être tenu responsable des dommages directs, indirects ou consécutifs résultant de l\'utilisation du service.' },
   { title: 'Responsabilités de l\'utilisateur', text: 'Vous êtes responsable de l\'exactitude des informations contenues dans votre CV. Vous vous engagez à ne pas utiliser le service à des fins illégales.' },
-  { title: 'Contenu généré par l\'IA', text: 'Les suggestions et contenus générés par l\'IA sont fournis à titre indicatif. Vous êtes responsable de la vérification et de la validation de tous les contenus avant utilisation.' },
-  { title: 'Aucun conseil professionnel', text: 'Le service ne constitue pas un conseil professionnel en recrutement ou en carrière. Pour des conseils personnalisés, consultez un professionnel.' },
-  { title: 'Disponibilité du service', text: 'Nous nous efforçons de maintenir le service disponible mais ne garantissons pas un accès ininterrompu. Des maintenances peuvent être effectuées sans préavis.' },
-  { title: 'Services tiers', text: 'Le service utilise des APIs tierces (notamment OpenRouter pour l\'IA). Nous ne sommes pas responsables des interruptions de ces services.' },
   { title: 'Modifications des conditions', text: 'Nous nous réservons le droit de modifier ces conditions à tout moment. Les modifications prennent effet dès leur publication.' },
   { title: 'Droit applicable', text: 'Les présentes conditions sont régies par le droit applicable au lieu d\'édition du service.' },
 ];
