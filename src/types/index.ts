@@ -43,6 +43,7 @@ export interface CVTemplate {
   name: string;
   description: string;
   thumbnail: string;
+  renderKey: string;
   hasPhoto: boolean;
   category: TemplateCategory;
   layout: 'single column' | 'two column' | 'banner header';
