@@ -346,14 +346,14 @@ export default function TemplateSelector() {
         ))}
       </div>
 
-      <div className="grid grid-cols-2 gap-3 max-h-[600px] overflow-y-auto pr-1">
+      <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-2 max-h-[520px] overflow-y-auto pr-1">
         {filtered.map((template) => (
           <motion.button
             key={template.id}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
             onClick={() => setSelectedTemplate(template)}
-            className={`relative border-2 rounded-xl overflow-hidden transition-all text-left ${
+            className={`relative border-2 rounded-lg overflow-hidden transition-all text-left group ${
               selectedTemplate.id === template.id
                 ? 'border-blue-600 ring-2 ring-blue-600/20'
                 : 'border-slate-200 hover:border-slate-300'
@@ -362,25 +362,15 @@ export default function TemplateSelector() {
             <div className="aspect-[3/4] w-full bg-slate-50">
               {templateThumbnails[template.thumbnail]}
             </div>
-            <div className="absolute top-2 right-2">
+            <div className="absolute top-1.5 right-1.5">
               {selectedTemplate.id === template.id && (
-                <div className="w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center">
-                  <Check className="w-3 h-3 text-white" />
+                <div className="w-4 h-4 bg-blue-600 rounded-full flex items-center justify-center">
+                  <Check className="w-2.5 h-2.5 text-white" />
                 </div>
               )}
             </div>
-            <div className="p-2 bg-white border-t border-slate-100">
-              <p className="text-sm font-medium text-slate-900 truncate">{template.name}</p>
-              <p className="text-xs text-slate-500 mt-0.5">{template.description}</p>
-            </div>
-            <div className="px-2 pb-2">
-              <span className={`inline-block w-full text-center py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                selectedTemplate.id === template.id
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-slate-100 text-slate-600'
-              }`}>
-                Use Template
-              </span>
+            <div className="px-1.5 py-1.5 bg-white border-t border-slate-100">
+              <p className="text-[11px] font-medium text-slate-900 truncate leading-tight">{template.name}</p>
             </div>
           </motion.button>
         ))}
