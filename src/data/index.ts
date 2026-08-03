@@ -1,61 +1,61 @@
 import { CVTemplate, CVData } from '../types';
 
 export const templates: CVTemplate[] = [
-  // === PASTEL (6) ===
-  { id: 'pastel-rose', name: 'Rose Garden', description: 'two column•pastel', thumbnail: 'pastel-rose', renderKey: 'pastelRose', hasPhoto: false, category: 'pastel', layout: 'two column' },
-  { id: 'pastel-lavender', name: 'Lavender Dreams', description: 'banner header•pastel', thumbnail: 'pastel-lavender', renderKey: 'pastelLavender', hasPhoto: false, category: 'pastel', layout: 'banner header' },
-  { id: 'pastel-mint', name: 'Mint Fresh', description: 'two column•pastel', thumbnail: 'pastel-mint', renderKey: 'pastelMint', hasPhoto: false, category: 'pastel', layout: 'two column' },
-  { id: 'pastel-peach', name: 'Peach Blossom', description: 'banner header•pastel', thumbnail: 'pastel-peach', renderKey: 'pastelPeach', hasPhoto: false, category: 'pastel', layout: 'banner header' },
-  { id: 'pastel-sky', name: 'Sky Breeze', description: 'single column•pastel', thumbnail: 'pastel-sky', renderKey: 'pastelSky', hasPhoto: false, category: 'pastel', layout: 'single column' },
-  { id: 'pastel-butter', name: 'Buttercream', description: 'single column•pastel', thumbnail: 'pastel-butter', renderKey: 'pastelButter', hasPhoto: false, category: 'pastel', layout: 'single column' },
+  // === PASTEL — soft, contemporary (6) ===
+  { id: 'pastel-rose', name: 'Circulaire Rose', description: 'two column•pastel', thumbnail: 'pastel-rose', renderKey: 'pastelRose', hasPhoto: false, category: 'pastel', layout: 'two column' },
+  { id: 'pastel-lavender', name: 'Élégant Lavande', description: 'banner header•pastel', thumbnail: 'pastel-lavender', renderKey: 'pastelLavender', hasPhoto: false, category: 'pastel', layout: 'banner header' },
+  { id: 'pastel-mint', name: 'Vertical Menthe', description: 'two column•pastel', thumbnail: 'pastel-mint', renderKey: 'pastelMint', hasPhoto: false, category: 'pastel', layout: 'two column' },
+  { id: 'pastel-peach', name: 'Moderne Pêche', description: 'banner header•pastel', thumbnail: 'pastel-peach', renderKey: 'pastelPeach', hasPhoto: false, category: 'pastel', layout: 'banner header' },
+  { id: 'pastel-sky', name: 'Horizontal Ciel', description: 'single column•pastel', thumbnail: 'pastel-sky', renderKey: 'pastelSky', hasPhoto: false, category: 'pastel', layout: 'single column' },
+  { id: 'pastel-butter', name: 'Chrono Beurre', description: 'single column•pastel', thumbnail: 'pastel-butter', renderKey: 'pastelButter', hasPhoto: false, category: 'pastel', layout: 'single column' },
 
-  // === SOLID (6) ===
-  { id: 'solid-navy', name: 'Navy Executive', description: 'two column•solid', thumbnail: 'solid-navy', renderKey: 'solidNavy', hasPhoto: false, category: 'solid', layout: 'two column' },
-  { id: 'solid-charcoal', name: 'Charcoal', description: 'banner header•solid', thumbnail: 'solid-charcoal', renderKey: 'solidCharcoal', hasPhoto: false, category: 'solid', layout: 'banner header' },
-  { id: 'solid-forest', name: 'Forest', description: 'two column•solid', thumbnail: 'solid-forest', renderKey: 'solidForest', hasPhoto: false, category: 'solid', layout: 'two column' },
-  { id: 'solid-burgundy', name: 'Burgundy', description: 'two column•solid', thumbnail: 'solid-burgundy', renderKey: 'solidBurgundy', hasPhoto: false, category: 'solid', layout: 'two column' },
-  { id: 'solid-slate', name: 'Slate Blue', description: 'banner header•solid', thumbnail: 'solid-slate', renderKey: 'solidSlate', hasPhoto: false, category: 'solid', layout: 'banner header' },
-  { id: 'solid-espresso', name: 'Espresso', description: 'single column•solid', thumbnail: 'solid-espresso', renderKey: 'solidEspresso', hasPhoto: false, category: 'solid', layout: 'single column' },
+  // === SOLID — strong contrast, professional (6) ===
+  { id: 'solid-navy', name: 'Professionnel Marine', description: 'two column•solid', thumbnail: 'solid-navy', renderKey: 'solidNavy', hasPhoto: false, category: 'solid', layout: 'two column' },
+  { id: 'solid-charcoal', name: 'Élégant Anthracite', description: 'banner header•solid', thumbnail: 'solid-charcoal', renderKey: 'solidCharcoal', hasPhoto: false, category: 'solid', layout: 'banner header' },
+  { id: 'solid-forest', name: 'Vertical Forêt', description: 'two column•solid', thumbnail: 'solid-forest', renderKey: 'solidForest', hasPhoto: false, category: 'solid', layout: 'two column' },
+  { id: 'solid-burgundy', name: 'Circulaire Bordeaux', description: 'two column•solid', thumbnail: 'solid-burgundy', renderKey: 'solidBurgundy', hasPhoto: false, category: 'solid', layout: 'two column' },
+  { id: 'solid-slate', name: 'Moderne Ardoise', description: 'banner header•solid', thumbnail: 'solid-slate', renderKey: 'solidSlate', hasPhoto: false, category: 'solid', layout: 'banner header' },
+  { id: 'solid-espresso', name: 'Horizontal Espresso', description: 'single column•solid', thumbnail: 'solid-espresso', renderKey: 'solidEspresso', hasPhoto: false, category: 'solid', layout: 'single column' },
 
-  // === GRADIENT (5) ===
-  { id: 'grad-sunset', name: 'Sunset', description: 'two column•gradient', thumbnail: 'grad-sunset', renderKey: 'gradSunset', hasPhoto: false, category: 'gradient', layout: 'two column' },
-  { id: 'grad-ocean', name: 'Ocean Depth', description: 'two column•gradient', thumbnail: 'grad-ocean', renderKey: 'gradOcean', hasPhoto: false, category: 'gradient', layout: 'two column' },
-  { id: 'grad-aurora', name: 'Aurora', description: 'banner header•gradient', thumbnail: 'grad-aurora', renderKey: 'gradAurora', hasPhoto: false, category: 'gradient', layout: 'banner header' },
-  { id: 'grad-twilight', name: 'Twilight', description: 'two column•gradient', thumbnail: 'grad-twilight', renderKey: 'gradTwilight', hasPhoto: false, category: 'gradient', layout: 'two column' },
-  { id: 'grad-ember', name: 'Ember', description: 'two column•gradient', thumbnail: 'grad-ember', renderKey: 'gradEmber', hasPhoto: false, category: 'gradient', layout: 'two column' },
+  // === GRADIENT — contemporary, eye-catching (5) ===
+  { id: 'grad-sunset', name: 'Moderne Sunset', description: 'two column•gradient', thumbnail: 'grad-sunset', renderKey: 'gradSunset', hasPhoto: false, category: 'gradient', layout: 'two column' },
+  { id: 'grad-ocean', name: 'Vertical Ocean', description: 'two column•gradient', thumbnail: 'grad-ocean', renderKey: 'gradOcean', hasPhoto: false, category: 'gradient', layout: 'two column' },
+  { id: 'grad-aurora', name: 'Élégant Aurora', description: 'banner header•gradient', thumbnail: 'grad-aurora', renderKey: 'gradAurora', hasPhoto: false, category: 'gradient', layout: 'banner header' },
+  { id: 'grad-twilight', name: 'Circulaire Twilight', description: 'two column•gradient', thumbnail: 'grad-twilight', renderKey: 'gradTwilight', hasPhoto: false, category: 'gradient', layout: 'two column' },
+  { id: 'grad-ember', name: 'Professionnel Ember', description: 'two column•gradient', thumbnail: 'grad-ember', renderKey: 'gradEmber', hasPhoto: false, category: 'gradient', layout: 'two column' },
 
-  // === PROFESSIONAL (5) ===
-  { id: 'prof-corporate', name: 'Corporate', description: 'two column•professional', thumbnail: 'prof-corporate', renderKey: 'profCorporate', hasPhoto: false, category: 'professional', layout: 'two column' },
-  { id: 'prof-executive', name: 'Executive Suite', description: 'two column•professional', thumbnail: 'prof-executive', renderKey: 'profExecutive', hasPhoto: false, category: 'professional', layout: 'two column' },
+  // === PROFESSIONAL — tradition and precision (5) ===
+  { id: 'prof-corporate', name: 'Professionnel Corporate', description: 'two column•professional', thumbnail: 'prof-corporate', renderKey: 'profCorporate', hasPhoto: false, category: 'professional', layout: 'two column' },
+  { id: 'prof-executive', name: 'Élégant Executive', description: 'two column•professional', thumbnail: 'prof-executive', renderKey: 'profExecutive', hasPhoto: false, category: 'professional', layout: 'two column' },
   { id: 'prof-consultant', name: 'Consultant', description: 'banner header•professional', thumbnail: 'prof-consultant', renderKey: 'profConsultant', hasPhoto: false, category: 'professional', layout: 'banner header' },
-  { id: 'prof-attorney', name: 'Attorney', description: 'single column•professional', thumbnail: 'prof-attorney', renderKey: 'profAttorney', hasPhoto: false, category: 'professional', layout: 'single column' },
-  { id: 'prof-banker', name: 'Banker', description: 'two column•professional', thumbnail: 'prof-banker', renderKey: 'profBanker', hasPhoto: false, category: 'professional', layout: 'two column' },
+  { id: 'prof-attorney', name: 'Horizontal Attorney', description: 'single column•professional', thumbnail: 'prof-attorney', renderKey: 'profAttorney', hasPhoto: false, category: 'professional', layout: 'single column' },
+  { id: 'prof-banker', name: 'Vertical Banker', description: 'two column•professional', thumbnail: 'prof-banker', renderKey: 'profBanker', hasPhoto: false, category: 'professional', layout: 'two column' },
 
-  // === CREATIVE (4) ===
-  { id: 'creat-popart', name: 'Pop Art', description: 'two column•creative', thumbnail: 'creat-popart', renderKey: 'creatPopArt', hasPhoto: false, category: 'creative', layout: 'two column' },
-  { id: 'creat-sage', name: 'Sage Studio', description: 'banner header•creative', thumbnail: 'creat-sage', renderKey: 'creatSage', hasPhoto: false, category: 'creative', layout: 'banner header' },
-  { id: 'creat-cosmic', name: 'Cosmic', description: 'two column•creative', thumbnail: 'creat-cosmic', renderKey: 'creatCosmic', hasPhoto: false, category: 'creative', layout: 'two column' },
-  { id: 'creat-terracotta', name: 'Terracotta', description: 'two column•creative', thumbnail: 'creat-terracotta', renderKey: 'creatTerracotta', hasPhoto: false, category: 'creative', layout: 'two column' },
+  // === CREATIVE — bold, original (4) ===
+  { id: 'creat-popart', name: 'Informel Pop', description: 'two column•creative', thumbnail: 'creat-popart', renderKey: 'creatPopArt', hasPhoto: false, category: 'creative', layout: 'two column' },
+  { id: 'creat-sage', name: 'Moderne Sage', description: 'banner header•creative', thumbnail: 'creat-sage', renderKey: 'creatSage', hasPhoto: false, category: 'creative', layout: 'banner header' },
+  { id: 'creat-cosmic', name: 'Circulaire Cosmic', description: 'two column•creative', thumbnail: 'creat-cosmic', renderKey: 'creatCosmic', hasPhoto: false, category: 'creative', layout: 'two column' },
+  { id: 'creat-terracotta', name: 'Élégant Terracotta', description: 'two column•creative', thumbnail: 'creat-terracotta', renderKey: 'creatTerracotta', hasPhoto: false, category: 'creative', layout: 'two column' },
 
-  // === MINIMAL (4) ===
-  { id: 'min-mono', name: 'Mono', description: 'single column•minimal', thumbnail: 'min-mono', renderKey: 'minMono', hasPhoto: false, category: 'minimal', layout: 'single column' },
-  { id: 'min-paper', name: 'Paper', description: 'single column•minimal', thumbnail: 'min-paper', renderKey: 'minPaper', hasPhoto: false, category: 'minimal', layout: 'single column' },
-  { id: 'min-nordic', name: 'Nordic', description: 'two column•minimal', thumbnail: 'min-nordic', renderKey: 'minNordic', hasPhoto: false, category: 'minimal', layout: 'two column' },
-  { id: 'min-zen', name: 'Zen', description: 'two column•minimal', thumbnail: 'min-zen', renderKey: 'minZen', hasPhoto: false, category: 'minimal', layout: 'two column' },
+  // === MINIMAL — simplicity and content focus (4) ===
+  { id: 'min-mono', name: 'Horizontal Mono', description: 'single column•minimal', thumbnail: 'min-mono', renderKey: 'minMono', hasPhoto: false, category: 'minimal', layout: 'single column' },
+  { id: 'min-paper', name: 'Épuré Paper', description: 'single column•minimal', thumbnail: 'min-paper', renderKey: 'minPaper', hasPhoto: false, category: 'minimal', layout: 'single column' },
+  { id: 'min-nordic', name: 'Vertical Nordic', description: 'two column•minimal', thumbnail: 'min-nordic', renderKey: 'minNordic', hasPhoto: false, category: 'minimal', layout: 'two column' },
+  { id: 'min-zen', name: 'Chrono Zen', description: 'two column•minimal', thumbnail: 'min-zen', renderKey: 'minZen', hasPhoto: false, category: 'minimal', layout: 'two column' },
 
-  // === CLASSIC (12) ===
-  { id: 'cls-exec-black', name: 'Executive Black', description: 'two column•classic', thumbnail: 'cls-exec-black', renderKey: 'clsExecBlack', hasPhoto: false, category: 'classic', layout: 'two column' },
-  { id: 'cls-slate', name: 'Slate', description: 'two column•classic', thumbnail: 'cls-slate', renderKey: 'clsSlate', hasPhoto: false, category: 'classic', layout: 'two column' },
-  { id: 'cls-navy', name: 'Navy Classic', description: 'two column•classic', thumbnail: 'cls-navy', renderKey: 'clsNavy', hasPhoto: false, category: 'classic', layout: 'two column' },
-  { id: 'cls-charcoal-steel', name: 'Charcoal Steel', description: 'two column•classic', thumbnail: 'cls-charcoal-steel', renderKey: 'clsCharcoalSteel', hasPhoto: false, category: 'classic', layout: 'two column' },
-  { id: 'cls-obsidian', name: 'Obsidian', description: 'banner header•classic', thumbnail: 'cls-obsidian', renderKey: 'clsObsidian', hasPhoto: false, category: 'classic', layout: 'banner header' },
-  { id: 'cls-steel-blue', name: 'Steel Blue', description: 'banner header•classic', thumbnail: 'cls-steel-blue', renderKey: 'clsSteelBlue', hasPhoto: false, category: 'classic', layout: 'banner header' },
-  { id: 'cls-graphite', name: 'Graphite', description: 'banner header•classic', thumbnail: 'cls-graphite', renderKey: 'clsGraphite', hasPhoto: false, category: 'classic', layout: 'banner header' },
-  { id: 'cls-admiral', name: 'Admiral', description: 'banner header•classic', thumbnail: 'cls-admiral', renderKey: 'clsAdmiral', hasPhoto: false, category: 'classic', layout: 'banner header' },
-  { id: 'cls-ivory-black', name: 'Ivory Black', description: 'single column•classic', thumbnail: 'cls-ivory-black', renderKey: 'clsIvoryBlack', hasPhoto: false, category: 'classic', layout: 'single column' },
-  { id: 'cls-smoke', name: 'Smoke', description: 'single column•classic', thumbnail: 'cls-smoke', renderKey: 'clsSmoke', hasPhoto: false, category: 'classic', layout: 'single column' },
-  { id: 'cls-midnight', name: 'Midnight Blue', description: 'single column•classic', thumbnail: 'cls-midnight', renderKey: 'clsMidnight', hasPhoto: false, category: 'classic', layout: 'single column' },
-  { id: 'cls-stone', name: 'Stone', description: 'single column•classic', thumbnail: 'cls-stone', renderKey: 'clsStone', hasPhoto: false, category: 'classic', layout: 'single column' },
+  // === CLASSIC — timeless, structured (12) ===
+  { id: 'cls-exec-black', name: 'Professionnel Black', description: 'two column•classic', thumbnail: 'cls-exec-black', renderKey: 'clsExecBlack', hasPhoto: false, category: 'classic', layout: 'two column' },
+  { id: 'cls-slate', name: 'Élégant Slate', description: 'two column•classic', thumbnail: 'cls-slate', renderKey: 'clsSlate', hasPhoto: false, category: 'classic', layout: 'two column' },
+  { id: 'cls-navy', name: 'Professionnel Navy', description: 'two column•classic', thumbnail: 'cls-navy', renderKey: 'clsNavy', hasPhoto: false, category: 'classic', layout: 'two column' },
+  { id: 'cls-charcoal-steel', name: 'Vertical Steel', description: 'two column•classic', thumbnail: 'cls-charcoal-steel', renderKey: 'clsCharcoalSteel', hasPhoto: false, category: 'classic', layout: 'two column' },
+  { id: 'cls-obsidian', name: 'Moderne Obsidian', description: 'banner header•classic', thumbnail: 'cls-obsidian', renderKey: 'clsObsidian', hasPhoto: false, category: 'classic', layout: 'banner header' },
+  { id: 'cls-steel-blue', name: 'Élégant Steel Blue', description: 'banner header•classic', thumbnail: 'cls-steel-blue', renderKey: 'clsSteelBlue', hasPhoto: false, category: 'classic', layout: 'banner header' },
+  { id: 'cls-graphite', name: 'Professionnel Graphite', description: 'banner header•classic', thumbnail: 'cls-graphite', renderKey: 'clsGraphite', hasPhoto: false, category: 'classic', layout: 'banner header' },
+  { id: 'cls-admiral', name: 'Élégant Admiral', description: 'banner header•classic', thumbnail: 'cls-admiral', renderKey: 'clsAdmiral', hasPhoto: false, category: 'classic', layout: 'banner header' },
+  { id: 'cls-ivory-black', name: 'Horizontal Ivory', description: 'single column•classic', thumbnail: 'cls-ivory-black', renderKey: 'clsIvoryBlack', hasPhoto: false, category: 'classic', layout: 'single column' },
+  { id: 'cls-smoke', name: 'Chrono Smoke', description: 'single column•classic', thumbnail: 'cls-smoke', renderKey: 'clsSmoke', hasPhoto: false, category: 'classic', layout: 'single column' },
+  { id: 'cls-midnight', name: 'Professionnel Midnight', description: 'single column•classic', thumbnail: 'cls-midnight', renderKey: 'clsMidnight', hasPhoto: false, category: 'classic', layout: 'single column' },
+  { id: 'cls-stone', name: 'Épuré Stone', description: 'single column•classic', thumbnail: 'cls-stone', renderKey: 'clsStone', hasPhoto: false, category: 'classic', layout: 'single column' },
 ];
 
 export const defaultCVData: CVData = {

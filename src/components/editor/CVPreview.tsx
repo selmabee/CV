@@ -16,7 +16,7 @@ export default function CVPreview() {
     }
   };
 
-  // Logo fixed top-right on ALL templates, white background for visibility
+  // Logo fixed top-right on ALL templates — white background for visibility
   const LogoBadge = () => (
     <div className="absolute top-2 right-2 z-10 bg-white rounded-md px-1.5 py-1 shadow-sm">
       <img src="/assets/logo_ae2i.png" alt="AE2I" className="h-4 w-auto" />
@@ -25,16 +25,16 @@ export default function CVPreview() {
 
   // ============ SHARED PARTIALS ============
 
-  const ContactInline = ({ color = 'text-slate-500', iconColor, centered, gap = 'gap-3' }: { color?: string; iconColor?: string; centered?: boolean; gap?: string }) => {
+  const ContactRow = ({ color = 'text-slate-500', iconColor, centered, size = 'text-[11px]' }: { color?: string; iconColor?: string; centered?: boolean; size?: string }) => {
     const items = [];
     if (cvData.email) items.push({ icon: <Mail className="w-3 h-3" />, text: cvData.email });
     if (cvData.phone) items.push({ icon: <Phone className="w-3 h-3" />, text: cvData.phone });
     if (cvData.location) items.push({ icon: <MapPin className="w-3 h-3" />, text: cvData.location });
     if (items.length === 0) return null;
     return (
-      <div className={`flex flex-wrap items-center ${gap} text-xs ${centered ? 'justify-center' : ''}`}>
+      <div className={`flex flex-wrap items-center gap-x-4 gap-y-1 ${size} ${centered ? 'justify-center' : ''}`}>
         {items.map((item, i) => (
-          <span key={i} className="flex items-center gap-1">
+          <span key={i} className="flex items-center gap-1.5">
             <span style={{ color: iconColor || cvStyle.primaryColor }}>{item.icon}</span>
             <span className={color}>{item.text}</span>
           </span>
@@ -43,40 +43,41 @@ export default function CVPreview() {
     );
   };
 
-  const SectionHeader = ({ children, color, icon, underline = true }: { children: React.ReactNode; color: string; icon?: React.ReactNode; underline?: boolean }) => (
-    <div className="mb-2.5">
-      <div className="flex items-center gap-1.5">
+  // Section title — clean uppercase with thin underline
+  const SectionTitle = ({ children, color, icon, centered, underline = true }: { children: React.ReactNode; color: string; icon?: React.ReactNode; centered?: boolean; underline?: boolean }) => (
+    <div className="mb-3">
+      <div className={`flex items-center gap-2 ${centered ? 'justify-center' : ''}`}>
         {icon && <span style={{ color }}>{icon}</span>}
-        <h3 className="font-bold text-[11px] uppercase tracking-[0.08em]" style={{ color }}>{children}</h3>
+        <h3 className="font-bold text-[10px] uppercase tracking-[0.12em]" style={{ color }}>{children}</h3>
       </div>
-      {underline && <div className="h-px mt-1" style={{ backgroundColor: color, opacity: 0.25 }} />}
+      {underline && <div className="h-px mt-1.5" style={{ backgroundColor: color, opacity: 0.2 }} />}
     </div>
   );
 
-  // Experience block — clean, structured, no clutter
-  const ExpBlock = ({ color, showBullets = false }: { color: string; showBullets?: boolean }) => {
+  // Experience — clean timeline or structured list
+  const ExpList = ({ color, bullets = false }: { color: string; bullets?: boolean }) => {
     if (cvData.experience.length === 0) return null;
     return (
-      <div className="space-y-2.5">
+      <div className="space-y-3">
         {cvData.experience.map((exp) => (
           <div key={exp.id}>
-            <div className="flex items-baseline justify-between gap-2">
-              <span className="font-semibold text-xs text-slate-900">{exp.position}</span>
+            <div className="flex items-baseline justify-between gap-3">
+              <span className="font-semibold text-[12px] text-slate-900">{exp.position}</span>
               <span className="text-[10px] text-slate-400 whitespace-nowrap">{formatDate(exp.startDate)} — {exp.endDate ? formatDate(exp.endDate) : 'Présent'}</span>
             </div>
-            <p className="text-[11px] font-medium" style={{ color }}>{exp.company}</p>
+            <p className="text-[11px] font-medium mb-0.5" style={{ color }}>{exp.company}</p>
             {exp.description && (
-              showBullets ? (
+              bullets ? (
                 <ul className="mt-1 space-y-0.5">
                   {exp.description.split('\n').filter(Boolean).slice(0, 4).map((line, i) => (
                     <li key={i} className="text-[10px] text-slate-600 leading-relaxed flex gap-1.5">
-                      <span className="mt-1 w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: color }} />
+                      <span className="mt-1.5 w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: color }} />
                       <span>{line}</span>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <p className="text-[10px] text-slate-600 mt-0.5 leading-relaxed">{exp.description}</p>
+                <p className="text-[10px] text-slate-600 leading-relaxed">{exp.description}</p>
               )
             )}
           </div>
@@ -85,15 +86,15 @@ export default function CVPreview() {
     );
   };
 
-  // Education block — clean, compact
-  const EduBlock = ({ color }: { color: string }) => {
+  // Education — compact, structured
+  const EduList = ({ color }: { color: string }) => {
     if (cvData.education.length === 0) return null;
     return (
-      <div className="space-y-2">
+      <div className="space-y-2.5">
         {cvData.education.map((edu) => (
           <div key={edu.id}>
-            <div className="flex items-baseline justify-between gap-2">
-              <span className="font-semibold text-xs text-slate-900">{edu.degree}{edu.field && ` — ${edu.field}`}</span>
+            <div className="flex items-baseline justify-between gap-3">
+              <span className="font-semibold text-[12px] text-slate-900">{edu.degree}{edu.field && ` — ${edu.field}`}</span>
               <span className="text-[10px] text-slate-400 whitespace-nowrap">{formatDate(edu.startDate)} — {edu.endDate ? formatDate(edu.endDate) : 'Présent'}</span>
             </div>
             <p className="text-[11px] font-medium" style={{ color }}>{edu.school}</p>
@@ -103,144 +104,161 @@ export default function CVPreview() {
     );
   };
 
-  // Skills — clean column layout
-  const SkillsCol = ({ color, variant = 'dot' }: { color: string; variant?: 'dot' | 'tag' | 'bar' }) => {
+  // Skills — pills/tags style (cv.fr style)
+  const SkillsTags = ({ color, dark = false }: { color: string; dark?: boolean }) => {
     if (cvData.skills.length === 0) return null;
-    if (variant === 'tag') {
-      return (
-        <div className="flex flex-wrap gap-1.5">
-          {cvData.skills.map((s, i) => (
-            <span key={i} className="px-2 py-0.5 text-[10px] font-medium rounded" style={{ backgroundColor: color + '12', color }}>{s}</span>
-          ))}
-        </div>
-      );
-    }
-    if (variant === 'bar') {
-      return (
-        <div className="space-y-1.5">
-          {cvData.skills.map((s, i) => (
-            <div key={i}>
-              <span className="text-[10px] text-slate-700">{s}</span>
-              <div className="h-0.5 bg-slate-100 rounded-full mt-0.5 overflow-hidden">
-                <div className="h-full rounded-full" style={{ width: '78%', backgroundColor: color }} />
-              </div>
-            </div>
-          ))}
-        </div>
-      );
-    }
     return (
-      <div className="space-y-1">
+      <div className="flex flex-wrap gap-1.5">
         {cvData.skills.map((s, i) => (
-          <div key={i} className="flex items-center gap-1.5">
-            <span className="w-1 h-1 rounded-full shrink-0" style={{ backgroundColor: color }} />
-            <span className="text-[10px] text-slate-700">{s}</span>
+          <span key={i} className="px-2.5 py-1 text-[10px] font-medium rounded"
+            style={dark ? { backgroundColor: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.9)' } : { backgroundColor: color + '12', color }}>
+            {s}
+          </span>
+        ))}
+      </div>
+    );
+  };
+
+  // Skills — dot list (minimal style)
+  const SkillsDots = ({ color, dark = false }: { color: string; dark?: boolean }) => {
+    if (cvData.skills.length === 0) return null;
+    return (
+      <div className="space-y-1.5">
+        {cvData.skills.map((s, i) => (
+          <div key={i} className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: dark ? 'rgba(255,255,255,0.6)' : color }} />
+            <span className={`text-[10px] ${dark ? 'text-white/85' : 'text-slate-700'}`}>{s}</span>
           </div>
         ))}
       </div>
     );
   };
 
-  // Languages — compact
-  const LangCol = ({ color, dark = false }: { color: string; dark?: boolean }) => {
+  // Skills — progress bars
+  const SkillsBars = ({ color, dark = false }: { color: string; dark?: boolean }) => {
+    if (cvData.skills.length === 0) return null;
+    return (
+      <div className="space-y-2">
+        {cvData.skills.map((s, i) => (
+          <div key={i}>
+            <span className={`text-[10px] ${dark ? 'text-white/85' : 'text-slate-700'}`}>{s}</span>
+            <div className={`h-1 rounded-full mt-0.5 overflow-hidden ${dark ? 'bg-white/15' : 'bg-slate-100'}`}>
+              <div className="h-full rounded-full" style={{ width: '80%', backgroundColor: dark ? 'rgba(255,255,255,0.7)' : color }} />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  // Languages — compact list
+  const LangList = ({ color, dark = false }: { color: string; dark?: boolean }) => {
     if (cvData.languages.length === 0) return null;
     return (
-      <div className="space-y-1">
+      <div className="space-y-1.5">
         {cvData.languages.map((lang) => (
           <div key={lang.id} className="flex items-center justify-between">
-            <span className={`text-[10px] ${dark ? 'text-white/80' : 'text-slate-700'}`}>{lang.name}</span>
-            <span className={`text-[9px] px-1.5 py-0.5 rounded font-medium ${dark ? 'bg-white/15 text-white/70' : ''}`} style={!dark ? { backgroundColor: color + '10', color } : undefined}>{lang.level}</span>
+            <span className={`text-[10px] ${dark ? 'text-white/85' : 'text-slate-700'}`}>{lang.name}</span>
+            <span className={`text-[9px] px-1.5 py-0.5 rounded font-medium ${dark ? 'bg-white/15 text-white/70' : ''}`}
+              style={!dark ? { backgroundColor: color + '10', color } : undefined}>
+              {lang.level}
+            </span>
           </div>
         ))}
       </div>
     );
   };
 
-  // Summary — clean paragraph
-  const SummaryBlock = ({ color }: { color: string }) => {
+  // Summary
+  const Summary = () => {
     if (!cvData.summary) return null;
-    return (
-      <p className="text-[11px] leading-relaxed text-slate-600 mb-3">{cvData.summary}</p>
-    );
+    return <p className="text-[11px] leading-relaxed text-slate-600 mb-4">{cvData.summary}</p>;
   };
 
-  // ============ SIDEBAR (dark) ============
-  const DarkSidebar = ({ bg, titleColor = 'rgba(255,255,255,0.9)' }: { bg: string; titleColor?: string }) => (
-    <div className="w-[34%] p-4 flex flex-col gap-4" style={{ backgroundColor: bg }}>
-      {cvData.photo && <img src={cvData.photo} alt="" className="w-16 h-16 rounded-full object-cover mx-auto border-2 border-white/20" />}
+  // Header variants
+  const HeaderLeft = ({ color, name, role }: { color: string; name: string; role: string }) => (
+    <div className="mb-4">
+      <h1 className="text-xl font-bold text-slate-900 leading-tight">{name}</h1>
+      <p className="text-[12px] mt-0.5" style={{ color }}>{role}</p>
+    </div>
+  );
+
+  const HeaderCenter = ({ color, name, role }: { color: string; name: string; role: string }) => (
+    <div className="text-center mb-4">
+      <h1 className="text-2xl font-bold text-slate-900 leading-tight">{name}</h1>
+      <p className="text-[12px] mt-0.5 uppercase tracking-widest" style={{ color }}>{role}</p>
+    </div>
+  );
+
+  // Dark sidebar (for sidebar templates)
+  const DarkSidebar = ({ bg, accent }: { bg: string; accent?: string }) => (
+    <div className="w-[35%] p-5 flex flex-col gap-5" style={{ backgroundColor: bg }}>
+      {cvData.photo && (
+        <img src={cvData.photo} alt="" className="w-20 h-20 rounded-full object-cover mx-auto border-2 border-white/20" />
+      )}
       <div>
-        <h3 className="font-bold text-[10px] uppercase tracking-wider mb-2" style={{ color: titleColor }}>Contact</h3>
-        <div className="space-y-1 text-[10px] text-white/70">
+        <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Contact</h3>
+        <div className="space-y-1.5 text-[10px] text-white/70">
           {cvData.email && <p className="flex items-center gap-1.5"><Mail className="w-2.5 h-2.5 shrink-0" /> {cvData.email}</p>}
           {cvData.phone && <p className="flex items-center gap-1.5"><Phone className="w-2.5 h-2.5 shrink-0" /> {cvData.phone}</p>}
           {cvData.location && <p className="flex items-center gap-1.5"><MapPin className="w-2.5 h-2.5 shrink-0" /> {cvData.location}</p>}
         </div>
       </div>
       <div>
-        <h3 className="font-bold text-[10px] uppercase tracking-wider mb-2" style={{ color: titleColor }}>Compétences</h3>
-        <div className="space-y-1">
-          {cvData.skills.map((s, i) => (
-            <div key={i} className="flex items-center gap-1.5">
-              <span className="w-1 h-1 rounded-full bg-white/60 shrink-0" />
-              <span className="text-[10px] text-white/80">{s}</span>
-            </div>
-          ))}
-        </div>
+        <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Compétences</h3>
+        <SkillsDots color={accent || bg} dark />
       </div>
       <div>
-        <h3 className="font-bold text-[10px] uppercase tracking-wider mb-2" style={{ color: titleColor }}>Langues</h3>
-        {cvData.languages.map((lang) => (
-          <div key={lang.id} className="flex items-center justify-between mb-1">
-            <span className="text-[10px] text-white/80">{lang.name}</span>
-            <span className="text-[9px] px-1.5 py-0.5 rounded bg-white/15 text-white/70 font-medium">{lang.level}</span>
-          </div>
-        ))}
+        <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Langues</h3>
+        <LangList color={accent || bg} dark />
       </div>
     </div>
   );
 
-  // ============ MAIN COLUMN (light) ============
-  const LightMain = ({ color, bullets = false }: { color: string; bullets?: boolean }) => (
-    <div className="flex-1 p-4">
+  // Light main content (for sidebar templates)
+  const LightMain = ({ color, bullets = true }: { color: string; bullets?: boolean }) => (
+    <div className="flex-1 p-5">
       <h1 className="text-lg font-bold text-slate-900 leading-tight">{cvData.fullName || 'Votre Nom'}</h1>
-      <p className="text-xs mb-3" style={{ color }}>{cvData.jobTitle || 'Votre Poste'}</p>
-      <SummaryBlock color={color} />
-      <div className="mb-3">
-        <SectionHeader color={color} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader>
-        <ExpBlock color={color} showBullets={bullets} />
+      <p className="text-[12px] mb-3" style={{ color }}>{cvData.jobTitle || 'Votre Poste'}</p>
+      <Summary />
+      <div className="mb-4">
+        <SectionTitle color={color} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle>
+        <ExpList color={color} bullets={bullets} />
       </div>
       <div>
-        <SectionHeader color={color} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader>
-        <EduBlock color={color} />
+        <SectionTitle color={color} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle>
+        <EduList color={color} />
       </div>
     </div>
   );
 
-  // ============ PASTEL TEMPLATES ============
+  // ============ PASTEL — soft, contemporary ============
 
   const renderPastelRose = () => {
     const c = '#e11d48';
     return (
       <div className="flex h-full">
-        <div className="w-[34%] p-4" style={{ backgroundColor: c + '0a' }}>
+        <div className="w-[35%] p-5" style={{ backgroundColor: c + '0a' }}>
           <h1 className="text-base font-bold leading-tight" style={{ color: c }}>{cvData.fullName || 'Votre Nom'}</h1>
           <p className="text-[11px] mb-3" style={{ color: c + 'cc' }}>{cvData.jobTitle || 'Votre Poste'}</p>
-          <div className="space-y-1 text-[10px] text-slate-600 mb-4">
+          <div className="space-y-1.5 text-[10px] text-slate-600 mb-4">
             {cvData.email && <p className="flex items-center gap-1.5"><Mail className="w-2.5 h-2.5" style={{ color: c }} /> {cvData.email}</p>}
             {cvData.phone && <p className="flex items-center gap-1.5"><Phone className="w-2.5 h-2.5" style={{ color: c }} /> {cvData.phone}</p>}
             {cvData.location && <p className="flex items-center gap-1.5"><MapPin className="w-2.5 h-2.5" style={{ color: c }} /> {cvData.location}</p>}
           </div>
-          <SectionHeader color={c}>Compétences</SectionHeader>
-          <SkillsCol color={c} variant="tag" />
-          <div className="mt-4">
-            <SectionHeader color={c}>Langues</SectionHeader>
-            <LangCol color={c} />
+          <div className="mb-4">
+            <SectionTitle color={c}>Compétences</SectionTitle>
+            <SkillsTags color={c} />
+          </div>
+          <div>
+            <SectionTitle color={c}>Langues</SectionTitle>
+            <LangList color={c} />
           </div>
         </div>
-        <div className="flex-1 p-4">
-          <SummaryBlock color={c} />
-          <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} showBullets /></div>
-          <div><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
+        <div className="flex-1 p-5">
+          <Summary />
+          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+          <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
         </div>
       </div>
     );
@@ -250,23 +268,21 @@ export default function CVPreview() {
     const c = '#7c3aed';
     return (
       <div className="h-full flex flex-col">
-        <div className="px-5 pt-4 pb-3" style={{ backgroundColor: c + '08' }}>
+        <div className="px-6 pt-5 pb-4" style={{ backgroundColor: c + '06' }}>
           <h1 className="text-xl font-bold text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
-          <p className="text-xs mb-2" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
-          <ContactInline color="text-slate-500" iconColor={c} />
+          <p className="text-[12px] mb-2" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
+          <ContactRow color="text-slate-500" iconColor={c} />
         </div>
-        <div className="flex-1 p-5">
-          <SummaryBlock color={c} />
-          <div className="grid grid-cols-2 gap-4">
+        <div className="flex-1 p-6">
+          <Summary />
+          <div className="grid grid-cols-2 gap-5">
             <div>
-              <SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader>
-              <ExpBlock color={c} showBullets />
+              <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+              <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
             </div>
             <div>
-              <SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader>
-              <EduBlock color={c} />
-              <div className="mt-3"><SectionHeader color={c}>Compétences</SectionHeader><SkillsCol color={c} variant="tag" /></div>
-              <div className="mt-3"><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
+              <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
+              <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
             </div>
           </div>
         </div>
@@ -278,19 +294,17 @@ export default function CVPreview() {
     const c = '#0d9488';
     return (
       <div className="flex h-full">
-        <div className="flex-1 p-4">
-          <h1 className="text-lg font-bold text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
-          <p className="text-[11px] mb-2" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
-          <ContactInline color="text-slate-500" iconColor={c} />
-          <div className="h-px my-3" style={{ backgroundColor: c, opacity: 0.2 }} />
-          <SummaryBlock color={c} />
-          <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} /></div>
-          <div><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
+        <div className="flex-1 p-5">
+          <HeaderLeft color={c} name={cvData.fullName || 'Votre Nom'} role={cvData.jobTitle || 'Votre Poste'} />
+          <ContactRow color="text-slate-500" iconColor={c} />
+          <div className="h-px my-4" style={{ backgroundColor: c, opacity: 0.2 }} />
+          <Summary />
+          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
+          <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
         </div>
-        <div className="w-[32%] p-4" style={{ backgroundColor: c + '06' }}>
-          <SectionHeader color={c}>Compétences</SectionHeader>
-          <SkillsCol color={c} variant="tag" />
-          <div className="mt-4"><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
+        <div className="w-[33%] p-5" style={{ backgroundColor: c + '06' }}>
+          <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
+          <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
         </div>
       </div>
     );
@@ -300,21 +314,21 @@ export default function CVPreview() {
     const c = '#ea580c';
     return (
       <div className="h-full flex flex-col">
-        <div className="px-5 pt-5 pb-3 flex items-center gap-4" style={{ backgroundColor: c + '08' }}>
+        <div className="px-6 pt-5 pb-4 flex items-center gap-4" style={{ backgroundColor: c + '06' }}>
           {cvData.photo ? <img src={cvData.photo} alt="" className="w-14 h-14 rounded-full object-cover border-2" style={{ borderColor: c }} /> : <div className="w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-lg" style={{ backgroundColor: c }}>{cvData.fullName ? cvData.fullName.charAt(0).toUpperCase() : '?'}</div>}
           <div>
             <h1 className="text-xl font-bold text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
-            <p className="text-xs" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
-            <ContactInline color="text-slate-500" iconColor={c} className="" />
+            <p className="text-[12px]" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
+            <ContactRow color="text-slate-500" iconColor={c} />
           </div>
         </div>
-        <div className="flex-1 p-5">
-          <SummaryBlock color={c} />
-          <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} showBullets /></div>
-          <div className="mb-3"><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
-          <div className="grid grid-cols-2 gap-4">
-            <div><SectionHeader color={c}>Compétences</SectionHeader><SkillsCol color={c} variant="tag" /></div>
-            <div><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
+        <div className="flex-1 p-6">
+          <Summary />
+          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="grid grid-cols-2 gap-5">
+            <div><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
+            <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
       </div>
@@ -324,18 +338,17 @@ export default function CVPreview() {
   const renderPastelSky = () => {
     const c = '#0284c7';
     return (
-      <div className="h-full p-5 flex flex-col items-center text-center">
-        <h1 className="text-xl font-bold text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
-        <p className="text-xs mb-2" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
-        <ContactInline centered color="text-slate-500" iconColor={c} />
-        <div className="w-10 h-0.5 my-3 rounded-full" style={{ backgroundColor: c }} />
+      <div className="h-full p-6 flex flex-col items-center text-center">
+        <HeaderCenter color={c} name={cvData.fullName || 'Votre Nom'} role={cvData.jobTitle || 'Votre Poste'} />
+        <ContactRow centered color="text-slate-500" iconColor={c} />
+        <div className="w-12 h-0.5 my-4 rounded-full" style={{ backgroundColor: c }} />
         <div className="w-full text-left">
-          <SummaryBlock color={c} />
-          <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />} underline={false}>Expérience</SectionHeader><ExpBlock color={c} /></div>
-          <div className="mb-3"><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />} underline={false}>Formation</SectionHeader><EduBlock color={c} /></div>
-          <div className="grid grid-cols-2 gap-4">
-            <div><SectionHeader color={c} underline={false}>Compétences</SectionHeader><SkillsCol color={c} variant="tag" /></div>
-            <div><SectionHeader color={c} underline={false}>Langues</SectionHeader><LangCol color={c} /></div>
+          <Summary />
+          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />} underline={false} centered>Expérience</SectionTitle><ExpList color={c} /></div>
+          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />} underline={false} centered>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="grid grid-cols-2 gap-5">
+            <div><SectionTitle color={c} underline={false} centered>Compétences</SectionTitle><SkillsTags color={c} /></div>
+            <div><SectionTitle color={c} underline={false} centered>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
       </div>
@@ -345,39 +358,59 @@ export default function CVPreview() {
   const renderPastelButter = () => {
     const c = '#ca8a04';
     return (
-      <div className="h-full p-5">
-        <div className="flex items-start gap-3 mb-3">
-          <div className="w-1 h-12 rounded-full" style={{ backgroundColor: c }} />
+      <div className="h-full p-6">
+        <div className="flex items-start gap-4 mb-4">
+          <div className="w-1 h-14 rounded-full" style={{ backgroundColor: c }} />
           <div>
             <h1 className="text-xl font-bold text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
-            <p className="text-xs" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
-            <ContactInline color="text-slate-500" iconColor={c} />
+            <p className="text-[12px]" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
+            <ContactRow color="text-slate-500" iconColor={c} />
           </div>
         </div>
-        <div className="h-px mb-3" style={{ backgroundColor: c, opacity: 0.2 }} />
-        <SummaryBlock color={c} />
-        <div className="grid grid-cols-2 gap-4">
+        <div className="h-px mb-4" style={{ backgroundColor: c, opacity: 0.2 }} />
+        <Summary />
+        <div className="grid grid-cols-2 gap-5">
           <div>
-            <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} /></div>
-            <div><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
+            <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
+            <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
           </div>
           <div>
-            <div className="mb-3"><SectionHeader color={c}>Compétences</SectionHeader><SkillsCol color={c} variant="tag" /></div>
-            <div><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
+            <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
+            <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
       </div>
     );
   };
 
-  // ============ SOLID TEMPLATES ============
+  // ============ SOLID — strong contrast ============
 
-  const renderSolidNavy = () => {
-    const c = '#1e3a8a';
+  const renderSolidNavy = () => { const c = '#1e3a8a'; return (<div className="flex h-full"><DarkSidebar bg={c} /><LightMain color={c} bullets /></div>); };
+  const renderSolidForest = () => {
+    const c = '#166534';
     return (
       <div className="flex h-full">
-        <DarkSidebar bg={c} />
-        <LightMain color={c} bullets />
+        <div className="w-[36%] p-5 text-white" style={{ backgroundColor: c }}>
+          <h1 className="text-base font-bold leading-tight">{cvData.fullName || 'Votre Nom'}</h1>
+          <p className="text-[11px] text-white/60 mb-3">{cvData.jobTitle || 'Votre Poste'}</p>
+          <div className="space-y-1.5 text-[10px] text-white/70 mb-4">
+            {cvData.email && <p className="flex items-center gap-1.5"><Mail className="w-2.5 h-2.5" /> {cvData.email}</p>}
+            {cvData.phone && <p className="flex items-center gap-1.5"><Phone className="w-2.5 h-2.5" /> {cvData.phone}</p>}
+            {cvData.location && <p className="flex items-center gap-1.5"><MapPin className="w-2.5 h-2.5" /> {cvData.location}</p>}
+          </div>
+          <div className="mb-4">
+            <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Profil</h3>
+            <p className="text-[10px] text-white/70 leading-relaxed">{cvData.summary || 'Votre résumé...'}</p>
+          </div>
+          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Langues</h3>
+          <LangList color={c} dark />
+        </div>
+        <div className="flex-1 p-5">
+          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <SectionTitle color={c}>Compétences</SectionTitle>
+          <SkillsTags color={c} />
+        </div>
       </div>
     );
   };
@@ -386,46 +419,19 @@ export default function CVPreview() {
     const c = '#334155';
     return (
       <div className="h-full flex flex-col">
-        <div className="px-5 pt-4 pb-3 text-white" style={{ backgroundColor: c }}>
+        <div className="px-6 pt-5 pb-4 text-white" style={{ backgroundColor: c }}>
           <h1 className="text-xl font-bold">{cvData.fullName || 'Votre Nom'}</h1>
-          <p className="text-xs text-white/60 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
-          <ContactInline color="text-white/70" iconColor="white" />
+          <p className="text-[12px] text-white/60 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
+          <ContactRow color="text-white/70" iconColor="white" />
         </div>
-        <div className="flex-1 p-5">
-          <SummaryBlock color={c} />
-          <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} showBullets /></div>
-          <div className="mb-3"><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
-          <div className="grid grid-cols-2 gap-4">
-            <div><SectionHeader color={c}>Compétences</SectionHeader><SkillsCol color={c} variant="tag" /></div>
-            <div><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
+        <div className="flex-1 p-6">
+          <Summary />
+          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="grid grid-cols-2 gap-5">
+            <div><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
+            <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
-        </div>
-      </div>
-    );
-  };
-
-  const renderSolidForest = () => {
-    const c = '#166534';
-    return (
-      <div className="flex h-full">
-        <div className="w-[36%] p-4 text-white" style={{ backgroundColor: c }}>
-          <h1 className="text-base font-bold leading-tight">{cvData.fullName || 'Votre Nom'}</h1>
-          <p className="text-[11px] text-white/60 mb-3">{cvData.jobTitle || 'Votre Poste'}</p>
-          <div className="space-y-1 text-[10px] text-white/70 mb-4">
-            {cvData.email && <p className="flex items-center gap-1.5"><Mail className="w-2.5 h-2.5" /> {cvData.email}</p>}
-            {cvData.phone && <p className="flex items-center gap-1.5"><Phone className="w-2.5 h-2.5" /> {cvData.phone}</p>}
-            {cvData.location && <p className="flex items-center gap-1.5"><MapPin className="w-2.5 h-2.5" /> {cvData.location}</p>}
-          </div>
-          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-1.5">Profil</h3>
-          <p className="text-[10px] text-white/70 leading-relaxed mb-4">{cvData.summary || 'Votre résumé...'}</p>
-          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-1.5">Langues</h3>
-          <LangCol color={c} dark />
-        </div>
-        <div className="flex-1 p-4">
-          <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} showBullets /></div>
-          <div className="mb-3"><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
-          <SectionHeader color={c}>Compétences</SectionHeader>
-          <SkillsCol color={c} variant="tag" />
         </div>
       </div>
     );
@@ -435,20 +441,20 @@ export default function CVPreview() {
     const c = '#9f1239';
     return (
       <div className="flex h-full">
-        <div className="w-[36%] p-4 text-white flex flex-col items-center text-center" style={{ backgroundColor: c }}>
-          {cvData.photo ? <img src={cvData.photo} alt="" className="w-16 h-16 rounded-full object-cover mb-3 border-2 border-white/20" /> : <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-xl mb-3">{cvData.fullName ? cvData.fullName.charAt(0).toUpperCase() : '?'}</div>}
+        <div className="w-[36%] p-5 text-white flex flex-col items-center text-center" style={{ backgroundColor: c }}>
+          {cvData.photo ? <img src={cvData.photo} alt="" className="w-20 h-20 rounded-full object-cover mb-3 border-2 border-white/20" /> : <div className="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-xl mb-3">{cvData.fullName ? cvData.fullName.charAt(0).toUpperCase() : '?'}</div>}
           <h1 className="text-base font-bold leading-tight">{cvData.fullName || 'Votre Nom'}</h1>
           <p className="text-[11px] text-white/60 mb-3">{cvData.jobTitle || 'Votre Poste'}</p>
-          <div className="w-full space-y-1 text-[10px] text-white/70 text-left mb-4">
+          <div className="w-full space-y-1.5 text-[10px] text-white/70 text-left mb-4">
             {cvData.email && <p className="flex items-center gap-1.5"><Mail className="w-2.5 h-2.5" /> {cvData.email}</p>}
             {cvData.phone && <p className="flex items-center gap-1.5"><Phone className="w-2.5 h-2.5" /> {cvData.phone}</p>}
             {cvData.location && <p className="flex items-center gap-1.5"><MapPin className="w-2.5 h-2.5" /> {cvData.location}</p>}
           </div>
           <div className="w-full text-left">
-            <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-1.5">Compétences</h3>
-            <SkillsCol color={c} variant="tag" />
-            <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-1.5 mt-4">Langues</h3>
-            <LangCol color={c} dark />
+            <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Compétences</h3>
+            <SkillsDots color={c} dark />
+            <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2 mt-4">Langues</h3>
+            <LangList color={c} dark />
           </div>
         </div>
         <LightMain color={c} bullets />
@@ -460,21 +466,21 @@ export default function CVPreview() {
     const c = '#475569';
     return (
       <div className="h-full flex flex-col">
-        <div className="px-5 pt-4 pb-3 text-white relative" style={{ backgroundColor: c }}>
+        <div className="px-6 pt-5 pb-4 text-white" style={{ backgroundColor: c }}>
           <h1 className="text-xl font-bold">{cvData.fullName || 'Votre Nom'}</h1>
-          <p className="text-xs text-white/60 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
-          <ContactInline color="text-white/70" iconColor="white" />
+          <p className="text-[12px] text-white/60 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
+          <ContactRow color="text-white/70" iconColor="white" />
         </div>
-        <div className="flex-1 p-5 grid grid-cols-3 gap-4">
+        <div className="flex-1 p-6 grid grid-cols-3 gap-5">
           <div className="col-span-2">
-            <SummaryBlock color={c} />
-            <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} showBullets /></div>
-            <div><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
+            <Summary />
+            <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+            <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
           </div>
           <div>
-            <SectionHeader color={c}>Compétences</SectionHeader>
-            <SkillsCol color={c} variant="bar" />
-            <div className="mt-3"><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
+            <SectionTitle color={c}>Compétences</SectionTitle>
+            <SkillsBars color={c} />
+            <div className="mt-4"><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
       </div>
@@ -484,45 +490,42 @@ export default function CVPreview() {
   const renderSolidEspresso = () => {
     const c = '#451a03';
     return (
-      <div className="h-full p-5">
-        <div className="border-l-4 pl-3 mb-3" style={{ borderColor: c }}>
+      <div className="h-full p-6">
+        <div className="border-l-4 pl-4 mb-4" style={{ borderColor: c }}>
           <h1 className="text-xl font-bold text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
-          <p className="text-xs" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
-          <ContactInline color="text-slate-500" iconColor={c} />
+          <p className="text-[12px]" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
+          <ContactRow color="text-slate-500" iconColor={c} />
         </div>
-        <SummaryBlock color={c} />
-        <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} /></div>
-        <div className="mb-3"><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
-        <div className="grid grid-cols-2 gap-4">
-          <div><SectionHeader color={c}>Compétences</SectionHeader><SkillsCol color={c} variant="tag" /></div>
-          <div><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
+        <Summary />
+        <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
+        <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+        <div className="grid grid-cols-2 gap-5">
+          <div><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
+          <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
         </div>
       </div>
     );
   };
 
-  // ============ GRADIENT TEMPLATES ============
+  // ============ GRADIENT — contemporary ============
 
   const renderGradSunset = () => {
-    const c = '#f97316';
-    const grad = 'linear-gradient(180deg, #f97316, #db2777)';
+    const c = '#f97316'; const grad = 'linear-gradient(180deg, #f97316, #db2777)';
     return (
       <div className="flex h-full">
-        <div className="w-[34%] p-4 text-white" style={{ background: grad }}>
-          {cvData.photo && <img src={cvData.photo} alt="" className="w-16 h-16 rounded-full object-cover mx-auto mb-3 border-2 border-white/20" />}
-          <h1 className="text-base font-bold leading-tight text-center">{cvData.fullName || 'Votre Nom'}</h1>
+        <div className="w-[35%] p-5 text-white" style={{ background: grad }}>
+          {cvData.photo && <img src={cvData.photo} alt="" className="w-20 h-20 rounded-full object-cover mx-auto mb-3 border-2 border-white/20" />}
+          <h1 className="text-base font-bold text-center leading-tight">{cvData.fullName || 'Votre Nom'}</h1>
           <p className="text-[11px] text-white/70 text-center mb-3">{cvData.jobTitle || 'Votre Poste'}</p>
-          <div className="space-y-1 text-[10px] text-white/80 mb-4">
+          <div className="space-y-1.5 text-[10px] text-white/80 mb-4">
             {cvData.email && <p className="flex items-center gap-1.5"><Mail className="w-2.5 h-2.5" /> {cvData.email}</p>}
             {cvData.phone && <p className="flex items-center gap-1.5"><Phone className="w-2.5 h-2.5" /> {cvData.phone}</p>}
             {cvData.location && <p className="flex items-center gap-1.5"><MapPin className="w-2.5 h-2.5" /> {cvData.location}</p>}
           </div>
-          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-1.5">Compétences</h3>
-          <div className="space-y-1">
-            {cvData.skills.map((s, i) => <div key={i} className="flex items-center gap-1.5"><span className="w-1 h-1 rounded-full bg-white/60" /><span className="text-[10px] text-white/85">{s}</span></div>)}
-          </div>
-          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-1.5 mt-4">Langues</h3>
-          <LangCol color={c} dark />
+          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Compétences</h3>
+          <SkillsDots color={c} dark />
+          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2 mt-4">Langues</h3>
+          <LangList color={c} dark />
         </div>
         <LightMain color={c} bullets />
       </div>
@@ -530,58 +533,46 @@ export default function CVPreview() {
   };
 
   const renderGradOcean = () => {
-    const c = '#0ea5e9';
-    const grad = 'linear-gradient(180deg, #0ea5e9, #1e40af)';
+    const c = '#0ea5e9'; const grad = 'linear-gradient(180deg, #0ea5e9, #1e40af)';
     return (
       <div className="flex h-full">
-        <div className="flex-1 p-4">
-          <h1 className="text-lg font-bold text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
-          <p className="text-xs mb-2" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
-          <ContactInline color="text-slate-500" iconColor={c} />
-          <div className="h-0.5 my-3 rounded-full" style={{ background: grad }} />
-          <SummaryBlock color={c} />
-          <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} showBullets /></div>
-          <div><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
+        <div className="flex-1 p-5">
+          <HeaderLeft color={c} name={cvData.fullName || 'Votre Nom'} role={cvData.jobTitle || 'Votre Poste'} />
+          <ContactRow color="text-slate-500" iconColor={c} />
+          <div className="h-0.5 my-4 rounded-full" style={{ background: grad }} />
+          <Summary />
+          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+          <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
         </div>
-        <div className="w-[34%] p-4 text-white" style={{ background: grad }}>
+        <div className="w-[35%] p-5 text-white" style={{ background: grad }}>
           <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Compétences</h3>
-          <div className="space-y-1.5 mb-4">
-            {cvData.skills.map((s, i) => (
-              <div key={i}>
-                <span className="text-[10px] text-white/85">{s}</span>
-                <div className="h-0.5 bg-white/20 rounded-full mt-0.5"><div className="h-full bg-white/70 rounded-full" style={{ width: '80%' }} /></div>
-              </div>
-            ))}
-          </div>
-          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Langues</h3>
-          <LangCol color={c} dark />
+          <SkillsBars color={c} dark />
+          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2 mt-4">Langues</h3>
+          <LangList color={c} dark />
         </div>
       </div>
     );
   };
 
   const renderGradAurora = () => {
-    const c = '#059669';
-    const grad = 'linear-gradient(135deg, #059669, #0891b2)';
+    const c = '#059669'; const grad = 'linear-gradient(135deg, #059669, #0891b2)';
     return (
       <div className="h-full flex flex-col">
-        <div className="px-5 pt-4 pb-3 text-white" style={{ background: grad }}>
+        <div className="px-6 pt-5 pb-4 text-white" style={{ background: grad }}>
           <h1 className="text-xl font-bold">{cvData.fullName || 'Votre Nom'}</h1>
-          <p className="text-xs text-white/70 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
-          <ContactInline color="text-white/80" iconColor="white" />
+          <p className="text-[12px] text-white/70 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
+          <ContactRow color="text-white/80" iconColor="white" />
         </div>
-        <div className="flex-1 p-5">
-          <SummaryBlock color={c} />
-          <div className="grid grid-cols-3 gap-4">
-            <div className="col-span-2">
-              <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} showBullets /></div>
-              <div><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
-            </div>
-            <div>
-              <SectionHeader color={c}>Compétences</SectionHeader>
-              <SkillsCol color={c} variant="bar" />
-              <div className="mt-3"><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
-            </div>
+        <div className="flex-1 p-6 grid grid-cols-3 gap-5">
+          <div className="col-span-2">
+            <Summary />
+            <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+            <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          </div>
+          <div>
+            <SectionTitle color={c}>Compétences</SectionTitle>
+            <SkillsBars color={c} />
+            <div className="mt-4"><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
       </div>
@@ -589,24 +580,23 @@ export default function CVPreview() {
   };
 
   const renderGradTwilight = () => {
-    const c = '#6366f1';
-    const grad = 'linear-gradient(180deg, #6366f1, #9333ea)';
+    const c = '#6366f1'; const grad = 'linear-gradient(180deg, #6366f1, #9333ea)';
     return (
       <div className="flex h-full">
-        <div className="w-[36%] p-4 text-white flex flex-col items-center text-center" style={{ background: grad }}>
-          {cvData.photo ? <img src={cvData.photo} alt="" className="w-16 h-16 rounded-full object-cover mb-3 border-2 border-white/20" /> : <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-xl mb-3">{cvData.fullName ? cvData.fullName.charAt(0).toUpperCase() : '?'}</div>}
+        <div className="w-[36%] p-5 text-white flex flex-col items-center text-center" style={{ background: grad }}>
+          {cvData.photo ? <img src={cvData.photo} alt="" className="w-20 h-20 rounded-full object-cover mb-3 border-2 border-white/20" /> : <div className="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-xl mb-3">{cvData.fullName ? cvData.fullName.charAt(0).toUpperCase() : '?'}</div>}
           <h1 className="text-base font-bold leading-tight">{cvData.fullName || 'Votre Nom'}</h1>
           <p className="text-[11px] text-white/70 mb-3">{cvData.jobTitle || 'Votre Poste'}</p>
-          <div className="w-full space-y-1 text-[10px] text-white/80 text-left mb-4">
+          <div className="w-full space-y-1.5 text-[10px] text-white/80 text-left mb-4">
             {cvData.email && <p className="flex items-center gap-1.5"><Mail className="w-2.5 h-2.5" /> {cvData.email}</p>}
             {cvData.phone && <p className="flex items-center gap-1.5"><Phone className="w-2.5 h-2.5" /> {cvData.phone}</p>}
             {cvData.location && <p className="flex items-center gap-1.5"><MapPin className="w-2.5 h-2.5" /> {cvData.location}</p>}
           </div>
           <div className="w-full text-left">
-            <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-1.5">Compétences</h3>
-            <div className="space-y-1">{cvData.skills.map((s, i) => <div key={i} className="flex items-center gap-1.5"><span className="w-1 h-1 rounded-full bg-white/60" /><span className="text-[10px] text-white/85">{s}</span></div>)}</div>
-            <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-1.5 mt-4">Langues</h3>
-            <LangCol color={c} dark />
+            <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Compétences</h3>
+            <SkillsDots color={c} dark />
+            <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2 mt-4">Langues</h3>
+            <LangList color={c} dark />
           </div>
         </div>
         <LightMain color={c} bullets />
@@ -615,55 +605,48 @@ export default function CVPreview() {
   };
 
   const renderGradEmber = () => {
-    const c = '#dc2626';
-    const grad = 'linear-gradient(180deg, #dc2626, #ea580c)';
+    const c = '#dc2626'; const grad = 'linear-gradient(180deg, #dc2626, #ea580c)';
     return (
       <div className="flex h-full">
-        <div className="flex-1 p-4">
-          <h1 className="text-lg font-bold text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
-          <p className="text-xs mb-2" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
-          <ContactInline color="text-slate-500" iconColor={c} />
-          <div className="h-0.5 my-3 rounded-full" style={{ background: grad }} />
-          <SummaryBlock color={c} />
-          <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} showBullets /></div>
-          <div><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
+        <div className="flex-1 p-5">
+          <HeaderLeft color={c} name={cvData.fullName || 'Votre Nom'} role={cvData.jobTitle || 'Votre Poste'} />
+          <ContactRow color="text-slate-500" iconColor={c} />
+          <div className="h-0.5 my-4 rounded-full" style={{ background: grad }} />
+          <Summary />
+          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+          <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
         </div>
-        <div className="w-[34%] p-4 text-white" style={{ background: grad }}>
+        <div className="w-[35%] p-5 text-white" style={{ background: grad }}>
           <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Compétences</h3>
-          <div className="space-y-1.5 mb-4">
-            {cvData.skills.map((s, i) => (
-              <div key={i}><span className="text-[10px] text-white/85">{s}</span><div className="h-0.5 bg-white/20 rounded-full mt-0.5"><div className="h-full bg-white/70 rounded-full" style={{ width: '80%' }} /></div></div>
-            ))}
-          </div>
-          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Langues</h3>
-          <LangCol color={c} dark />
+          <SkillsBars color={c} dark />
+          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2 mt-4">Langues</h3>
+          <LangList color={c} dark />
         </div>
       </div>
     );
   };
 
-  // ============ PROFESSIONAL TEMPLATES ============
+  // ============ PROFESSIONAL — tradition and precision ============
 
   const renderProfCorporate = () => {
     const c = '#1e40af';
     return (
       <div className="flex h-full">
-        <div className="w-[30%] p-4" style={{ backgroundColor: c + '06' }}>
+        <div className="w-[30%] p-5" style={{ backgroundColor: c + '05' }}>
           <h1 className="text-sm font-bold text-slate-900 leading-tight">{cvData.fullName || 'Votre Nom'}</h1>
           <p className="text-[10px] mb-3" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
-          <div className="space-y-1 text-[10px] text-slate-600 mb-4">
+          <div className="space-y-1.5 text-[10px] text-slate-600 mb-4">
             {cvData.email && <p className="flex items-center gap-1.5"><Mail className="w-2.5 h-2.5" style={{ color: c }} /> {cvData.email}</p>}
             {cvData.phone && <p className="flex items-center gap-1.5"><Phone className="w-2.5 h-2.5" style={{ color: c }} /> {cvData.phone}</p>}
             {cvData.location && <p className="flex items-center gap-1.5"><MapPin className="w-2.5 h-2.5" style={{ color: c }} /> {cvData.location}</p>}
           </div>
-          <SectionHeader color={c}>Compétences</SectionHeader>
-          <SkillsCol color={c} variant="bar" />
-          <div className="mt-4"><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
+          <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsBars color={c} /></div>
+          <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
         </div>
-        <div className="flex-1 p-4">
-          <SummaryBlock color={c} />
-          <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} showBullets /></div>
-          <div><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
+        <div className="flex-1 p-5">
+          <Summary />
+          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+          <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
         </div>
       </div>
     );
@@ -673,21 +656,20 @@ export default function CVPreview() {
     const c = '#0f172a';
     return (
       <div className="h-full flex flex-col">
-        <div className="px-6 pt-4 pb-3 text-white" style={{ background: `linear-gradient(135deg, ${c}, ${cvStyle.primaryColor})` }}>
+        <div className="px-6 pt-5 pb-4 text-white" style={{ background: `linear-gradient(135deg, ${c}, ${cvStyle.primaryColor})` }}>
           <h1 className="text-2xl font-light">{cvData.fullName || 'Votre Nom'}</h1>
-          <p className="text-xs text-white/60 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
-          <ContactInline color="text-white/50" iconColor="white" />
+          <p className="text-[12px] text-white/60 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
+          <ContactRow color="text-white/50" iconColor="white" />
         </div>
-        <div className="flex-1 p-5 grid grid-cols-3 gap-5">
+        <div className="flex-1 p-6 grid grid-cols-3 gap-5">
           <div className="col-span-2">
-            <SummaryBlock color={c} />
-            <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} showBullets /></div>
-            <div><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
+            <Summary />
+            <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+            <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
           </div>
           <div>
-            <SectionHeader color={c}>Compétences</SectionHeader>
-            <SkillsCol color={c} variant="dot" />
-            <div className="mt-3"><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
+            <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsDots color={c} /></div>
+            <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
       </div>
@@ -698,24 +680,23 @@ export default function CVPreview() {
     const c = '#1e293b';
     return (
       <div className="h-full flex flex-col">
-        <div className="flex items-center gap-3 px-5 py-3 border-l-4" style={{ borderColor: c }}>
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{ backgroundColor: c }}>{cvData.fullName ? cvData.fullName.charAt(0).toUpperCase() : '?'}</div>
+        <div className="flex items-center gap-4 px-6 py-4 border-l-4" style={{ borderColor: c }}>
+          <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white font-bold" style={{ backgroundColor: c }}>{cvData.fullName ? cvData.fullName.charAt(0).toUpperCase() : '?'}</div>
           <div className="flex-1">
-            <h1 className="text-base font-bold text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
+            <h1 className="text-lg font-bold text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
             <p className="text-[11px]" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
-            <ContactInline color="text-slate-500" iconColor={c} />
+            <ContactRow color="text-slate-500" iconColor={c} />
           </div>
         </div>
-        <div className="flex-1 p-5 grid grid-cols-3 gap-4">
+        <div className="flex-1 p-6 grid grid-cols-3 gap-5">
           <div className="col-span-2">
-            <SummaryBlock color={c} />
-            <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} showBullets /></div>
-            <div><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
+            <Summary />
+            <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+            <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
           </div>
           <div>
-            <SectionHeader color={c}>Compétences</SectionHeader>
-            <SkillsCol color={c} variant="dot" />
-            <div className="mt-3"><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
+            <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsDots color={c} /></div>
+            <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
       </div>
@@ -725,46 +706,31 @@ export default function CVPreview() {
   const renderProfAttorney = () => {
     const c = '#1c1917';
     return (
-      <div className="h-full p-5 flex flex-col items-center text-center">
-        <h1 className="text-xl font-bold tracking-wide text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
-        <p className="text-[10px] uppercase tracking-widest mb-2" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
-        <ContactInline centered color="text-slate-500" iconColor={c} />
-        <div className="w-full h-px my-3" style={{ backgroundColor: c }} />
+      <div className="h-full p-6 flex flex-col items-center text-center">
+        <HeaderCenter color={c} name={cvData.fullName || 'Votre Nom'} role={cvData.jobTitle || 'Votre Poste'} />
+        <ContactRow centered color="text-slate-500" iconColor={c} />
+        <div className="w-full h-px my-4" style={{ backgroundColor: c }} />
         <div className="w-full text-left">
-          <SummaryBlock color={c} />
-          <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />} underline={false}>Expérience</SectionHeader><ExpBlock color={c} /></div>
-          <div className="mb-3"><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />} underline={false}>Formation</SectionHeader><EduBlock color={c} /></div>
-          <div className="grid grid-cols-2 gap-4">
-            <div><SectionHeader color={c} underline={false}>Compétences</SectionHeader><SkillsCol color={c} variant="dot" /></div>
-            <div><SectionHeader color={c} underline={false}>Langues</SectionHeader><LangCol color={c} /></div>
+          <Summary />
+          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />} underline={false} centered>Expérience</SectionTitle><ExpList color={c} /></div>
+          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />} underline={false} centered>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="grid grid-cols-2 gap-5">
+            <div><SectionTitle color={c} underline={false} centered>Compétences</SectionTitle><SkillsDots color={c} /></div>
+            <div><SectionTitle color={c} underline={false} centered>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
       </div>
     );
   };
 
-  const renderProfBanker = () => {
-    const c = '#1e3a5f';
-    return (
-      <div className="flex h-full">
-        <DarkSidebar bg={c} />
-        <div className="flex-1 p-4">
-          <h1 className="text-lg font-bold text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
-          <p className="text-xs mb-3" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
-          <SummaryBlock color={c} />
-          <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} showBullets /></div>
-          <div><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
-        </div>
-      </div>
-    );
-  };
+  const renderProfBanker = () => { const c = '#1e3a5f'; return (<div className="flex h-full"><DarkSidebar bg={c} /><LightMain color={c} bullets /></div>); };
 
-  // ============ CREATIVE TEMPLATES ============
+  // ============ CREATIVE — bold, original ============
 
   const renderCreatPopArt = () => {
     const c = '#e11d48';
     return (
-      <div className="h-full p-5">
+      <div className="h-full p-6">
         <div className="flex items-end gap-3 mb-3">
           <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-black text-xl" style={{ backgroundColor: c }}>{cvData.fullName ? cvData.fullName.charAt(0).toUpperCase() : '?'}</div>
           <div>
@@ -772,14 +738,14 @@ export default function CVPreview() {
             <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
           </div>
         </div>
-        <ContactInline color="text-slate-500" iconColor={c} />
-        <div className="h-px my-3" style={{ backgroundColor: c }} />
-        <SummaryBlock color={c} />
-        <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} showBullets /></div>
-        <div className="mb-3"><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
-        <div className="grid grid-cols-2 gap-4">
-          <div><SectionHeader color={c}>Compétences</SectionHeader><SkillsCol color={c} variant="tag" /></div>
-          <div><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
+        <ContactRow color="text-slate-500" iconColor={c} />
+        <div className="h-px my-4" style={{ backgroundColor: c }} />
+        <Summary />
+        <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+        <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+        <div className="grid grid-cols-2 gap-5">
+          <div><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
+          <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
         </div>
       </div>
     );
@@ -789,21 +755,20 @@ export default function CVPreview() {
     const c = '#4d7c0f';
     return (
       <div className="h-full flex flex-col">
-        <div className="px-5 pt-4 pb-3 text-white" style={{ background: `linear-gradient(135deg, ${c}, #65a30d)` }}>
+        <div className="px-6 pt-5 pb-4 text-white" style={{ background: `linear-gradient(135deg, ${c}, #65a30d)` }}>
           <h1 className="text-xl font-bold">{cvData.fullName || 'Votre Nom'}</h1>
-          <p className="text-xs text-white/70 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
-          <ContactInline color="text-white/60" iconColor="white" />
+          <p className="text-[12px] text-white/70 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
+          <ContactRow color="text-white/60" iconColor="white" />
         </div>
-        <div className="flex-1 p-5 grid grid-cols-3 gap-4">
+        <div className="flex-1 p-6 grid grid-cols-3 gap-5">
           <div className="col-span-2">
-            <SummaryBlock color={c} />
-            <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} showBullets /></div>
-            <div><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
+            <Summary />
+            <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+            <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
           </div>
           <div>
-            <SectionHeader color={c}>Compétences</SectionHeader>
-            <SkillsCol color={c} variant="tag" />
-            <div className="mt-3"><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
+            <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
+            <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
       </div>
@@ -814,19 +779,19 @@ export default function CVPreview() {
     const c = '#7c3aed';
     return (
       <div className="flex h-full">
-        <div className="w-[34%] p-4 text-white" style={{ background: 'linear-gradient(180deg, #7c3aed, #312e81)' }}>
-          {cvData.photo ? <img src={cvData.photo} alt="" className="w-16 h-16 rounded-full object-cover mx-auto mb-3 border-2 border-white/20" /> : <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-xl mx-auto mb-3">{cvData.fullName ? cvData.fullName.charAt(0).toUpperCase() : '?'}</div>}
+        <div className="w-[35%] p-5 text-white" style={{ background: 'linear-gradient(180deg, #7c3aed, #312e81)' }}>
+          {cvData.photo ? <img src={cvData.photo} alt="" className="w-20 h-20 rounded-full object-cover mx-auto mb-3 border-2 border-white/20" /> : <div className="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center text-white font-bold text-xl mx-auto mb-3">{cvData.fullName ? cvData.fullName.charAt(0).toUpperCase() : '?'}</div>}
           <h1 className="text-base font-bold text-center leading-tight">{cvData.fullName || 'Votre Nom'}</h1>
           <p className="text-[11px] text-white/60 text-center mb-3">{cvData.jobTitle || 'Votre Poste'}</p>
-          <div className="space-y-1 text-[10px] text-white/80 mb-4">
+          <div className="space-y-1.5 text-[10px] text-white/80 mb-4">
             {cvData.email && <p className="flex items-center gap-1.5"><Mail className="w-2.5 h-2.5" /> {cvData.email}</p>}
             {cvData.phone && <p className="flex items-center gap-1.5"><Phone className="w-2.5 h-2.5" /> {cvData.phone}</p>}
             {cvData.location && <p className="flex items-center gap-1.5"><MapPin className="w-2.5 h-2.5" /> {cvData.location}</p>}
           </div>
-          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-1.5">Compétences</h3>
-          <div className="space-y-1">{cvData.skills.map((s, i) => <div key={i} className="flex items-center gap-1.5"><span className="w-1 h-1 rounded-full bg-white/60" /><span className="text-[10px] text-white/85">{s}</span></div>)}</div>
-          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-1.5 mt-4">Langues</h3>
-          <LangCol color={c} dark />
+          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Compétences</h3>
+          <SkillsDots color={c} dark />
+          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2 mt-4">Langues</h3>
+          <LangList color={c} dark />
         </div>
         <LightMain color={c} bullets />
       </div>
@@ -836,61 +801,63 @@ export default function CVPreview() {
   const renderCreatTerracotta = () => {
     const c = '#c2410c';
     return (
-      <div className="h-full p-5">
-        <div className="flex gap-3 mb-3">
+      <div className="h-full p-6">
+        <div className="flex gap-4 mb-4">
           <div className="w-1.5 h-14 rounded-full" style={{ backgroundColor: c }} />
           <div>
             <h1 className="text-xl font-bold text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
-            <p className="text-xs" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
-            <ContactInline color="text-slate-500" iconColor={c} />
+            <p className="text-[12px]" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
+            <ContactRow color="text-slate-500" iconColor={c} />
           </div>
         </div>
-        <div className="border-l-2 pl-3" style={{ borderColor: c + '30' }}>
-          <SummaryBlock color={c} />
-          <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} /></div>
-          <div className="mb-3"><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
-          <div className="grid grid-cols-2 gap-4">
-            <div><SectionHeader color={c}>Compétences</SectionHeader><SkillsCol color={c} variant="tag" /></div>
-            <div><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
+        <div className="border-l-2 pl-4" style={{ borderColor: c + '30' }}>
+          <Summary />
+          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
+          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="grid grid-cols-2 gap-5">
+            <div><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
+            <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
       </div>
     );
   };
 
-  // ============ MINIMAL TEMPLATES ============
+  // ============ MINIMAL — simplicity ============
 
   const renderMinMono = () => {
+    const c = '#334155';
     return (
       <div className="h-full p-6">
         <h1 className="text-xl font-light tracking-tight text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
-        <p className="text-xs text-slate-500 mb-3">{cvData.jobTitle || 'Votre Poste'}</p>
-        <ContactInline color="text-slate-400" iconColor="#94a3b8" />
+        <p className="text-[12px] text-slate-500 mb-3">{cvData.jobTitle || 'Votre Poste'}</p>
+        <ContactRow color="text-slate-400" iconColor="#94a3b8" />
         <div className="w-full h-px my-4 bg-slate-200" />
-        <SummaryBlock color="#334155" />
-        <div className="mb-4"><SectionHeader color="#334155" icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color="#334155" /></div>
-        <div className="mb-4"><SectionHeader color="#334155" icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color="#334155" /></div>
+        <Summary />
+        <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
+        <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
         <div className="grid grid-cols-2 gap-5">
-          <div><SectionHeader color="#334155">Compétences</SectionHeader><SkillsCol color="#334155" variant="dot" /></div>
-          <div><SectionHeader color="#334155">Langues</SectionHeader><LangCol color="#334155" /></div>
+          <div><SectionTitle color={c}>Compétences</SectionTitle><SkillsDots color={c} /></div>
+          <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
         </div>
       </div>
     );
   };
 
   const renderMinPaper = () => {
+    const c = '#334155';
     return (
       <div className="h-full p-6">
         <h1 className="text-xl font-semibold text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
-        <p className="text-xs text-slate-500 mb-3">{cvData.jobTitle || 'Votre Poste'}</p>
-        <ContactInline color="text-slate-400" iconColor="#94a3b8" />
+        <p className="text-[12px] text-slate-500 mb-3">{cvData.jobTitle || 'Votre Poste'}</p>
+        <ContactRow color="text-slate-400" iconColor="#94a3b8" />
         <div className="h-px my-4 bg-slate-100" />
-        <SummaryBlock color="#334155" />
-        <div className="mb-4"><SectionHeader color="#334155" icon={<Briefcase className="w-3 h-3" />} underline={false}>Expérience</SectionHeader><ExpBlock color="#334155" /></div>
-        <div className="mb-4"><SectionHeader color="#334155" icon={<GraduationCap className="w-3 h-3" />} underline={false}>Formation</SectionHeader><EduBlock color="#334155" /></div>
+        <Summary />
+        <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />} underline={false}>Expérience</SectionTitle><ExpList color={c} /></div>
+        <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />} underline={false}>Formation</SectionTitle><EduList color={c} /></div>
         <div className="grid grid-cols-2 gap-5">
-          <div><SectionHeader color="#334155" underline={false}>Compétences</SectionHeader><SkillsCol color="#334155" variant="tag" /></div>
-          <div><SectionHeader color="#334155" underline={false}>Langues</SectionHeader><LangCol color="#334155" /></div>
+          <div><SectionTitle color={c} underline={false}>Compétences</SectionTitle><SkillsTags color={c} /></div>
+          <div><SectionTitle color={c} underline={false}>Langues</SectionTitle><LangList color={c} /></div>
         </div>
       </div>
     );
@@ -900,19 +867,18 @@ export default function CVPreview() {
     const c = '#0891b2';
     return (
       <div className="flex h-full">
-        <div className="w-[60%] p-5">
+        <div className="w-[60%] p-6">
           <h1 className="text-xl font-light text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
-          <p className="text-xs text-slate-500 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
-          <ContactInline color="text-slate-400" iconColor={c} />
+          <p className="text-[12px] text-slate-500 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
+          <ContactRow color="text-slate-400" iconColor={c} />
           <div className="h-px my-4 bg-slate-100" />
-          <SummaryBlock color={c} />
-          <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} /></div>
-          <div><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
+          <Summary />
+          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
+          <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
         </div>
-        <div className="w-[40%] p-5 bg-slate-50">
-          <SectionHeader color={c}>Compétences</SectionHeader>
-          <SkillsCol color={c} variant="tag" />
-          <div className="mt-4"><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
+        <div className="w-[40%] p-6 bg-slate-50">
+          <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
+          <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
         </div>
       </div>
     );
@@ -924,61 +890,42 @@ export default function CVPreview() {
       <div className="h-full p-6 flex flex-col items-center text-center">
         <h1 className="text-xl font-light text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
         <div className="w-10 h-px bg-slate-300 my-2" />
-        <p className="text-xs text-slate-500">{cvData.jobTitle || 'Votre Poste'}</p>
-        <ContactInline centered color="text-slate-400" iconColor={c} />
+        <p className="text-[12px] text-slate-500">{cvData.jobTitle || 'Votre Poste'}</p>
+        <ContactRow centered color="text-slate-400" iconColor={c} />
         <div className="w-full text-left mt-4">
-          <SummaryBlock color={c} />
-          <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />} underline={false}>Expérience</SectionHeader><ExpBlock color={c} /></div>
-          <div className="mb-3"><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />} underline={false}>Formation</SectionHeader><EduBlock color={c} /></div>
-          <div className="grid grid-cols-2 gap-4">
-            <div><SectionHeader color={c} underline={false}>Compétences</SectionHeader><SkillsCol color={c} variant="dot" /></div>
-            <div><SectionHeader color={c} underline={false}>Langues</SectionHeader><LangCol color={c} /></div>
+          <Summary />
+          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />} underline={false} centered>Expérience</SectionTitle><ExpList color={c} /></div>
+          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />} underline={false} centered>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="grid grid-cols-2 gap-5">
+            <div><SectionTitle color={c} underline={false} centered>Compétences</SectionTitle><SkillsDots color={c} /></div>
+            <div><SectionTitle color={c} underline={false} centered>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
       </div>
     );
   };
 
-  // ============ CLASSIC TEMPLATES ============
+  // ============ CLASSIC — timeless, structured ============
 
-  const renderClsExecBlack = () => {
-    const c = '#18181b';
-    return (
-      <div className="flex h-full">
-        <DarkSidebar bg={c} />
-        <LightMain color={c} bullets />
-      </div>
-    );
-  };
+  const renderClsExecBlack = () => { const c = '#18181b'; return (<div className="flex h-full"><DarkSidebar bg={c} /><LightMain color={c} bullets /></div>); };
+  const renderClsNavy = () => { const c = '#1e3a8a'; return (<div className="flex h-full"><DarkSidebar bg={c} /><LightMain color={c} bullets /></div>); };
 
   const renderClsSlate = () => {
     const c = '#475569';
     return (
       <div className="flex h-full">
-        <div className="w-[66%] p-4">
-          <h1 className="text-lg font-bold text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
-          <p className="text-xs mb-2" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
-          <ContactInline color="text-slate-500" iconColor={c} />
-          <div className="h-px my-3" style={{ backgroundColor: c }} />
-          <SummaryBlock color={c} />
-          <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} showBullets /></div>
-          <div><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
+        <div className="w-[66%] p-5">
+          <HeaderLeft color={c} name={cvData.fullName || 'Votre Nom'} role={cvData.jobTitle || 'Votre Poste'} />
+          <ContactRow color="text-slate-500" iconColor={c} />
+          <div className="h-px my-4" style={{ backgroundColor: c }} />
+          <Summary />
+          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+          <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
         </div>
-        <div className="w-[34%] p-4" style={{ backgroundColor: c + '06' }}>
-          <SectionHeader color={c}>Compétences</SectionHeader>
-          <SkillsCol color={c} variant="dot" />
-          <div className="mt-4"><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
+        <div className="w-[34%] p-5" style={{ backgroundColor: c + '05' }}>
+          <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsDots color={c} /></div>
+          <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
         </div>
-      </div>
-    );
-  };
-
-  const renderClsNavy = () => {
-    const c = '#1e3a8a';
-    return (
-      <div className="flex h-full">
-        <DarkSidebar bg={c} />
-        <LightMain color={c} bullets />
       </div>
     );
   };
@@ -987,20 +934,19 @@ export default function CVPreview() {
     const c = '#374151';
     return (
       <div className="flex h-full">
-        <div className="w-[66%] p-4">
-          <h1 className="text-lg font-bold text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
-          <p className="text-xs mb-2" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
-          <ContactInline color="text-slate-500" iconColor={c} />
-          <div className="h-0.5 my-3" style={{ backgroundColor: c }} />
-          <SummaryBlock color={c} />
-          <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} showBullets /></div>
-          <div><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
+        <div className="w-[66%] p-5">
+          <HeaderLeft color={c} name={cvData.fullName || 'Votre Nom'} role={cvData.jobTitle || 'Votre Poste'} />
+          <ContactRow color="text-slate-500" iconColor={c} />
+          <div className="h-0.5 my-4" style={{ backgroundColor: c }} />
+          <Summary />
+          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+          <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
         </div>
-        <div className="w-[34%] p-4 text-white" style={{ backgroundColor: c }}>
+        <div className="w-[34%] p-5 text-white" style={{ backgroundColor: c }}>
           <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Compétences</h3>
-          <div className="space-y-1 mb-4">{cvData.skills.map((s, i) => <div key={i} className="flex items-center gap-1.5"><span className="w-1 h-1 rounded-full bg-white/60" /><span className="text-[10px] text-white/85">{s}</span></div>)}</div>
-          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Langues</h3>
-          <LangCol color={c} dark />
+          <SkillsDots color={c} dark />
+          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2 mt-4">Langues</h3>
+          <LangList color={c} dark />
         </div>
       </div>
     );
@@ -1010,18 +956,18 @@ export default function CVPreview() {
     const c = '#0f172a';
     return (
       <div className="h-full flex flex-col">
-        <div className="px-5 pt-4 pb-3 text-white" style={{ backgroundColor: c }}>
+        <div className="px-6 pt-5 pb-4 text-white" style={{ backgroundColor: c }}>
           <h1 className="text-xl font-bold">{cvData.fullName || 'Votre Nom'}</h1>
-          <p className="text-xs text-white/60 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
-          <ContactInline color="text-white/70" iconColor="white" />
+          <p className="text-[12px] text-white/60 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
+          <ContactRow color="text-white/70" iconColor="white" />
         </div>
-        <div className="flex-1 p-5">
-          <SummaryBlock color={c} />
-          <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} showBullets /></div>
-          <div className="mb-3"><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
-          <div className="grid grid-cols-2 gap-4">
-            <div><SectionHeader color={c}>Compétences</SectionHeader><SkillsCol color={c} variant="dot" /></div>
-            <div><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
+        <div className="flex-1 p-6">
+          <Summary />
+          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="grid grid-cols-2 gap-5">
+            <div><SectionTitle color={c}>Compétences</SectionTitle><SkillsDots color={c} /></div>
+            <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
       </div>
@@ -1032,21 +978,20 @@ export default function CVPreview() {
     const c = '#334155';
     return (
       <div className="h-full flex flex-col">
-        <div className="px-5 pt-4 pb-3 text-white" style={{ backgroundColor: c }}>
+        <div className="px-6 pt-5 pb-4 text-white" style={{ backgroundColor: c }}>
           <h1 className="text-xl font-bold">{cvData.fullName || 'Votre Nom'}</h1>
-          <p className="text-xs text-white/60 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
-          <ContactInline color="text-white/70" iconColor="white" />
+          <p className="text-[12px] text-white/60 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
+          <ContactRow color="text-white/70" iconColor="white" />
         </div>
-        <div className="flex-1 p-5 grid grid-cols-3 gap-4">
+        <div className="flex-1 p-6 grid grid-cols-3 gap-5">
           <div className="col-span-2">
-            <SummaryBlock color={c} />
-            <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} showBullets /></div>
-            <div><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
+            <Summary />
+            <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+            <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
           </div>
           <div>
-            <SectionHeader color={c}>Compétences</SectionHeader>
-            <SkillsCol color={c} variant="bar" />
-            <div className="mt-3"><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
+            <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsBars color={c} /></div>
+            <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
       </div>
@@ -1057,21 +1002,21 @@ export default function CVPreview() {
     const c = '#1f2937';
     return (
       <div className="h-full flex flex-col">
-        <div className="flex items-center gap-3 px-5 py-3 border-b-2" style={{ borderColor: c }}>
+        <div className="flex items-center gap-4 px-6 py-4 border-b-2" style={{ borderColor: c }}>
           {cvData.photo ? <img src={cvData.photo} alt="" className="w-12 h-12 rounded-full object-cover border-2" style={{ borderColor: c }} /> : <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold" style={{ backgroundColor: c }}>{cvData.fullName ? cvData.fullName.charAt(0).toUpperCase() : '?'}</div>}
           <div>
             <h1 className="text-lg font-bold text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
-            <p className="text-xs" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
-            <ContactInline color="text-slate-500" iconColor={c} />
+            <p className="text-[11px]" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
+            <ContactRow color="text-slate-500" iconColor={c} />
           </div>
         </div>
-        <div className="flex-1 p-5">
-          <SummaryBlock color={c} />
-          <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} showBullets /></div>
-          <div className="mb-3"><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
-          <div className="grid grid-cols-2 gap-4">
-            <div><SectionHeader color={c}>Compétences</SectionHeader><SkillsCol color={c} variant="dot" /></div>
-            <div><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
+        <div className="flex-1 p-6">
+          <Summary />
+          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="grid grid-cols-2 gap-5">
+            <div><SectionTitle color={c}>Compétences</SectionTitle><SkillsDots color={c} /></div>
+            <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
       </div>
@@ -1082,21 +1027,20 @@ export default function CVPreview() {
     const c = '#1e3a5f';
     return (
       <div className="h-full flex flex-col">
-        <div className="px-5 pt-4 pb-3 text-white" style={{ background: `linear-gradient(135deg, ${c}, #0f172a)` }}>
+        <div className="px-6 pt-5 pb-4 text-white" style={{ background: `linear-gradient(135deg, ${c}, #0f172a)` }}>
           <h1 className="text-2xl font-light">{cvData.fullName || 'Votre Nom'}</h1>
-          <p className="text-xs text-white/60 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
-          <ContactInline color="text-white/50" iconColor="white" />
+          <p className="text-[12px] text-white/60 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
+          <ContactRow color="text-white/50" iconColor="white" />
         </div>
-        <div className="flex-1 p-5 grid grid-cols-3 gap-4">
+        <div className="flex-1 p-6 grid grid-cols-3 gap-5">
           <div className="col-span-2">
-            <SummaryBlock color={c} />
-            <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} showBullets /></div>
-            <div><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
+            <Summary />
+            <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+            <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
           </div>
           <div>
-            <SectionHeader color={c}>Compétences</SectionHeader>
-            <SkillsCol color={c} variant="dot" />
-            <div className="mt-3"><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
+            <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsDots color={c} /></div>
+            <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
       </div>
@@ -1106,18 +1050,17 @@ export default function CVPreview() {
   const renderClsIvoryBlack = () => {
     const c = '#1c1917';
     return (
-      <div className="h-full p-5 flex flex-col items-center text-center">
-        <h1 className="text-xl font-bold text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
-        <p className="text-[10px] uppercase tracking-widest mb-2" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
-        <ContactInline centered color="text-slate-500" iconColor={c} />
-        <div className="w-full h-px my-3" style={{ backgroundColor: c }} />
+      <div className="h-full p-6 flex flex-col items-center text-center">
+        <HeaderCenter color={c} name={cvData.fullName || 'Votre Nom'} role={cvData.jobTitle || 'Votre Poste'} />
+        <ContactRow centered color="text-slate-500" iconColor={c} />
+        <div className="w-full h-px my-4" style={{ backgroundColor: c }} />
         <div className="w-full text-left">
-          <SummaryBlock color={c} />
-          <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />} underline={false}>Expérience</SectionHeader><ExpBlock color={c} /></div>
-          <div className="mb-3"><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />} underline={false}>Formation</SectionHeader><EduBlock color={c} /></div>
-          <div className="grid grid-cols-2 gap-4">
-            <div><SectionHeader color={c} underline={false}>Compétences</SectionHeader><SkillsCol color={c} variant="dot" /></div>
-            <div><SectionHeader color={c} underline={false}>Langues</SectionHeader><LangCol color={c} /></div>
+          <Summary />
+          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />} underline={false} centered>Expérience</SectionTitle><ExpList color={c} /></div>
+          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />} underline={false} centered>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="grid grid-cols-2 gap-5">
+            <div><SectionTitle color={c} underline={false} centered>Compétences</SectionTitle><SkillsDots color={c} /></div>
+            <div><SectionTitle color={c} underline={false} centered>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
       </div>
@@ -1127,23 +1070,23 @@ export default function CVPreview() {
   const renderClsSmoke = () => {
     const c = '#52525b';
     return (
-      <div className="h-full p-5">
-        <div className="flex items-center gap-3 mb-3">
+      <div className="h-full p-6">
+        <div className="flex items-center gap-4 mb-4">
           {cvData.photo && <img src={cvData.photo} alt="" className="w-14 h-14 rounded-full object-cover border-2" style={{ borderColor: c }} />}
           <div>
             <h1 className="text-lg font-bold text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
-            <p className="text-xs" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
-            <ContactInline color="text-slate-500" iconColor={c} />
+            <p className="text-[12px]" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
+            <ContactRow color="text-slate-500" iconColor={c} />
           </div>
         </div>
-        <div className="h-px mb-3" style={{ backgroundColor: c }} />
-        <SummaryBlock color={c} />
-        <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} /></div>
-        <div className="mb-3"><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
-        <div className="grid grid-cols-2 gap-4">
-          <div><SectionHeader color={c}>Compétences</SectionHeader><SkillsCol color={c} variant="tag" /></div>
-          <div><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
-        </div>
+        <div className="h-px mb-4" style={{ backgroundColor: c }} />
+        <Summary />
+          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
+          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="grid grid-cols-2 gap-5">
+            <div><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
+            <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
+          </div>
       </div>
     );
   };
@@ -1151,18 +1094,18 @@ export default function CVPreview() {
   const renderClsMidnight = () => {
     const c = '#1e293b';
     return (
-      <div className="h-full p-5">
-        <div className="pb-3 mb-3 border-b-2" style={{ borderColor: c }}>
+      <div className="h-full p-6">
+        <div className="pb-3 mb-4 border-b-2" style={{ borderColor: c }}>
           <h1 className="text-lg font-bold text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
-          <p className="text-xs" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
-          <ContactInline color="text-slate-500" iconColor={c} />
+          <p className="text-[12px]" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
+          <ContactRow color="text-slate-500" iconColor={c} />
         </div>
-        <SummaryBlock color={c} />
-        <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} showBullets /></div>
-        <div className="mb-3"><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
-        <div className="grid grid-cols-2 gap-4">
-          <div><SectionHeader color={c}>Compétences</SectionHeader><SkillsCol color={c} variant="tag" /></div>
-          <div><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
+        <Summary />
+        <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+        <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+        <div className="grid grid-cols-2 gap-5">
+          <div><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
+          <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
         </div>
       </div>
     );
@@ -1171,24 +1114,24 @@ export default function CVPreview() {
   const renderClsStone = () => {
     const c = '#44403c';
     return (
-      <div className="h-full p-5">
-        <div className="flex items-center gap-3 mb-3">
+      <div className="h-full p-6">
+        <div className="flex items-center gap-4 mb-4">
           {cvData.photo ? <img src={cvData.photo} alt="" className="w-14 h-14 rounded-lg object-cover border-2" style={{ borderColor: c }} /> : <div className="w-14 h-14 rounded-lg bg-slate-100 flex items-center justify-center text-slate-400 text-[10px]">Photo</div>}
           <div>
             <h1 className="text-lg font-bold text-slate-900">{cvData.fullName || 'Votre Nom'}</h1>
-            <p className="text-xs" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
-            <ContactInline color="text-slate-500" iconColor={c} />
+            <p className="text-[12px]" style={{ color: c }}>{cvData.jobTitle || 'Votre Poste'}</p>
+            <ContactRow color="text-slate-500" iconColor={c} />
           </div>
         </div>
-        <SummaryBlock color={c} />
-        <div className="grid grid-cols-2 gap-4">
+        <Summary />
+        <div className="grid grid-cols-2 gap-5">
           <div>
-            <div className="mb-3"><SectionHeader color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionHeader><ExpBlock color={c} /></div>
-            <div><SectionHeader color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionHeader><EduBlock color={c} /></div>
+            <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
+            <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
           </div>
           <div>
-            <div className="mb-3"><SectionHeader color={c}>Compétences</SectionHeader><SkillsCol color={c} variant="tag" /></div>
-            <div><SectionHeader color={c}>Langues</SectionHeader><LangCol color={c} /></div>
+            <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
+            <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
       </div>
@@ -1198,48 +1141,13 @@ export default function CVPreview() {
   // ============ REGISTRY ============
 
   const renderers: Record<string, () => React.ReactNode> = {
-    pastelRose: renderPastelRose,
-    pastelLavender: renderPastelLavender,
-    pastelMint: renderPastelMint,
-    pastelPeach: renderPastelPeach,
-    pastelSky: renderPastelSky,
-    pastelButter: renderPastelButter,
-    solidNavy: renderSolidNavy,
-    solidCharcoal: renderSolidCharcoal,
-    solidForest: renderSolidForest,
-    solidBurgundy: renderSolidBurgundy,
-    solidSlate: renderSolidSlate,
-    solidEspresso: renderSolidEspresso,
-    gradSunset: renderGradSunset,
-    gradOcean: renderGradOcean,
-    gradAurora: renderGradAurora,
-    gradTwilight: renderGradTwilight,
-    gradEmber: renderGradEmber,
-    profCorporate: renderProfCorporate,
-    profExecutive: renderProfExecutive,
-    profConsultant: renderProfConsultant,
-    profAttorney: renderProfAttorney,
-    profBanker: renderProfBanker,
-    creatPopArt: renderCreatPopArt,
-    creatSage: renderCreatSage,
-    creatCosmic: renderCreatCosmic,
-    creatTerracotta: renderCreatTerracotta,
-    minMono: renderMinMono,
-    minPaper: renderMinPaper,
-    minNordic: renderMinNordic,
-    minZen: renderMinZen,
-    clsExecBlack: renderClsExecBlack,
-    clsSlate: renderClsSlate,
-    clsNavy: renderClsNavy,
-    clsCharcoalSteel: renderClsCharcoalSteel,
-    clsObsidian: renderClsObsidian,
-    clsSteelBlue: renderClsSteelBlue,
-    clsGraphite: renderClsGraphite,
-    clsAdmiral: renderClsAdmiral,
-    clsIvoryBlack: renderClsIvoryBlack,
-    clsSmoke: renderClsSmoke,
-    clsMidnight: renderClsMidnight,
-    clsStone: renderClsStone,
+    pastelRose: renderPastelRose, pastelLavender: renderPastelLavender, pastelMint: renderPastelMint, pastelPeach: renderPastelPeach, pastelSky: renderPastelSky, pastelButter: renderPastelButter,
+    solidNavy: renderSolidNavy, solidCharcoal: renderSolidCharcoal, solidForest: renderSolidForest, solidBurgundy: renderSolidBurgundy, solidSlate: renderSolidSlate, solidEspresso: renderSolidEspresso,
+    gradSunset: renderGradSunset, gradOcean: renderGradOcean, gradAurora: renderGradAurora, gradTwilight: renderGradTwilight, gradEmber: renderGradEmber,
+    profCorporate: renderProfCorporate, profExecutive: renderProfExecutive, profConsultant: renderProfConsultant, profAttorney: renderProfAttorney, profBanker: renderProfBanker,
+    creatPopArt: renderCreatPopArt, creatSage: renderCreatSage, creatCosmic: renderCreatCosmic, creatTerracotta: renderCreatTerracotta,
+    minMono: renderMinMono, minPaper: renderMinPaper, minNordic: renderMinNordic, minZen: renderMinZen,
+    clsExecBlack: renderClsExecBlack, clsSlate: renderClsSlate, clsNavy: renderClsNavy, clsCharcoalSteel: renderClsCharcoalSteel, clsObsidian: renderClsObsidian, clsSteelBlue: renderClsSteelBlue, clsGraphite: renderClsGraphite, clsAdmiral: renderClsAdmiral, clsIvoryBlack: renderClsIvoryBlack, clsSmoke: renderClsSmoke, clsMidnight: renderClsMidnight, clsStone: renderClsStone,
   };
 
   const renderFn = renderers[selectedTemplate.renderKey] || renderers.pastelRose;
