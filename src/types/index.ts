@@ -63,31 +63,6 @@ export interface CVStyle {
 
 export type AppStep = 'landing' | 'upload' | 'editor' | 'preview';
 
-export interface AIRecommendation {
-  id: string;
-  type: 'action-verb' | 'quantify' | 'keyword' | 'summary' | 'general';
-  field: string;
-  original: string;
-  suggestion: string;
-  applied: boolean;
-}
-
-export interface ChatMessage {
-  id: string;
-  role: 'user' | 'assistant';
-  content: string;
-  createdAt: number;
-}
-
-export interface Conversation {
-  id: string;
-  title: string;
-  userId: string;
-  messages: ChatMessage[];
-  createdAt: number;
-  updatedAt: number;
-}
-
 export interface SavedCV {
   id: string;
   userId: string;

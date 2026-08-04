@@ -2,10 +2,10 @@ import { motion } from 'framer-motion';
 
 const sections = [
   { title: 'Aucune responsabilité sur la confidentialité', text: 'AE2I CV Builder ne prend pas en charge la responsabilité de la confidentialité des documents que vous traitez via le service. Vous utilisez le service à vos propres risques. Vous êtes libre d\'utiliser ou non l\'outil selon votre appréciation des risques liés à vos données.' },
-  { title: 'Traitement local et envoi de données', text: 'Les données de votre CV sont traitées localement dans votre navigateur. Cependant, lorsque vous utilisez les fonctionnalités IA, certaines données sont envoyées à des services tiers (OpenRouter) pour traitement. AE2I CV Builder n\'est pas responsable de la manière dont ces tiers traitent ou stockent vos données.' },
+  { title: 'Traitement local des données', text: 'Les données de votre CV sont traitées localement dans votre navigateur. Aucune donnée n\'est envoyée à des services tiers. AE2I CV Builder ne stocke pas vos données sur ses serveurs.' },
   { title: 'Votre responsabilité', text: 'Il vous appartient de juger si le contenu que vous soumettez est sensible ou confidentiel. Si vos documents contiennent des informations que vous ne souhaitez pas transmettre à un tiers, ne les utilisez pas avec ce service.' },
   { title: 'Stockage navigateur', text: 'Vos données sont sauvegardées dans votre navigateur via le stockage local. Elles ne sont pas stockées sur nos serveurs. Effacer les données de votre navigateur supprime également vos données de CV.' },
-  { title: 'Services tiers', text: 'Le service utilise OpenRouter pour l\'IA. Ces services ont leurs propres politiques de confidentialité dont nous ne saurions être tenus responsables.' },
+  { title: 'Aucun service tiers', text: 'Le service ne fait appel à aucun service tiers pour le traitement de vos données. Tout se fait localement dans votre navigateur.' },
   { title: 'Modifications', text: 'Nous nous réservons le droit de modifier cette politique. Les modifications prennent effet dès leur publication.' },
   { title: 'Contact', text: 'Pour toute question, contactez-nous via la page Contact.' },
 ];

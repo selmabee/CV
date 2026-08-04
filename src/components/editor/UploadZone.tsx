@@ -1,10 +1,9 @@
 import { useState, useCallback } from 'react';
 import { useCV } from '../../context/CVContext';
 import { motion } from 'framer-motion';
-import { Upload, X, PenLine, Loader2, CheckCircle, AlertCircle, FileText, Image as ImageIcon, Sparkles } from 'lucide-react';
+import { Upload, X, PenLine, Loader2, CheckCircle, AlertCircle, FileText, Image as ImageIcon } from 'lucide-react';
 import * as pdfjsLib from 'pdfjs-dist';
 import Tesseract from 'tesseract.js';
-import { generateRecommendations, extractCVWithAI } from '../../services/ai';
 import { extractCVWithRegex } from '../../services/regexExtraction';
 import type { CVData } from '../../types';
 
@@ -74,12 +73,11 @@ async function ocrPDF(file: File, pdf: any): Promise<string> {
 }
 
 export default function UploadZone() {
-  const { setStep, setCVData, setIsExtracting, isExtracting, setRecommendations } = useCV();
+  const { setStep, setCVData, setIsExtracting, isExtracting } = useCV();
   const [isDragging, setIsDragging] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState('');
   const [error, setError] = useState('');
-  const [useAI, setUseAI] = useState(true);
 
   const extractFromFile = useCallback(async (uploadedFile: File) => {
     setIsExtracting(true);
@@ -93,37 +91,15 @@ export default function UploadZone() {
 
       let extracted: Partial<CVData> = {};
       if (rawText && rawText.trim().length > 20) {
-        setStatus('Analyse du CV par IA...');
+        setStatus('Analyse du CV...');
         const regexResult = extractCVWithRegex(rawText);
-        try {
-          const aiResult = await extractCVWithAI(rawText);
-          // Merge: AI takes priority, fill gaps with regex
-          extracted = {
-            fullName: aiResult.fullName || regexResult.fullName || '',
-            jobTitle: aiResult.jobTitle || regexResult.jobTitle || '',
-            email: aiResult.email || regexResult.email || '',
-            phone: aiResult.phone || regexResult.phone || '',
-            location: aiResult.location || regexResult.location || '',
-            summary: aiResult.summary || regexResult.summary || '',
-            skills: (aiResult.skills?.length ? aiResult.skills : regexResult.skills) || [],
-            languages: (aiResult.languages?.length ? aiResult.languages : regexResult.languages) || [],
-            experience: (aiResult.experience?.length ? aiResult.experience : regexResult.experience) || [],
-            education: (aiResult.education?.length ? aiResult.education : regexResult.education) || [],
-            photo: null,
-          };
-          console.log('AI extracted:', aiResult, 'Merged:', extracted);
-        } catch (aiErr) {
-          console.warn('AI extraction failed, using regex:', aiErr);
-          setStatus('Extraction locale des informations...');
-          extracted = regexResult;
-          console.log('Regex extracted:', extracted);
-        }
+        extracted = regexResult;
       } else {
         throw new Error('Aucun texte détecté dans le fichier. Pour les images, essayez une meilleure qualité.');
       }
 
       if (!extracted || (!extracted.fullName && !extracted.email && !extracted.experience?.length && !extracted.education?.length && !extracted.skills?.length)) {
-        throw new Error('L\'IA n\'a pas pu extraire les informations. Vérifiez votre fichier ou remplissez le CV manuellement.');
+        throw new Error('Impossible d\'extraire les informations. Vérifiez votre fichier ou remplissez le CV manuellement.');
       }
 
       setStatus('Extraction terminée');
@@ -142,24 +118,6 @@ export default function UploadZone() {
         languages: extracted.languages || [],
       });
 
-      if (useAI) {
-        setStatus('Génération des recommandations IA...');
-        const recs = await generateRecommendations({
-          jobTitle: extracted.jobTitle || '',
-          fullName: extracted.fullName || '',
-          email: extracted.email || '',
-          phone: extracted.phone || '',
-          location: extracted.location || '',
-          summary: extracted.summary || '',
-          photo: null,
-          experience: extracted.experience || [],
-          education: extracted.education || [],
-          skills: extracted.skills || [],
-          languages: extracted.languages || [],
-        });
-        setRecommendations(recs);
-      }
-
       setTimeout(() => setStep('editor'), 800);
 
     } catch (err: any) {
@@ -171,7 +129,7 @@ export default function UploadZone() {
       return;
     }
     setIsExtracting(false);
-  }, [setCVData, setIsExtracting, setStep, useAI, setRecommendations]);
+  }, [setCVData, setIsExtracting, setStep]);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -279,21 +237,6 @@ export default function UploadZone() {
                 </div>
               </div>
             )}
-          </div>
-
-          <div className="mt-6 flex items-center justify-center">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={useAI}
-                onChange={(e) => setUseAI(e.target.checked)}
-                className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
-              />
-              <span className="text-sm text-slate-600 flex items-center gap-1">
-                <Sparkles className="w-4 h-4 text-amber-500" />
-                Générer des recommandations IA
-              </span>
-            </label>
           </div>
 
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">

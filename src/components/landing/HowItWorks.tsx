@@ -6,13 +6,13 @@ const steps = [
     number: '01',
     icon: Upload,
     title: 'Uploader',
-    description: 'Glissez-déposez votre CV existant (PDF, DOCX, TXT ou image). Notre IA l\'analyse instantanément.',
+    description: 'Glissez-déposez votre CV existant (PDF, DOCX, TXT ou image). Notre outil l\'analyse instantanément.',
   },
   {
     number: '02',
     icon: Sparkles,
-    title: 'IA & Extraction',
-    description: 'L\'IA extrait vos données, structure votre CV et suggère des améliorations : verbes d\'action, quantification, mots-clés ATS.',
+    title: 'Extraction Automatique',
+    description: 'Notre outil extrait vos données, structure votre CV automatiquement : expériences, formations, compétences, langues.',
   },
   {
     number: '03',

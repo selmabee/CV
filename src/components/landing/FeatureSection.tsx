@@ -1,17 +1,11 @@
 import { motion } from 'framer-motion';
-import { Brain, FileText, Palette, Download, Shield, Zap, Sparkles, MessageSquare } from 'lucide-react';
+import { FileText, Palette, Download, Shield, Zap, Sparkles, ScanText } from 'lucide-react';
 
 const features = [
   {
-    icon: Brain,
-    title: 'IA Gratuite Intégrée',
-    description: 'Un véritable assistant IA propulsé par OpenRouter. Posez des questions, obtenez des suggestions personnalisées pour votre CV, le tout gratuitement.',
-    color: 'from-blue-500 to-cyan-400',
-  },
-  {
-    icon: FileText,
-    title: 'Extraction Intelligente',
-    description: 'Uploadez votre CV existant (PDF, DOCX, TXT ou image). Notre IA extrait et structure automatiquement toutes vos informations.',
+    icon: ScanText,
+    title: 'Extraction Automatique',
+    description: 'Uploadez votre CV existant (PDF, DOCX, TXT ou image). Notre outil extrait et structure automatiquement toutes vos informations.',
     color: 'from-emerald-500 to-teal-400',
   },
   {
@@ -33,10 +27,16 @@ const features = [
     color: 'from-violet-500 to-purple-400',
   },
   {
-    icon: MessageSquare,
-    title: 'Chat IA en Streaming',
-    description: 'Discutez avec notre assistant IA en temps réel. Streaming des réponses, historique des conversations, suggestions automatiques.',
+    icon: Zap,
+    title: 'Rapide et Instantané',
+    description: 'Créez votre CV en quelques minutes. L\'extraction est immédiate, l\'aperçu en temps réel, l\'export en un clic.',
     color: 'from-sky-500 to-blue-400',
+  },
+  {
+    icon: FileText,
+    title: 'Compatible ATS',
+    description: 'Tous nos modèles sont conçus pour être parfaitement lisibles par les systèmes de tri de candidatures (ATS).',
+    color: 'from-blue-500 to-cyan-400',
   },
 ];
 
@@ -65,7 +65,7 @@ export default function FeatureSection() {
             <span className="block mt-2 bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">qui se démarque</span>
           </h2>
           <p className="mt-6 text-lg text-slate-600 max-w-2xl mx-auto">
-            Une suite complète d'outils propulsés par l'IA pour créer, optimiser et exporter votre CV professionnel.
+            Une suite complète d'outils pour créer, optimiser et exporter votre CV professionnel.
           </p>
         </motion.div>
 

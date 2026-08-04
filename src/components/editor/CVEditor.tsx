@@ -1,17 +1,14 @@
 import { useState, useRef } from 'react';
 import { useCV } from '../../context/CVContext';
 import { motion } from 'framer-motion';
-import { Plus, X, ChevronLeft, ChevronRight, Upload, User, Sparkles, Lightbulb, Loader2, Wand2 } from 'lucide-react';
+import { Plus, X, ChevronLeft, ChevronRight, Upload, User, FileText, Loader2, Wand2 } from 'lucide-react';
 import TemplateSelector from './TemplateSelector';
 import CVPreview from './CVPreview';
 import StyleEditor from './StyleEditor';
 import ExportPanel from './ExportPanel';
-import AIRecommendations from './AIRecommendations';
-import { extractCVWithAI } from '../../services/ai';
 import { extractCVWithRegex } from '../../services/regexExtraction';
-import type { CVData } from '../../types';
 
-type EditorTab = 'content' | 'template' | 'style' | 'ai';
+type EditorTab = 'content' | 'template' | 'style';
 
 function SkillTags({ skills, onAdd, onRemove }: { skills: string[]; onAdd: (s: string) => void; onRemove: (s: string) => void }) {
   const [input, setInput] = useState('');
@@ -46,7 +43,7 @@ function SkillTags({ skills, onAdd, onRemove }: { skills: string[]; onAdd: (s: s
   );
 }
 
-function AIResumeGenerator() {
+function ResumeGenerator() {
   const { setCVData } = useCV();
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
@@ -57,30 +54,7 @@ function AIResumeGenerator() {
     setLoading(true);
     setError('');
     try {
-      const regexResult = extractCVWithRegex(text);
-      let extracted: Partial<CVData> = regexResult;
-
-      try {
-        const aiResult = await extractCVWithAI(text);
-        // Merge: AI takes priority, but fill gaps with regex
-        extracted = {
-          fullName: aiResult.fullName || regexResult.fullName || '',
-          jobTitle: aiResult.jobTitle || regexResult.jobTitle || '',
-          email: aiResult.email || regexResult.email || '',
-          phone: aiResult.phone || regexResult.phone || '',
-          location: aiResult.location || regexResult.location || '',
-          summary: aiResult.summary || regexResult.summary || '',
-          skills: (aiResult.skills?.length ? aiResult.skills : regexResult.skills) || [],
-          languages: (aiResult.languages?.length ? aiResult.languages : regexResult.languages) || [],
-          experience: (aiResult.experience?.length ? aiResult.experience : regexResult.experience) || [],
-          education: (aiResult.education?.length ? aiResult.education : regexResult.education) || [],
-          photo: null,
-        };
-      } catch {
-        // AI failed — use regex result only
-        extracted = regexResult;
-      }
-
+      const extracted = extractCVWithRegex(text);
       setCVData({
         jobTitle: extracted.jobTitle || '',
         fullName: extracted.fullName || '',
@@ -101,12 +75,12 @@ function AIResumeGenerator() {
   };
 
   return (
-    <div className="p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
+    <div className="p-4 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl border border-blue-100">
       <div className="flex items-center gap-2 mb-2">
         <Wand2 className="w-5 h-5 text-blue-600" />
-        <h3 className="text-sm font-semibold text-slate-900">AI Resume Generator</h3>
+        <h3 className="text-sm font-semibold text-slate-900">Générateur de CV</h3>
       </div>
-      <p className="text-xs text-slate-600 mb-3">Paste or type your experience, skills, and education below. AI will structure it into a professional resume.</p>
+      <p className="text-xs text-slate-600 mb-3">Collez ou tapez votre expérience, vos compétences et votre formation ci-dessous. Le système les structurera en un CV professionnel.</p>
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
@@ -119,14 +93,14 @@ function AIResumeGenerator() {
         disabled={loading || !text.trim()}
         className="mt-3 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       >
-        {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Génération en cours...</> : <><Sparkles className="w-4 h-4" /> Generate Resume with AI</>}
+        {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Génération en cours...</> : <><FileText className="w-4 h-4" /> Générer mon CV</>}
       </button>
     </div>
   );
 }
 
 export default function CVEditor() {
-  const { cvData, setCVData, setStep, cvStyle, setCVStyle } = useCV();
+  const { cvData, setCVData, setStep } = useCV();
   const [activeTab, setActiveTab] = useState<EditorTab>('content');
   const [showPreview, setShowPreview] = useState(false);
   const photoInputRef = useRef<HTMLInputElement>(null);
@@ -165,15 +139,14 @@ export default function CVEditor() {
     { id: 'content', label: 'Contenu' },
     { id: 'template', label: 'Modèle' },
     { id: 'style', label: 'Style' },
-    { id: 'ai', label: 'IA' },
   ];
 
   const renderContent = () => (
     <div className="space-y-6">
-      <AIResumeGenerator />
+      <ResumeGenerator />
 
       <div>
-        <h3 className="text-sm font-semibold text-slate-900 mb-3">Personal Info</h3>
+        <h3 className="text-sm font-semibold text-slate-900 mb-3">Informations personnelles</h3>
         <div className="flex items-start gap-4 p-4 bg-slate-50 rounded-xl mb-4">
           <div className="flex-shrink-0">
             {cvData.photo ? (
@@ -186,7 +159,7 @@ export default function CVEditor() {
             )}
           </div>
           <div className="flex-1">
-            <label className={labelClass}>Upload Photo</label>
+            <label className={labelClass}>Photo</label>
             <p className="text-xs text-slate-500 mb-2">Ajoutez une photo pour personnaliser votre CV.</p>
             <input ref={photoInputRef} type="file" accept="image/*" onChange={handlePhotoUpload} className="hidden" />
             <button onClick={() => photoInputRef.current?.click()} className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50"><Upload className="w-4 h-4" />{cvData.photo ? 'Changer la photo' : 'Ajouter une photo'}</button>
@@ -203,7 +176,7 @@ export default function CVEditor() {
       </div>
 
       <div>
-        <div className="flex items-center justify-between mb-3"><h3 className="text-sm font-semibold text-slate-900">Experience</h3><button onClick={addExperience} className="text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1"><Plus className="w-4 h-4" /> Add</button></div>
+        <div className="flex items-center justify-between mb-3"><h3 className="text-sm font-semibold text-slate-900">Expérience</h3><button onClick={addExperience} className="text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1"><Plus className="w-4 h-4" /> Ajouter</button></div>
         <div className="space-y-3">
           {cvData.experience.map((exp) => (
             <div key={exp.id} className="border border-slate-200 rounded-lg p-4 space-y-3">
@@ -221,12 +194,12 @@ export default function CVEditor() {
       </div>
 
       <div>
-        <h3 className="text-sm font-semibold text-slate-900 mb-3">Skills</h3>
+        <h3 className="text-sm font-semibold text-slate-900 mb-3">Compétences</h3>
         <SkillTags skills={cvData.skills} onAdd={addSkill} onRemove={removeSkill} />
       </div>
 
       <div>
-        <div className="flex items-center justify-between mb-3"><h3 className="text-sm font-semibold text-slate-900">Education</h3><button onClick={addEducation} className="text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1"><Plus className="w-4 h-4" /> Add</button></div>
+        <div className="flex items-center justify-between mb-3"><h3 className="text-sm font-semibold text-slate-900">Formation</h3><button onClick={addEducation} className="text-sm text-blue-600 hover:text-blue-700 flex items-center gap-1"><Plus className="w-4 h-4" /> Ajouter</button></div>
         <div className="space-y-3">
           {cvData.education.map((edu) => (
             <div key={edu.id} className="border border-slate-200 rounded-lg p-4 space-y-3">
@@ -265,7 +238,7 @@ export default function CVEditor() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-4">
-            <button onClick={() => setStep('upload')} className="text-sm text-slate-500 hover:text-slate-700 flex items-center gap-1"><ChevronLeft className="w-4 h-4" /> Back</button>
+            <button onClick={() => setStep('upload')} className="text-sm text-slate-500 hover:text-slate-700 flex items-center gap-1"><ChevronLeft className="w-4 h-4" /> Retour</button>
             <h2 className="text-xl font-bold text-slate-900">CV Builder</h2>
           </div>
           <button onClick={() => setShowPreview(!showPreview)} className="md:hidden inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium">
@@ -285,7 +258,6 @@ export default function CVEditor() {
                   {activeTab === 'content' && renderContent()}
                   {activeTab === 'template' && <TemplateSelector />}
                   {activeTab === 'style' && <StyleEditor />}
-                  {activeTab === 'ai' && <AIRecommendations />}
                 </motion.div>
               </div>
             </div>

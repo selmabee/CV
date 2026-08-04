@@ -26,7 +26,7 @@ export default function CTASection() {
             Prêt à créer votre CV de rêve ?
           </h2>
           <p className="mt-6 text-lg text-blue-100 max-w-2xl mx-auto">
-            Rejoignez des milliers de candidats qui ont transformé leur CV avec notre IA.
+            Rejoignez des milliers de candidats qui ont transformé leur CV avec notre outil.
             Sans inscription. Sans limite. Sans engagement.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">

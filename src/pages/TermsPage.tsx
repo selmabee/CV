@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 const sections = [
   { title: 'Acceptation des conditions', text: 'En utilisant AE2I CV Builder, vous acceptez les présentes conditions. Si vous n\'acceptez pas ces conditions, veuillez ne pas utiliser le service.' },
-  { title: 'Description du service', text: 'AE2I CV Builder est un outil gratuit de création de CV assisté par intelligence artificielle. Le service permet d\'uploader un CV existant, de l\'analyser, de le personnaliser et de l\'exporter.' },
+  { title: 'Description du service', text: 'AE2I CV Builder est un outil gratuit de création de CV. Le service permet d\'uploader un CV existant, de l\'analyser, de le personnaliser et de l\'exporter.' },
   { title: 'Avertissement "TEL QUEL"', text: 'Le service est fourni "tel quel" sans garantie d\'aucune sorte. Nous ne garantissons pas que le service sera ininterrompu ou sans erreur.' },
   { title: 'Limitation de responsabilité', text: 'AE2I CV Builder ne saurait être tenu responsable des dommages directs, indirects ou consécutifs résultant de l\'utilisation du service.' },
   { title: 'Responsabilités de l\'utilisateur', text: 'Vous êtes responsable de l\'exactitude des informations contenues dans votre CV. Vous vous engagez à ne pas utiliser le service à des fins illégales.' },

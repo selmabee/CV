@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Mail, FileText, Shield, Map, Sparkles } from 'lucide-react';
+import { Mail, FileText, Shield, Map } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -19,13 +19,8 @@ export default function Footer() {
               </div>
             </Link>
             <p className="text-sm text-slate-500 max-w-md leading-relaxed">
-              Créez un CV professionnel en quelques minutes avec l'intelligence artificielle.
-              100% gratuit, sans inscription, vos données restent privées.
+              Créez un CV professionnel en quelques minutes. 100% gratuit, sans inscription, vos données restent privées.
             </p>
-            <div className="flex items-center gap-2 mt-4 text-xs text-slate-600">
-              <Sparkles className="w-3 h-3 text-amber-400" />
-              <span>Propulsé par l'IA OpenRouter</span>
-            </div>
           </div>
 
           <div>

@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
-import { CVData, CVTemplate, CVStyle, AppStep, AIRecommendation } from '../types';
+import React, { createContext, useContext, useState, useCallback } from 'react';
+import { CVData, CVTemplate, CVStyle, AppStep } from '../types';
 import { templates, defaultCVStyle } from '../data';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
@@ -29,8 +29,6 @@ interface CVContextType {
   resetApp: () => void;
   isExtracting: boolean;
   setIsExtracting: (v: boolean) => void;
-  recommendations: AIRecommendation[];
-  setRecommendations: (r: AIRecommendation[]) => void;
 }
 
 const CVContext = createContext<CVContextType | undefined>(undefined);
@@ -41,7 +39,6 @@ export function CVProvider({ children }: { children: React.ReactNode }) {
   const [selectedTemplate, setSelectedTemplate] = useState<CVTemplate>(templates[0]);
   const [cvStyle, setCVStyleState] = useLocalStorage<CVStyle>('cvbuilder_cvstyle', defaultCVStyle);
   const [isExtracting, setIsExtracting] = useState(false);
-  const [recommendations, setRecommendations] = useState<AIRecommendation[]>([]);
 
   const setCVData = useCallback((data: CVData) => {
     setCVDataState(data);
@@ -56,7 +53,6 @@ export function CVProvider({ children }: { children: React.ReactNode }) {
     setCVDataState(emptyCVData);
     setSelectedTemplate(templates[0]);
     setCVStyleState(defaultCVStyle);
-    setRecommendations([]);
   }, [setCVDataState, setCVStyleState]);
 
   return (
@@ -73,8 +69,6 @@ export function CVProvider({ children }: { children: React.ReactNode }) {
         resetApp,
         isExtracting,
         setIsExtracting,
-        recommendations,
-        setRecommendations,
       }}
     >
       {children}

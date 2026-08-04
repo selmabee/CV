@@ -39,7 +39,7 @@ export default function HeroSection() {
           >
             <span className="bg-gradient-to-r from-blue-600 via-cyan-500 to-sky-500 bg-clip-text text-transparent">AE2I CV Builder</span>
             <span className="block mt-2 text-slate-800 text-3xl sm:text-4xl lg:text-5xl">
-              Votre CV propulsé par l'IA
+              Votre CV professionnel en quelques minutes
             </span>
           </motion.h1>
 
@@ -49,7 +49,7 @@ export default function HeroSection() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mt-8 text-lg sm:text-xl text-slate-600 leading-relaxed max-w-2xl mx-auto"
           >
-            Uploadez votre CV existant, laissez l'IA l'extraire et l'améliorer,
+            Uploadez votre CV existant, laissez notre outil l'extraire et le structurer,
             choisissez un modèle et exportez en PDF. Gratuit, sans inscription, confidentiel.
           </motion.p>
 
