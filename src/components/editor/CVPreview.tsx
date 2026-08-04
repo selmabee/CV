@@ -45,7 +45,7 @@ export default function CVPreview() {
 
   // Section title — clean uppercase with thin underline
   const SectionTitle = ({ children, color, icon, centered, underline = true }: { children: React.ReactNode; color: string; icon?: React.ReactNode; centered?: boolean; underline?: boolean }) => (
-    <div className="mb-3">
+    <div className="mb-4">
       <div className={`flex items-center gap-2 ${centered ? 'justify-center' : ''}`}>
         {icon && <span style={{ color }}>{icon}</span>}
         <h3 className="font-bold text-[10px] uppercase tracking-[0.12em]" style={{ color }}>{children}</h3>
@@ -58,7 +58,7 @@ export default function CVPreview() {
   const ExpList = ({ color, bullets = false }: { color: string; bullets?: boolean }) => {
     if (cvData.experience.length === 0) return null;
     return (
-      <div className="space-y-3">
+      <div className="space-y-4">
         {cvData.experience.map((exp) => (
           <div key={exp.id}>
             <div className="flex items-baseline justify-between gap-3">
@@ -90,7 +90,7 @@ export default function CVPreview() {
   const EduList = ({ color }: { color: string }) => {
     if (cvData.education.length === 0) return null;
     return (
-      <div className="space-y-2.5">
+      <div className="space-y-3">
         {cvData.education.map((edu) => (
           <div key={edu.id}>
             <div className="flex items-baseline justify-between gap-3">
@@ -172,7 +172,7 @@ export default function CVPreview() {
   // Summary
   const Summary = () => {
     if (!cvData.summary) return null;
-    return <p className="text-[11px] leading-relaxed text-slate-600 mb-4">{cvData.summary}</p>;
+    return <p className="text-[11px] leading-relaxed text-slate-600 mb-6">{cvData.summary}</p>;
   };
 
   // Header variants
@@ -192,12 +192,12 @@ export default function CVPreview() {
 
   // Dark sidebar (for sidebar templates)
   const DarkSidebar = ({ bg, accent }: { bg: string; accent?: string }) => (
-    <div className="w-[35%] p-5 flex flex-col gap-5" style={{ backgroundColor: bg }}>
+    <div className="w-[35%] p-5 flex flex-col gap-6" style={{ backgroundColor: bg }}>
       {cvData.photo && (
         <img src={cvData.photo} alt="" className="w-20 h-20 rounded-full object-cover mx-auto border-2 border-white/20" />
       )}
       <div>
-        <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Contact</h3>
+        <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-3">Contact</h3>
         <div className="space-y-1.5 text-[10px] text-white/70">
           {cvData.email && <p className="flex items-center gap-1.5"><Mail className="w-2.5 h-2.5 shrink-0" /> {cvData.email}</p>}
           {cvData.phone && <p className="flex items-center gap-1.5"><Phone className="w-2.5 h-2.5 shrink-0" /> {cvData.phone}</p>}
@@ -205,11 +205,11 @@ export default function CVPreview() {
         </div>
       </div>
       <div>
-        <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Compétences</h3>
+        <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-3">Compétences</h3>
         <SkillsDots color={accent || bg} dark />
       </div>
       <div>
-        <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Langues</h3>
+        <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-3">Langues</h3>
         <LangList color={accent || bg} dark />
       </div>
     </div>
@@ -217,17 +217,17 @@ export default function CVPreview() {
 
   // Light main content (for sidebar templates)
   const LightMain = ({ color, bullets = true }: { color: string; bullets?: boolean }) => (
-    <div className="flex-1 p-5">
+    <div className="flex-1 p-6">
       <h1 className="text-lg font-bold text-slate-900 leading-tight">{cvData.fullName || 'Votre Nom'}</h1>
-      <p className="text-[12px] mb-3" style={{ color }}>{cvData.jobTitle || 'Votre Poste'}</p>
+      <p className="text-[12px] mb-4" style={{ color }}>{cvData.jobTitle || 'Votre Poste'}</p>
       <Summary />
-      <div className="mb-4">
-        <SectionTitle color={color} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle>
-        <ExpList color={color} bullets={bullets} />
-      </div>
-      <div>
+      <div className="mb-6">
         <SectionTitle color={color} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle>
         <EduList color={color} />
+      </div>
+      <div>
+        <SectionTitle color={color} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle>
+        <ExpList color={color} bullets={bullets} />
       </div>
     </div>
   );
@@ -257,8 +257,8 @@ export default function CVPreview() {
         </div>
         <div className="flex-1 p-5">
           <Summary />
-          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
           <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
         </div>
       </div>
     );
@@ -275,13 +275,13 @@ export default function CVPreview() {
         </div>
         <div className="flex-1 p-6">
           <Summary />
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid grid-cols-2 gap-6">
             <div>
-              <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
               <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
             </div>
             <div>
-              <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
+              <div className="mb-6"><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
               <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
             </div>
           </div>
@@ -299,11 +299,11 @@ export default function CVPreview() {
           <ContactRow color="text-slate-500" iconColor={c} />
           <div className="h-px my-4" style={{ backgroundColor: c, opacity: 0.2 }} />
           <Summary />
-          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
           <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
         </div>
         <div className="w-[33%] p-5" style={{ backgroundColor: c + '06' }}>
-          <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
           <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
         </div>
       </div>
@@ -324,9 +324,9 @@ export default function CVPreview() {
         </div>
         <div className="flex-1 p-6">
           <Summary />
-          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
-          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
-          <div className="grid grid-cols-2 gap-5">
+          <div className="mb-6"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+          <div className="grid grid-cols-2 gap-6">
             <div><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
             <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
@@ -344,9 +344,9 @@ export default function CVPreview() {
         <div className="w-12 h-0.5 my-4 rounded-full" style={{ backgroundColor: c }} />
         <div className="w-full text-left">
           <Summary />
-          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />} underline={false} centered>Expérience</SectionTitle><ExpList color={c} /></div>
-          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />} underline={false} centered>Formation</SectionTitle><EduList color={c} /></div>
-          <div className="grid grid-cols-2 gap-5">
+          <div className="mb-6"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />} underline={false} centered>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />} underline={false} centered>Expérience</SectionTitle><ExpList color={c} /></div>
+          <div className="grid grid-cols-2 gap-6">
             <div><SectionTitle color={c} underline={false} centered>Compétences</SectionTitle><SkillsTags color={c} /></div>
             <div><SectionTitle color={c} underline={false} centered>Langues</SectionTitle><LangList color={c} /></div>
           </div>
@@ -369,13 +369,13 @@ export default function CVPreview() {
         </div>
         <div className="h-px mb-4" style={{ backgroundColor: c, opacity: 0.2 }} />
         <Summary />
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-2 gap-6">
           <div>
-            <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
             <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
           </div>
           <div>
-            <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
+            <div className="mb-6"><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
             <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
@@ -402,12 +402,12 @@ export default function CVPreview() {
             <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Profil</h3>
             <p className="text-[10px] text-white/70 leading-relaxed">{cvData.summary || 'Votre résumé...'}</p>
           </div>
-          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Langues</h3>
+          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-3">Langues</h3>
           <LangList color={c} dark />
         </div>
         <div className="flex-1 p-5">
-          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
-          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
           <SectionTitle color={c}>Compétences</SectionTitle>
           <SkillsTags color={c} />
         </div>
@@ -426,9 +426,9 @@ export default function CVPreview() {
         </div>
         <div className="flex-1 p-6">
           <Summary />
-          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
-          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
-          <div className="grid grid-cols-2 gap-5">
+          <div className="mb-6"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+          <div className="grid grid-cols-2 gap-6">
             <div><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
             <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
@@ -451,7 +451,7 @@ export default function CVPreview() {
             {cvData.location && <p className="flex items-center gap-1.5"><MapPin className="w-2.5 h-2.5" /> {cvData.location}</p>}
           </div>
           <div className="w-full text-left">
-            <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Compétences</h3>
+            <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-3">Compétences</h3>
             <SkillsDots color={c} dark />
             <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2 mt-4">Langues</h3>
             <LangList color={c} dark />
@@ -471,11 +471,11 @@ export default function CVPreview() {
           <p className="text-[12px] text-white/60 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
           <ContactRow color="text-white/70" iconColor="white" />
         </div>
-        <div className="flex-1 p-6 grid grid-cols-3 gap-5">
+        <div className="flex-1 p-6 grid grid-cols-3 gap-6">
           <div className="col-span-2">
             <Summary />
-            <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
             <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
           </div>
           <div>
             <SectionTitle color={c}>Compétences</SectionTitle>
@@ -497,9 +497,9 @@ export default function CVPreview() {
           <ContactRow color="text-slate-500" iconColor={c} />
         </div>
         <Summary />
-        <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
-        <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
-        <div className="grid grid-cols-2 gap-5">
+        <div className="mb-6"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
+        <div className="grid grid-cols-2 gap-6">
           <div><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
           <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
         </div>
@@ -522,7 +522,7 @@ export default function CVPreview() {
             {cvData.phone && <p className="flex items-center gap-1.5"><Phone className="w-2.5 h-2.5" /> {cvData.phone}</p>}
             {cvData.location && <p className="flex items-center gap-1.5"><MapPin className="w-2.5 h-2.5" /> {cvData.location}</p>}
           </div>
-          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Compétences</h3>
+          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-3">Compétences</h3>
           <SkillsDots color={c} dark />
           <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2 mt-4">Langues</h3>
           <LangList color={c} dark />
@@ -541,11 +541,11 @@ export default function CVPreview() {
           <ContactRow color="text-slate-500" iconColor={c} />
           <div className="h-0.5 my-4 rounded-full" style={{ background: grad }} />
           <Summary />
-          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
           <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
         </div>
         <div className="w-[35%] p-5 text-white" style={{ background: grad }}>
-          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Compétences</h3>
+          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-3">Compétences</h3>
           <SkillsBars color={c} dark />
           <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2 mt-4">Langues</h3>
           <LangList color={c} dark />
@@ -563,11 +563,11 @@ export default function CVPreview() {
           <p className="text-[12px] text-white/70 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
           <ContactRow color="text-white/80" iconColor="white" />
         </div>
-        <div className="flex-1 p-6 grid grid-cols-3 gap-5">
+        <div className="flex-1 p-6 grid grid-cols-3 gap-6">
           <div className="col-span-2">
             <Summary />
-            <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
             <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
           </div>
           <div>
             <SectionTitle color={c}>Compétences</SectionTitle>
@@ -593,7 +593,7 @@ export default function CVPreview() {
             {cvData.location && <p className="flex items-center gap-1.5"><MapPin className="w-2.5 h-2.5" /> {cvData.location}</p>}
           </div>
           <div className="w-full text-left">
-            <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Compétences</h3>
+            <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-3">Compétences</h3>
             <SkillsDots color={c} dark />
             <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2 mt-4">Langues</h3>
             <LangList color={c} dark />
@@ -613,11 +613,11 @@ export default function CVPreview() {
           <ContactRow color="text-slate-500" iconColor={c} />
           <div className="h-0.5 my-4 rounded-full" style={{ background: grad }} />
           <Summary />
-          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
           <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
         </div>
         <div className="w-[35%] p-5 text-white" style={{ background: grad }}>
-          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Compétences</h3>
+          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-3">Compétences</h3>
           <SkillsBars color={c} dark />
           <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2 mt-4">Langues</h3>
           <LangList color={c} dark />
@@ -640,13 +640,13 @@ export default function CVPreview() {
             {cvData.phone && <p className="flex items-center gap-1.5"><Phone className="w-2.5 h-2.5" style={{ color: c }} /> {cvData.phone}</p>}
             {cvData.location && <p className="flex items-center gap-1.5"><MapPin className="w-2.5 h-2.5" style={{ color: c }} /> {cvData.location}</p>}
           </div>
-          <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsBars color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c}>Compétences</SectionTitle><SkillsBars color={c} /></div>
           <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
         </div>
         <div className="flex-1 p-5">
           <Summary />
-          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
           <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
         </div>
       </div>
     );
@@ -661,14 +661,14 @@ export default function CVPreview() {
           <p className="text-[12px] text-white/60 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
           <ContactRow color="text-white/50" iconColor="white" />
         </div>
-        <div className="flex-1 p-6 grid grid-cols-3 gap-5">
+        <div className="flex-1 p-6 grid grid-cols-3 gap-6">
           <div className="col-span-2">
             <Summary />
-            <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
             <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
           </div>
           <div>
-            <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsDots color={c} /></div>
+            <div className="mb-6"><SectionTitle color={c}>Compétences</SectionTitle><SkillsDots color={c} /></div>
             <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
@@ -688,14 +688,14 @@ export default function CVPreview() {
             <ContactRow color="text-slate-500" iconColor={c} />
           </div>
         </div>
-        <div className="flex-1 p-6 grid grid-cols-3 gap-5">
+        <div className="flex-1 p-6 grid grid-cols-3 gap-6">
           <div className="col-span-2">
             <Summary />
-            <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
             <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
           </div>
           <div>
-            <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsDots color={c} /></div>
+            <div className="mb-6"><SectionTitle color={c}>Compétences</SectionTitle><SkillsDots color={c} /></div>
             <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
@@ -712,9 +712,9 @@ export default function CVPreview() {
         <div className="w-full h-px my-4" style={{ backgroundColor: c }} />
         <div className="w-full text-left">
           <Summary />
-          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />} underline={false} centered>Expérience</SectionTitle><ExpList color={c} /></div>
-          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />} underline={false} centered>Formation</SectionTitle><EduList color={c} /></div>
-          <div className="grid grid-cols-2 gap-5">
+          <div className="mb-6"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />} underline={false} centered>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />} underline={false} centered>Expérience</SectionTitle><ExpList color={c} /></div>
+          <div className="grid grid-cols-2 gap-6">
             <div><SectionTitle color={c} underline={false} centered>Compétences</SectionTitle><SkillsDots color={c} /></div>
             <div><SectionTitle color={c} underline={false} centered>Langues</SectionTitle><LangList color={c} /></div>
           </div>
@@ -741,9 +741,9 @@ export default function CVPreview() {
         <ContactRow color="text-slate-500" iconColor={c} />
         <div className="h-px my-4" style={{ backgroundColor: c }} />
         <Summary />
-        <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
-        <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
-        <div className="grid grid-cols-2 gap-5">
+        <div className="mb-6"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+        <div className="grid grid-cols-2 gap-6">
           <div><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
           <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
         </div>
@@ -760,14 +760,14 @@ export default function CVPreview() {
           <p className="text-[12px] text-white/70 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
           <ContactRow color="text-white/60" iconColor="white" />
         </div>
-        <div className="flex-1 p-6 grid grid-cols-3 gap-5">
+        <div className="flex-1 p-6 grid grid-cols-3 gap-6">
           <div className="col-span-2">
             <Summary />
-            <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
             <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
           </div>
           <div>
-            <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
+            <div className="mb-6"><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
             <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
@@ -788,7 +788,7 @@ export default function CVPreview() {
             {cvData.phone && <p className="flex items-center gap-1.5"><Phone className="w-2.5 h-2.5" /> {cvData.phone}</p>}
             {cvData.location && <p className="flex items-center gap-1.5"><MapPin className="w-2.5 h-2.5" /> {cvData.location}</p>}
           </div>
-          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Compétences</h3>
+          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-3">Compétences</h3>
           <SkillsDots color={c} dark />
           <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2 mt-4">Langues</h3>
           <LangList color={c} dark />
@@ -812,9 +812,9 @@ export default function CVPreview() {
         </div>
         <div className="border-l-2 pl-4" style={{ borderColor: c + '30' }}>
           <Summary />
-          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
-          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
-          <div className="grid grid-cols-2 gap-5">
+          <div className="mb-6"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
+          <div className="grid grid-cols-2 gap-6">
             <div><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
             <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
@@ -834,9 +834,9 @@ export default function CVPreview() {
         <ContactRow color="text-slate-400" iconColor="#94a3b8" />
         <div className="w-full h-px my-4 bg-slate-200" />
         <Summary />
-        <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
-        <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
-        <div className="grid grid-cols-2 gap-5">
+        <div className="mb-6"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
+        <div className="grid grid-cols-2 gap-6">
           <div><SectionTitle color={c}>Compétences</SectionTitle><SkillsDots color={c} /></div>
           <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
         </div>
@@ -855,7 +855,7 @@ export default function CVPreview() {
         <Summary />
         <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />} underline={false}>Expérience</SectionTitle><ExpList color={c} /></div>
         <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />} underline={false}>Formation</SectionTitle><EduList color={c} /></div>
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-2 gap-6">
           <div><SectionTitle color={c} underline={false}>Compétences</SectionTitle><SkillsTags color={c} /></div>
           <div><SectionTitle color={c} underline={false}>Langues</SectionTitle><LangList color={c} /></div>
         </div>
@@ -873,11 +873,11 @@ export default function CVPreview() {
           <ContactRow color="text-slate-400" iconColor={c} />
           <div className="h-px my-4 bg-slate-100" />
           <Summary />
-          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
           <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
         </div>
         <div className="w-[40%] p-6 bg-slate-50">
-          <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
           <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
         </div>
       </div>
@@ -894,9 +894,9 @@ export default function CVPreview() {
         <ContactRow centered color="text-slate-400" iconColor={c} />
         <div className="w-full text-left mt-4">
           <Summary />
-          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />} underline={false} centered>Expérience</SectionTitle><ExpList color={c} /></div>
-          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />} underline={false} centered>Formation</SectionTitle><EduList color={c} /></div>
-          <div className="grid grid-cols-2 gap-5">
+          <div className="mb-6"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />} underline={false} centered>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />} underline={false} centered>Expérience</SectionTitle><ExpList color={c} /></div>
+          <div className="grid grid-cols-2 gap-6">
             <div><SectionTitle color={c} underline={false} centered>Compétences</SectionTitle><SkillsDots color={c} /></div>
             <div><SectionTitle color={c} underline={false} centered>Langues</SectionTitle><LangList color={c} /></div>
           </div>
@@ -919,11 +919,11 @@ export default function CVPreview() {
           <ContactRow color="text-slate-500" iconColor={c} />
           <div className="h-px my-4" style={{ backgroundColor: c }} />
           <Summary />
-          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
           <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
         </div>
         <div className="w-[34%] p-5" style={{ backgroundColor: c + '05' }}>
-          <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsDots color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c}>Compétences</SectionTitle><SkillsDots color={c} /></div>
           <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
         </div>
       </div>
@@ -939,11 +939,11 @@ export default function CVPreview() {
           <ContactRow color="text-slate-500" iconColor={c} />
           <div className="h-0.5 my-4" style={{ backgroundColor: c }} />
           <Summary />
-          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
           <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
         </div>
         <div className="w-[34%] p-5 text-white" style={{ backgroundColor: c }}>
-          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2">Compétences</h3>
+          <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-3">Compétences</h3>
           <SkillsDots color={c} dark />
           <h3 className="font-bold text-[10px] uppercase tracking-wider text-white/90 mb-2 mt-4">Langues</h3>
           <LangList color={c} dark />
@@ -963,9 +963,9 @@ export default function CVPreview() {
         </div>
         <div className="flex-1 p-6">
           <Summary />
-          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
-          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
-          <div className="grid grid-cols-2 gap-5">
+          <div className="mb-6"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+          <div className="grid grid-cols-2 gap-6">
             <div><SectionTitle color={c}>Compétences</SectionTitle><SkillsDots color={c} /></div>
             <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
@@ -983,14 +983,14 @@ export default function CVPreview() {
           <p className="text-[12px] text-white/60 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
           <ContactRow color="text-white/70" iconColor="white" />
         </div>
-        <div className="flex-1 p-6 grid grid-cols-3 gap-5">
+        <div className="flex-1 p-6 grid grid-cols-3 gap-6">
           <div className="col-span-2">
             <Summary />
-            <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
             <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
           </div>
           <div>
-            <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsBars color={c} /></div>
+            <div className="mb-6"><SectionTitle color={c}>Compétences</SectionTitle><SkillsBars color={c} /></div>
             <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
@@ -1012,9 +1012,9 @@ export default function CVPreview() {
         </div>
         <div className="flex-1 p-6">
           <Summary />
-          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
-          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
-          <div className="grid grid-cols-2 gap-5">
+          <div className="mb-6"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+          <div className="grid grid-cols-2 gap-6">
             <div><SectionTitle color={c}>Compétences</SectionTitle><SkillsDots color={c} /></div>
             <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
@@ -1032,14 +1032,14 @@ export default function CVPreview() {
           <p className="text-[12px] text-white/60 mb-2">{cvData.jobTitle || 'Votre Poste'}</p>
           <ContactRow color="text-white/50" iconColor="white" />
         </div>
-        <div className="flex-1 p-6 grid grid-cols-3 gap-5">
+        <div className="flex-1 p-6 grid grid-cols-3 gap-6">
           <div className="col-span-2">
             <Summary />
-            <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
             <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
           </div>
           <div>
-            <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsDots color={c} /></div>
+            <div className="mb-6"><SectionTitle color={c}>Compétences</SectionTitle><SkillsDots color={c} /></div>
             <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
@@ -1056,9 +1056,9 @@ export default function CVPreview() {
         <div className="w-full h-px my-4" style={{ backgroundColor: c }} />
         <div className="w-full text-left">
           <Summary />
-          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />} underline={false} centered>Expérience</SectionTitle><ExpList color={c} /></div>
-          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />} underline={false} centered>Formation</SectionTitle><EduList color={c} /></div>
-          <div className="grid grid-cols-2 gap-5">
+          <div className="mb-6"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />} underline={false} centered>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />} underline={false} centered>Expérience</SectionTitle><ExpList color={c} /></div>
+          <div className="grid grid-cols-2 gap-6">
             <div><SectionTitle color={c} underline={false} centered>Compétences</SectionTitle><SkillsDots color={c} /></div>
             <div><SectionTitle color={c} underline={false} centered>Langues</SectionTitle><LangList color={c} /></div>
           </div>
@@ -1081,9 +1081,9 @@ export default function CVPreview() {
         </div>
         <div className="h-px mb-4" style={{ backgroundColor: c }} />
         <Summary />
-          <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
-          <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
-          <div className="grid grid-cols-2 gap-5">
+          <div className="mb-6"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
+          <div className="grid grid-cols-2 gap-6">
             <div><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
             <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
@@ -1101,9 +1101,9 @@ export default function CVPreview() {
           <ContactRow color="text-slate-500" iconColor={c} />
         </div>
         <Summary />
-        <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
-        <div className="mb-4"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
-        <div className="grid grid-cols-2 gap-5">
+        <div className="mb-6"><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} bullets /></div>
+        <div className="grid grid-cols-2 gap-6">
           <div><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
           <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
         </div>
@@ -1124,13 +1124,13 @@ export default function CVPreview() {
           </div>
         </div>
         <Summary />
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-2 gap-6">
           <div>
-            <div className="mb-4"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
             <div><SectionTitle color={c} icon={<GraduationCap className="w-3 h-3" />}>Formation</SectionTitle><EduList color={c} /></div>
+          <div className="mb-6"><SectionTitle color={c} icon={<Briefcase className="w-3 h-3" />}>Expérience</SectionTitle><ExpList color={c} /></div>
           </div>
           <div>
-            <div className="mb-4"><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
+            <div className="mb-6"><SectionTitle color={c}>Compétences</SectionTitle><SkillsTags color={c} /></div>
             <div><SectionTitle color={c}>Langues</SectionTitle><LangList color={c} /></div>
           </div>
         </div>
