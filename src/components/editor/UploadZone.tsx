@@ -2,17 +2,14 @@ import { useState, useCallback } from 'react';
 import { useCV } from '../../context/CVContext';
 import { motion } from 'framer-motion';
 import { Upload, X, PenLine, Loader2, CheckCircle, AlertCircle, FileText, Image as ImageIcon, Shield, Zap, ScanText } from 'lucide-react';
-import * as pdfjsLib from 'pdfjs-dist';
-import Tesseract from 'tesseract.js';
 import { extractCVWithRegex } from '../../services/regexExtraction';
 import type { CVData } from '../../types';
-
-// @ts-ignore
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@6.1.200/build/pdf.worker.min.mjs';
 
 async function getRawTextFromFile(file: File): Promise<string> {
   const ext = file.name.split('.').pop()?.toLowerCase();
   if (ext === 'pdf') {
+    const pdfjsLib: any = await import('pdfjs-dist');
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@6.1.200/build/pdf.worker.min.mjs';
     const arrayBuffer = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
     let fullText = '';
@@ -28,7 +25,8 @@ async function getRawTextFromFile(file: File): Promise<string> {
     return fullText;
   }
   if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext || '')) {
-    const { data: { text } } = await Tesseract.recognize(file, 'fra+eng');
+    const Tesseract: any = await import('tesseract.js');
+    const { data: { text } } = await Tesseract.default.recognize(file, 'fra+eng');
     return text;
   }
   if (ext === 'txt') {
@@ -54,6 +52,7 @@ async function getRawTextFromFile(file: File): Promise<string> {
 }
 
 async function ocrPDF(file: File, pdf: any): Promise<string> {
+  const Tesseract: any = await import('tesseract.js');
   let fullText = '';
   const maxPages = Math.min(pdf.numPages, 3);
   for (let i = 1; i <= maxPages; i++) {
@@ -65,7 +64,7 @@ async function ocrPDF(file: File, pdf: any): Promise<string> {
     canvas.width = viewport.width;
     canvas.height = viewport.height;
     await page.render({ canvasContext: context, viewport }).promise;
-    const { data: { text } } = await Tesseract.recognize(canvas, 'fra+eng');
+    const { data: { text } } = await Tesseract.default.recognize(canvas, 'fra+eng');
     fullText += text + '\n';
   }
   return fullText;
