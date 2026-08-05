@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, FileText } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -20,8 +20,8 @@ export default function Header() {
 
   const navLinks = [
     { to: '/', label: 'Accueil' },
-    { to: '/builder', label: 'Créer un CV' },
-    { to: '/templates', label: 'Modèles' },
+    { to: '/builder', label: 'Creer un CV' },
+    { to: '/templates', label: 'Modeles' },
     { to: '/contact', label: 'Contact' },
   ];
 
@@ -44,7 +44,7 @@ export default function Header() {
             <img
               src="/assets/logo_ae2i copy.png"
               alt="AE2I Logo"
-              className="h-9 w-auto object-contain"
+              className="h-9 w-auto object-contain transition-transform group-hover:scale-105"
             />
           </Link>
 
@@ -67,15 +67,16 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-3">
             <Link
               to="/builder"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-all shadow-md shadow-blue-600/20"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-all shadow-md shadow-blue-600/20 hover:shadow-lg hover:-translate-y-0.5"
             >
-              Créer un CV
+              <FileText className="w-4 h-4" />
+              Creer un CV
             </Link>
           </div>
 
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-slate-100"
+            className="md:hidden p-2 rounded-lg hover:bg-slate-100 transition-colors"
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -96,13 +97,19 @@ export default function Header() {
                 <Link
                   key={link.to}
                   to={link.to}
-                  className={`block px-4 py-3 rounded-lg text-sm font-medium ${
+                  className={`block px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                     isActive(link.to) ? 'text-blue-600 bg-blue-50' : 'text-slate-700 hover:bg-slate-50'
                   }`}
                 >
                   {link.label}
                 </Link>
               ))}
+              <Link
+                to="/builder"
+                className="block mt-2 px-4 py-3 bg-blue-600 text-white rounded-lg text-sm font-medium text-center"
+              >
+                Creer un CV
+              </Link>
             </div>
           </motion.div>
         )}
